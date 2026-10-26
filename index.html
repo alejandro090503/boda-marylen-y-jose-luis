@@ -965,9 +965,16 @@ section>*{position:relative;z-index:1}
 
 /* ── DRESS CODE (copiado de boda-fabiola-y-fernando, repintado) ── */
 #dresscode{background:#F3E6D3}
+.dc-sug-t{text-align:center;font-size:17px;font-weight:700;letter-spacing:1px;color:var(--text);margin:0 0 22px}
+.dc-sug-t span{font-weight:500;font-style:italic;color:var(--gold-dark)}
+.dc-fig img{animation:dcFloat 6s ease-in-out infinite;transform-origin:50% 100%}
+.dc-fig+.dc-sep-line+.dc-fig img{animation-delay:-3s}
+@keyframes dcFloat{0%,100%{transform:translateY(0) rotate(0)}30%{transform:translateY(-6px) rotate(-1.5deg)}70%{transform:translateY(-3px) rotate(1.2deg)}}
+.dc-fig-label{font-size:21px!important;font-weight:600}
+.dc-fig-sub{font-size:13px!important;opacity:1!important}
+.dc-note{font-size:16.5px!important}
+.dc-avoid-nm{font-size:12px!important;font-weight:700}
 .dc-formal{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;font-size:30px;color:var(--accent);text-align:center;margin:6px 0 4px}
-#dresscode .dc-note{font-family:var(--serif);font-size:18px;font-weight:500;font-style:italic;color:var(--text);text-align:center;margin:0 0 26px;
-  background:none;border:none;padding:0;opacity:1}
 .dc-looks{display:flex;flex-direction:column;gap:12px;max-width:380px;margin:8px auto 26px}
 .dc-look{
   display:flex;align-items:center;gap:14px;width:100%;padding:14px 16px;
@@ -1052,15 +1059,6 @@ section>*{position:relative;z-index:1}
   display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;border:none;
   background:linear-gradient(140deg,#C8662E,var(--accent) 55%,var(--gold-dark));box-shadow:0 6px 16px rgba(43,22,8,.35)}
 .dc-viewer-close svg{width:18px;height:18px}
-.dc-sug{text-align:center;font-size:17px;color:var(--text);margin:0 0 18px}
-.dc-sug strong{color:var(--gold-dark)}
-.dc-avoid-block{text-align:center;margin-top:8px}
-.dc-avoid{font-family:var(--sans);font-size:16px;font-weight:700;letter-spacing:.6px;color:var(--gold-dark);margin-top:6px}
-.dc-swatches{display:inline-flex;gap:18px;justify-content:center;align-items:center;margin:16px auto 0}
-.dc-swatch-dot{width:32px;height:32px;border-radius:50%;display:inline-block;position:relative;
-  box-shadow:0 4px 14px rgba(43,22,8,.18),inset 0 0 0 1px rgba(255,255,255,.2)}
-.dc-swatch-dot::after{content:'';position:absolute;inset:-5px;border-radius:50%;border:1px dashed rgba(43,22,8,.35);pointer-events:none}
-.dc-avoid-nm{font-size:14px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text);margin-top:8px}
 
 /* ── HOSPEDAJE: Lista / Mapa con giro 3D ── */
 #lodging{background:var(--ink);padding:60px 18px 60px}
@@ -1201,6 +1199,26 @@ section>*{position:relative;z-index:1}
   #footer{padding-bottom:110px!important}
 }
 
+/* Nombres en serif legible (petición del cliente) */
+.h-names,.ft-nms,.bd-names{font-family:'Cormorant Garamond',serif!important;font-weight:600!important;letter-spacing:.5px}
+.h-names{font-size:clamp(42px,11.5vw,54px)!important;line-height:1.12!important}
+.ft-nms{font-size:clamp(38px,10vw,48px)!important;line-height:1.15!important}
+.h-names .h-and{font-style:italic;font-weight:500;font-size:.62em}
+
+/* Con la bendición de Dios */
+#bendicion{background:radial-gradient(ellipse 80% 60% at 50% 40%,rgba(162,55,0,.18),transparent 70%),var(--ink);text-align:center;padding-top:72px;padding-bottom:64px}
+.bd-names{font-size:clamp(36px,10vw,46px);line-height:1.15;margin:14px auto 6px;display:inline-block}
+.bd-txt{font-size:20px;font-style:italic;color:var(--cream);line-height:1.5}
+.bd-verse{max-width:340px;margin:8px auto 0;padding:26px 22px 22px;border:1px solid rgba(201,151,63,.3);border-radius:14px;position:relative;
+  background:linear-gradient(165deg,rgba(255,232,192,.05),rgba(140,48,6,.18))}
+.bd-verse::before{content:'\201C';position:absolute;top:-22px;left:50%;transform:translateX(-50%);font-size:58px;line-height:1;color:var(--gold);background:none;padding:0;text-shadow:0 0 12px #140A05,0 0 6px #140A05}
+.bd-verse p{font-size:18.5px;font-style:italic;line-height:1.7;color:var(--cream)}
+.bd-verse cite{display:block;margin-top:14px;font-style:normal;font-weight:700;font-size:13px;letter-spacing:3px;text-transform:uppercase;color:var(--gold)}
+
+/* Pétalos (plantilla 2) en terracota y beige */
+#petals{position:fixed;inset:0;z-index:20;pointer-events:none;overflow:hidden}
+.petal{position:absolute;border-radius:50% 0 50% 0;top:-40px;will-change:transform}
+
 /* ── LEGIBILIDAD (invitados mayores) ── */
 body{font-weight:500;font-size:17px}
 .lbl{font-size:12.5px!important;letter-spacing:4px!important;font-weight:700}
@@ -1265,6 +1283,7 @@ body{font-weight:500;font-size:17px}
 <div id="main-content" style="visibility:hidden">
 <!-- AMBIENT FLOATING PARTICLES -->
 <div class="ambient-particles" id="ambPart"></div>
+<div id="petals" aria-hidden="true"></div>
 
 <!-- SCROLL PROGRESS -->
 <div id="prog"></div>
@@ -1308,6 +1327,18 @@ body{font-weight:500;font-size:17px}
     <div class="h-scroll-line"></div>
     <span>Desliza</span>
   </div>
+</section>
+
+<!-- ═══════════════ CON LA BENDICIÓN DE DIOS ═════════ -->
+<section id="bendicion">
+  <span class="lbl">Con la bendición de Dios</span>
+  <h2 class="bd-names foil">Marylen &amp; José Luis</h2>
+  <p class="bd-txt">tienen el honor de invitarte a su boda</p>
+  <div class="gline"></div>
+  <blockquote class="bd-verse">
+    <p>Mejores son dos que uno; porque tienen mejor paga de su trabajo. Porque si cayeren, el uno levantará a su compañero; pero ¡Ay del solo! Que cuando cayere no habrá segundo que lo levante… y su cordón de tres dobleces no se rompe.</p>
+    <cite>Eclesiastés 9:9-12</cite>
+  </blockquote>
 </section>
 
 <!-- ═══════════════ 2. CUENTA REGRESIVA ══════════════ -->
@@ -1550,82 +1581,33 @@ body{font-weight:500;font-size:17px}
 <div class="blend" style="background:linear-gradient(to bottom,var(--ink),#F3E6D3)"></div>
 
 <!-- ═══════════════ 9. DRESS CODE ════════════════════ -->
-<section id="dresscode" aria-label="Código de vestimenta">
+<section id="dresscode">
   <span class="lbl">Vestimenta</span>
   <h2 class="ttl">Código de Vestimenta</h2>
   <div class="gline"></div>
-  <p class="dc-formal">Formal</p>
-  <p class="dc-note fu">Acompáñanos vestido para la ocasión</p>
+  <p class="dc-sub"><em style="font-family:'Cormorant Garamond',serif;font-size:22px">Formal</em></p>
 
-  <div class="dc-looks fu">
-    <button class="dc-look" type="button" data-look="caballeros"
-            aria-label="Ver ideas de vestimenta para caballeros">
-      <span class="dc-look-ico" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
-             stroke-linecap="round" stroke-linejoin="round">
-          <path d="M8 3l4 3 4-3 3 2.2c1.2.9 1.9 2.3 1.9 3.8V21H3V9c0-1.5.7-2.9 1.9-3.8L8 3z"/>
-          <path d="M12 6v15"/><path d="M9.4 4.2L12 9l2.6-4.8"/>
-        </svg>
-      </span>
-      <span class="dc-look-txt">
-        <span class="dc-look-rol">Caballeros</span>
-        <span class="dc-look-cta">Ver ideas</span>
-      </span>
-      <span class="dc-look-arrow" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-             stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
-      </span>
-    </button>
-
-    <button class="dc-look" type="button" data-look="damas"
-            aria-label="Ver ideas de vestimenta para damas">
-      <span class="dc-look-ico" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
-             stroke-linecap="round" stroke-linejoin="round">
-          <path d="M9 3h6l-1.4 5.2L21 21H3l7.4-12.8L9 3z"/><path d="M10.6 8.2h2.8"/>
-        </svg>
-      </span>
-      <span class="dc-look-txt">
-        <span class="dc-look-rol">Damas</span>
-        <span class="dc-look-cta">Ver ideas</span>
-      </span>
-      <span class="dc-look-arrow" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-             stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
-      </span>
-    </button>
-  </div>
-
-  <div class="dc-viewer" id="dcViewer" role="dialog" aria-modal="true"
-       aria-label="Ideas de vestimenta" hidden>
-    <div class="dcv-box">
-      <button class="dc-viewer-close" id="dcViewerClose" type="button" aria-label="Cerrar">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
-             stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
-      </button>
-      <p class="dcv-head" id="dcvHead"></p>
-      <div class="dcv-viewport"><div class="dcv-track" id="dcvTrack"></div></div>
-      <button class="dcv-nav dcv-prev" id="dcvPrev" type="button" aria-label="Anterior">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
-             stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>
-      </button>
-      <button class="dcv-nav dcv-next" id="dcvNext" type="button" aria-label="Siguiente">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
-             stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
-      </button>
-      <p class="dcv-cap" id="dcvCap"></p>
-      <div class="dcv-dots" id="dcvDots"></div>
+  <div class="dc-figures fu">
+    <div class="dc-fig">
+      <img src="caballero.png" alt="Caballero, traje formal" loading="eager">
+      <span class="dc-fig-label">Caballeros</span>
+      <span class="dc-fig-sub">traje formal</span>
+    </div>
+    <div class="dc-sep-line" aria-hidden="true"></div>
+    <div class="dc-fig">
+      <img src="dama-vino.png" alt="Dama, vestido largo" loading="eager">
+      <span class="dc-fig-label">Damas</span>
+      <span class="dc-fig-sub">vestido largo</span>
     </div>
   </div>
 
-  <p class="dc-sug fu"><strong>Colores sugeridos:</strong> por confirmar</p>
-
-  <div class="dc-avoid-block fu">
-    <p class="dc-avoid">Por favor evitar estos colores</p>
-    <div class="dc-swatches">
-      <span class="dc-swatch-dot" style="background:#FFFFFF;border:1.5px solid rgba(43,22,8,.35);" aria-label="Blanco"></span>
+  <p class="dc-sug-t fu">Colores sugeridos: <span>por confirmar</span></p>
+  <div class="dc-note fu" id="dcNote">
+    <strong>Por favor evitar:</strong>
+    Prendas casuales, mezclilla, tenis o playeras.
+    <div class="dc-avoid">
+      <div class="dc-avoid-item"><div class="dc-avoid-sw" style="background:#FFFFFF"></div><p class="dc-avoid-nm">Blanco</p></div>
     </div>
-    <p class="dc-avoid-nm">Blanco</p>
   </div>
 </section>
 
@@ -1635,8 +1617,8 @@ body{font-weight:500;font-size:17px}
 <section id="family">
   <svg class="corner-orn corner-orn--tl" viewBox="0 0 28 28"><path d="M2 26V8Q2 2 8 2h18"/></svg>
   <svg class="corner-orn corner-orn--tr" viewBox="0 0 28 28"><path d="M2 26V8Q2 2 8 2h18"/></svg>
-  <span class="lbl">Con amor de</span>
-  <h2 class="ttl">Padres y Padrinos</h2>
+  <span class="lbl">Con la bendición de</span>
+  <h2 class="ttl">Nuestras Familias</h2>
   <div class="gline"></div>
 
   <p class="fam-ttl">Padres del Novio</p>
@@ -1681,65 +1663,7 @@ body{font-weight:500;font-size:17px}
 
 
 <!-- ═══════════════ 12. HOSPEDAJE ═══════════════════ -->
-<section id="lodging">
-  <span class="lbl">Para tu estancia</span>
-  <h2 class="ttl">Hospedaje Sugerido</h2>
-  <div class="gline"></div>
-  <p class="hs-intro">Si vienes de fuera, estas opciones quedan a unos minutos del salón.</p>
 
-  <div class="hs-switch" role="tablist" aria-label="Ver hospedaje como">
-    <span class="hs-switch-ind" aria-hidden="true"></span>
-    <button class="hs-sw on" type="button" data-v="lista" role="tab" aria-selected="true">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 6h13M8 12h13M8 18h13"/><circle cx="3.5" cy="6" r="1"/><circle cx="3.5" cy="12" r="1"/><circle cx="3.5" cy="18" r="1"/></svg>Lista</button>
-    <button class="hs-sw" type="button" data-v="mapa" role="tab" aria-selected="false">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/></svg>Mapa</button>
-  </div>
-
-  <div class="hs-flip" id="hsFlip">
-    <div class="hs-inner" id="hsInner">
-      <div class="hs-face hs-front">
-      <div class="hs-wrap"><div class="hs-float"><article class="hs-card tilt">
-        <span class="hs-num" aria-hidden="true">01</span>
-        <p class="hs-type">Hotel</p>
-        <h3 class="hs-name">Hotel Las Vegas</h3>
-        <p class="hs-addr">Justo Sierra 209, Col. Las Vegas<br>Poza Rica de Hidalgo, Ver.</p>
-        <p class="hs-dist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 17h14M6.5 17v2M17.5 17v2M4 13l2-5.5A2 2 0 018 6h8a2 2 0 011.9 1.5L20 13v4H4z"/><circle cx="7.5" cy="14" r=".8"/><circle cx="16.5" cy="14" r=".8"/></svg><span><strong>4 min</strong> · 2.4 km en auto a la recepción</span></p>
-        <div class="hs-btns">
-          <a class="btn-hosp" href="https://maps.app.goo.gl/YspaYMH3Hhi1v9HY6?g_st=ic" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> Ver en Maps</a>
-          <a class="btn-hosp" href="https://www.facebook.com/share/1Cw7N3vWJP/?mibextid=wwXIfr" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 010 18M12 3a14 14 0 000 18"/></svg> Sitio web</a>
-        </div>
-      </article></div></div>
-      <div class="hs-wrap"><div class="hs-float"><article class="hs-card tilt">
-        <span class="hs-num" aria-hidden="true">02</span>
-        <p class="hs-type">Hotel</p>
-        <h3 class="hs-name">20th Avenue Hotel y Suites Inn</h3>
-        <p class="hs-addr">Av. 20 de Noviembre 704, Col. Cazones<br>Poza Rica de Hidalgo, Ver.</p>
-        <p class="hs-dist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 17h14M6.5 17v2M17.5 17v2M4 13l2-5.5A2 2 0 018 6h8a2 2 0 011.9 1.5L20 13v4H4z"/><circle cx="7.5" cy="14" r=".8"/><circle cx="16.5" cy="14" r=".8"/></svg><span><strong>1 min</strong> · 0.1 km en auto a la recepción</span></p>
-        <div class="hs-btns">
-          <a class="btn-hosp" href="https://maps.app.goo.gl/r4Yg5BbeAsBBXBXG9?g_st=ic" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> Ver en Maps</a>
-          <a class="btn-hosp" href="https://share.google/MV0UNc7NKs6iwEae5" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 010 18M12 3a14 14 0 000 18"/></svg> Sitio web</a>
-        </div>
-      </article></div></div>
-      <div class="hs-wrap"><div class="hs-float"><article class="hs-card tilt">
-        <span class="hs-num" aria-hidden="true">03</span>
-        <p class="hs-type">Hotel</p>
-        <h3 class="hs-name">Hotel París FC</h3>
-        <p class="hs-addr">Blvd. Adolfo Ruiz Cortines 1328, Col. Cazones<br>Poza Rica de Hidalgo, Ver.</p>
-        <p class="hs-dist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 17h14M6.5 17v2M17.5 17v2M4 13l2-5.5A2 2 0 018 6h8a2 2 0 011.9 1.5L20 13v4H4z"/><circle cx="7.5" cy="14" r=".8"/><circle cx="16.5" cy="14" r=".8"/></svg><span><strong>2 min</strong> · 1.0 km en auto a la recepción</span></p>
-        <div class="hs-btns">
-          <a class="btn-hosp" href="https://maps.app.goo.gl/j5ySjfTN1SF6gNw59?g_st=ic" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> Ver en Maps</a>
-          <a class="btn-hosp" href="https://www.facebook.com/share/1LSioMFeVY/?mibextid=wwXIfr" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 010 18M12 3a14 14 0 000 18"/></svg> Sitio web</a>
-        </div>
-      </article></div></div>
-      </div>
-      <div class="hs-face hs-back" aria-hidden="true">
-        <div class="hs-map" id="hsMap"></div>
-        <p class="hs-legend">Toca un número para ver el hotel</p>
-        <div class="hs-chips" id="hsChips"></div>
-      </div>
-    </div>
-  </div>
-</section>
 
 <div class="blend blend-dark-beige"></div>
 
@@ -1803,6 +1727,69 @@ body{font-weight:500;font-size:17px}
 </section>
 
 <div class="blend blend-beige-dark"></div>
+
+<!-- ═══════════════ HOSPEDAJE (al final) ═══════════ -->
+<section id="lodging">
+  <span class="lbl">Para tu estancia</span>
+  <h2 class="ttl">Hospedaje Sugerido</h2>
+  <div class="gline"></div>
+  <p class="hs-intro">Si vienes de fuera, estas opciones quedan a unos minutos del salón.</p>
+
+  <div class="hs-switch" role="tablist" aria-label="Ver hospedaje como">
+    <span class="hs-switch-ind" aria-hidden="true"></span>
+    <button class="hs-sw on" type="button" data-v="lista" role="tab" aria-selected="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 6h13M8 12h13M8 18h13"/><circle cx="3.5" cy="6" r="1"/><circle cx="3.5" cy="12" r="1"/><circle cx="3.5" cy="18" r="1"/></svg>Lista</button>
+    <button class="hs-sw" type="button" data-v="mapa" role="tab" aria-selected="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/></svg>Mapa</button>
+  </div>
+
+  <div class="hs-flip" id="hsFlip">
+    <div class="hs-inner" id="hsInner">
+      <div class="hs-face hs-front">
+      <div class="hs-wrap"><div class="hs-float"><article class="hs-card tilt">
+        <span class="hs-num" aria-hidden="true">01</span>
+        <p class="hs-type">Hotel</p>
+        <h3 class="hs-name">Hotel Las Vegas</h3>
+        <p class="hs-addr">Justo Sierra 209, Col. Las Vegas<br>Poza Rica de Hidalgo, Ver.</p>
+        <p class="hs-dist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 17h14M6.5 17v2M17.5 17v2M4 13l2-5.5A2 2 0 018 6h8a2 2 0 011.9 1.5L20 13v4H4z"/><circle cx="7.5" cy="14" r=".8"/><circle cx="16.5" cy="14" r=".8"/></svg><span><strong>4 min</strong> · 2.4 km en auto a la recepción</span></p>
+        <div class="hs-btns">
+          <a class="btn-hosp" href="https://maps.app.goo.gl/YspaYMH3Hhi1v9HY6?g_st=ic" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> Ver en Maps</a>
+          <a class="btn-hosp" href="https://www.facebook.com/share/1Cw7N3vWJP/?mibextid=wwXIfr" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 010 18M12 3a14 14 0 000 18"/></svg> Sitio web</a>
+        </div>
+      </article></div></div>
+      <div class="hs-wrap"><div class="hs-float"><article class="hs-card tilt">
+        <span class="hs-num" aria-hidden="true">02</span>
+        <p class="hs-type">Hotel</p>
+        <h3 class="hs-name">20th Avenue Hotel y Suites Inn</h3>
+        <p class="hs-addr">Av. 20 de Noviembre 704, Col. Cazones<br>Poza Rica de Hidalgo, Ver.</p>
+        <p class="hs-dist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 17h14M6.5 17v2M17.5 17v2M4 13l2-5.5A2 2 0 018 6h8a2 2 0 011.9 1.5L20 13v4H4z"/><circle cx="7.5" cy="14" r=".8"/><circle cx="16.5" cy="14" r=".8"/></svg><span><strong>1 min</strong> · 0.1 km en auto a la recepción</span></p>
+        <div class="hs-btns">
+          <a class="btn-hosp" href="https://maps.app.goo.gl/r4Yg5BbeAsBBXBXG9?g_st=ic" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> Ver en Maps</a>
+          <a class="btn-hosp" href="https://share.google/MV0UNc7NKs6iwEae5" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 010 18M12 3a14 14 0 000 18"/></svg> Sitio web</a>
+        </div>
+      </article></div></div>
+      <div class="hs-wrap"><div class="hs-float"><article class="hs-card tilt">
+        <span class="hs-num" aria-hidden="true">03</span>
+        <p class="hs-type">Hotel</p>
+        <h3 class="hs-name">Hotel París FC</h3>
+        <p class="hs-addr">Blvd. Adolfo Ruiz Cortines 1328, Col. Cazones<br>Poza Rica de Hidalgo, Ver.</p>
+        <p class="hs-dist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 17h14M6.5 17v2M17.5 17v2M4 13l2-5.5A2 2 0 018 6h8a2 2 0 011.9 1.5L20 13v4H4z"/><circle cx="7.5" cy="14" r=".8"/><circle cx="16.5" cy="14" r=".8"/></svg><span><strong>2 min</strong> · 1.0 km en auto a la recepción</span></p>
+        <div class="hs-btns">
+          <a class="btn-hosp" href="https://maps.app.goo.gl/j5ySjfTN1SF6gNw59?g_st=ic" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> Ver en Maps</a>
+          <a class="btn-hosp" href="https://www.facebook.com/share/1LSioMFeVY/?mibextid=wwXIfr" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 010 18M12 3a14 14 0 000 18"/></svg> Sitio web</a>
+        </div>
+      </article></div></div>
+      </div>
+      <div class="hs-face hs-back" aria-hidden="true">
+        <div class="hs-map" id="hsMap"></div>
+        <p class="hs-legend">Toca un número para ver el hotel</p>
+        <div class="hs-chips" id="hsChips"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="blend blend-dark-dark"></div>
 
 <!-- ═══════════════ 13. FOOTER ═══════════════════════ -->
 <footer id="footer">
@@ -1884,6 +1871,7 @@ document.addEventListener('DOMContentLoaded', () => {
     heroAnim();
     spawnParticles();
     spawnAmbient();
+    initPetals();
     scrollAnims();
     countdown();
     setInterval(countdown, 1000);
@@ -2008,6 +1996,23 @@ function spawnParticles() {
   }
 }
 
+/* ── PÉTALOS (plantilla 2) en terracota/beige ───────── */
+function initPetals(){
+  if (RM) return;
+  var colors = ['#a23700','#D4C5B2','#aa472f','#ffe8c0','#C8662E','#996515'];
+  var wrap = document.getElementById('petals');
+  for (var i = 0; i < 16; i++) {
+    var p = document.createElement('div'), size = 6 + Math.random() * 10;
+    p.className = 'petal';
+    p.style.cssText = 'width:' + size + 'px;height:' + (size * 1.45) + 'px;left:' + (Math.random() * 100) + '%;background:' + colors[i % colors.length] + ';opacity:' + (0.35 + Math.random() * .4).toFixed(2);
+    wrap.appendChild(p);
+    var dur = 30 + Math.random() * 20;
+    gsap.fromTo(p, { y: -40, rotation: Math.random() * 360, x: 0 }, {
+      y: window.innerHeight + 80, rotation: (Math.random() * 360) + (Math.random() > .5 ? 400 : -400),
+      x: (Math.random() - .5) * 90, duration: dur, ease: 'none', repeat: -1, delay: -Math.random() * dur, repeatRefresh: true });
+  }
+}
+
 /* ── AMBIENT PARTICLES & ORBS ───────────────────────── */
 function spawnAmbient() {
   const c = document.getElementById('ambPart');
@@ -2091,6 +2096,11 @@ function scrollAnims() {
       scrollTrigger: { trigger: g, start: 'top 92%', once: true } }));
   });
 
+  gsap.from(['.bd-names', '.bd-txt'], { opacity: 0, y: 26, duration: 1, stagger: .18, ease: cine,
+    scrollTrigger: { trigger: '#bendicion', start: 'top 82%', once: true } });
+  gsap.from('.bd-verse', { opacity: 0, y: 34, scale: .96, duration: 1.1, delay: .2, ease: cine,
+    scrollTrigger: { trigger: '.bd-verse', start: 'top 88%', once: true } });
+
   gsap.from('.cd-box', {
     opacity: 0, y: 36, scale: .85, duration: .8, stagger: .1,
     ease: 'back.out(1.7)',
@@ -2157,12 +2167,12 @@ function scrollAnims() {
       scrollTrigger:{trigger:section, start:'top 70%', end:'bottom 60%', scrub:true}});
   })();
 
-  gsap.from('#dresscode .fu', {
+  gsap.from('#dresscode .fu:not(.dc-figures)', {
     opacity: 0, y: 26, duration: .8, stagger: .12, ease: cine,
     scrollTrigger: { trigger: '#dresscode', start: 'top 80%', once: true }
   });
-  gsap.from('.dc-formal', { opacity: 0, scale: .9, duration: .9, ease: 'back.out(1.6)',
-    scrollTrigger: { trigger: '#dresscode', start: 'top 82%', once: true } });
+  gsap.from('.dc-fig', { opacity: 0, y: 30, scale: .92, duration: .9, stagger: .18, ease: cine,
+    scrollTrigger: { trigger: '.dc-figures', start: 'top 85%', once: true } });
 
   gsap.from('.fam-ttl', {
     opacity: 0, y: 22, duration: .7, stagger: .2, ease: cine,
@@ -2602,8 +2612,8 @@ function initWheel(){
 
 /* ── MENÚ FLOTANTE ── */
 (function(){
-  var SECS = [['hero','Inicio'],['location','Celebración'],['itinerary','Itinerario'],['family','Familia'],['dresscode','Vestimenta'],
-              ['gallery','Galería'],['lodging','Hospedaje'],['gifts','Regalos'],['rsvp','Confirmar']]
+  var SECS = [['hero','Inicio'],['location','Celebración'],['itinerary','Itinerario'],['gifts','Regalos'],['dresscode','Vestimenta'],
+              ['family','Familia'],['gallery','Galería'],['rsvp','Confirmar'],['lodging','Hospedaje']]
     .filter(function(s){ return document.getElementById(s[0]); });
   var fm = document.getElementById('fm'), links = document.getElementById('fmLinks'), ind = document.getElementById('fmInd');
   var sheet = document.getElementById('fmSheet'), list = document.getElementById('fmList');
@@ -2705,79 +2715,6 @@ function toast(msg) {
     document.addEventListener(ev,onGesture,{capture:true,passive:true});
   });
 })();
-/* ============================================================
-   DRESS CODE · carrusel de ideas (cada dibujo en su marco)
-   ============================================================ */
-(function(){
-  function init(){
-    var viewer = document.getElementById('dcViewer');
-    if(!viewer) return;
-    /* fuera de la sección: si un ancestro tiene transform, el
-       position:fixed queda atrapado y el visor no aparece */
-    if(viewer.parentNode !== document.body) document.body.appendChild(viewer);
-    var track = document.getElementById('dcvTrack'), head = document.getElementById('dcvHead'),
-        cap = document.getElementById('dcvCap'), dots = document.getElementById('dcvDots'),
-        close = document.getElementById('dcViewerClose');
-    var LOOKS = {
-      caballeros:{head:'Caballeros', items:[
-        {src:'looks/cab-2.png', cap:'Traje en tono arena'},
-        {src:'looks/cab-3.png', cap:'Traje oscuro'}]},
-      damas:{head:'Damas', items:[
-        {src:'looks/dama-2.png', cap:'Vestido largo oscuro'},
-        {src:'looks/dama-3.png', cap:'Vestido champagne'}]}
-    };
-    var items = [], idx = 0, last = null;
-    function render(){
-      track.style.transform = 'translateX(' + (-idx*100) + '%)';
-      cap.textContent = items[idx].cap + '  ·  ' + (idx+1) + ' / ' + items.length;
-      [].forEach.call(dots.children, function(d,i){ d.classList.toggle('on', i===idx); });
-    }
-    function go(i){ idx = (i + items.length) % items.length; render(); }
-    function open(key){
-      var L = LOOKS[key]; if(!L) return;
-      items = L.items; idx = 0; last = document.activeElement;
-      head.textContent = L.head; track.innerHTML = ''; dots.innerHTML = '';
-      items.forEach(function(it,i){
-        var sl = document.createElement('figure'); sl.className = 'dcv-slide';
-        sl.innerHTML = '<div class="dcv-frame"><div class="dcv-mat"><img alt=""></div></div>';
-        var im = sl.querySelector('img'); im.src = it.src; im.alt = L.head + ' — ' + it.cap;
-        track.appendChild(sl);
-        var d = document.createElement('button'); d.type='button'; d.className='dcv-dot';
-        d.setAttribute('aria-label','Ver idea '+(i+1));
-        d.addEventListener('click', function(){ go(i); }); dots.appendChild(d);
-      });
-      render();
-      viewer.removeAttribute('hidden'); viewer.classList.add('on');
-      document.body.style.overflow = 'hidden'; close.focus();
-    }
-    function hide(){
-      viewer.classList.remove('on'); document.body.style.overflow = '';
-      setTimeout(function(){ viewer.setAttribute('hidden',''); }, 300);
-      if(last && last.focus) last.focus();
-    }
-    document.querySelectorAll('.dc-look').forEach(function(b){
-      b.addEventListener('click', function(e){ e.preventDefault(); open(b.dataset.look); });
-    });
-    close.addEventListener('click', hide);
-    document.getElementById('dcvPrev').addEventListener('click', function(e){ e.stopPropagation(); go(idx-1); });
-    document.getElementById('dcvNext').addEventListener('click', function(e){ e.stopPropagation(); go(idx+1); });
-    viewer.addEventListener('click', function(e){ if(e.target === viewer) hide(); });
-    document.addEventListener('keydown', function(e){
-      if(!viewer.classList.contains('on')) return;
-      if(e.key==='Escape') hide(); if(e.key==='ArrowLeft') go(idx-1); if(e.key==='ArrowRight') go(idx+1);
-    });
-    var x0 = null;
-    track.addEventListener('touchstart', function(e){ x0 = e.touches[0].clientX; }, {passive:true});
-    track.addEventListener('touchend', function(e){
-      if(x0===null) return; var dx = e.changedTouches[0].clientX - x0; x0 = null;
-      if(Math.abs(dx) > 40) go(idx + (dx < 0 ? 1 : -1));
-    }, {passive:true});
-  }
-  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
-  else init();
-})();
-
-
 </script>
 </body>
 </html>
