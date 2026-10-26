@@ -1264,7 +1264,7 @@ body{font-weight:500;font-size:17px}
 .ft-note{font-size:15px!important;opacity:.78!important}
 .ft-orn{opacity:.75!important}
 .el-credit{font-size:12.5px!important;opacity:.75!important}
-.envelope-hint{font-size:13px!important;font-weight:700;color:#FFE8C0!important}
+.envelope-hint{font-size:13px!important;font-weight:700;color:#7A2A00!important;text-shadow:0 1px 6px rgba(255,255,255,.9)!important}
 #toast{font-size:13px!important}
 @media(prefers-reduced-motion:reduce){.foil,#heroPic,.loc-float,.hs-float,.pin-beat,.dc-look-ico,.rsvp-btn.breathe{animation:none!important}}
 
@@ -1274,8 +1274,8 @@ body{font-weight:500;font-size:17px}
 
 <!-- ENVELOPE SCREEN -->
 <div id="envelope-screen" role="button" aria-label="Toca para abrir tu invitación">
-  <img id="env-image" src="sobre.png" alt="Sobre invitación Marylen &amp; José Luis" />
-  <video id="env-video" playsinline webkit-playsinline muted preload="metadata"><source src="sobre-apertura.mp4" type="video/mp4"></video>
+  <img id="env-image" src="sobre.jpg" alt="Sobre invitación Marylen &amp; José Luis" />
+  <video id="env-video" playsinline webkit-playsinline muted preload="metadata"><source src="sobre-mj.mp4" type="video/mp4"></video>
   <p class="envelope-hint" id="env-hint">Toca para abrir</p>
 </div>
 <div id="env-flash"></div>
@@ -1863,10 +1863,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   var flashStarted = false, invitationReady = false;
 
-  function prepareInvitation() {
+  function prepareInvitation(keepEnv) {
     if (invitationReady) return;
     invitationReady = true;
-    envScreen.style.display = 'none';
+    if (!keepEnv) envScreen.style.display = 'none';
     document.getElementById('main-content').style.visibility = 'visible';
     heroAnim();
     spawnParticles();
@@ -1889,33 +1889,33 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  /* Fundido suave y uniforme hacia la invitación ANTES de que el sobre se deslice (~4.9 s) */
+  function dissolveToInvitation() {
+    if (flashStarted) return;
+    flashStarted = true;
+    prepareInvitation(true);
+    envScreen.style.animation = 'none'; envScreen.style.opacity = '1';
+    gsap.fromTo(envScreen, { opacity: 1, filter: 'blur(0px)' },
+      { opacity: 0, filter: 'blur(8px)', duration: 1.1, ease: 'sine.inOut',
+        onComplete: function () { envScreen.style.display = 'none'; envFlash.style.display = 'none'; } });
+  }
   envVideo.addEventListener('timeupdate', function () {
-    if (!flashStarted && envVideo.duration && envVideo.currentTime >= 2) {
-      flashStarted = true;
-      gsap.to(envFlash, { opacity: 1, duration: 2, ease: 'none', onComplete: revealInvitation });
-    }
+    if (envVideo.currentTime >= 3.4) dissolveToInvitation();
   });
-
-  envVideo.addEventListener('ended', function () {
-    if (!invitationReady) {
-      gsap.to(envFlash, { opacity: 1, duration: 1.5, ease: 'none', onComplete: revealInvitation });
-    }
-  });
+  envVideo.addEventListener('ended', dissolveToInvitation);
 
   function playVideo() {
     var p = envVideo.play();
     gsap.to(envImage, { opacity: 0, duration: 0.55, ease: 'power2.inOut', onComplete: function () { envImage.style.display = 'none'; } });
     gsap.to(envVideo, { opacity: 1, duration: 0.55, ease: 'power2.inOut' });
-    if (p !== undefined) p.catch(function () {
-      gsap.to(envFlash, { opacity: 1, duration: 1.2, ease: 'none', onComplete: revealInvitation });
-    });
+    if (p !== undefined) p.catch(dissolveToInvitation);
   }
 
   function openEnvelope() {
     if (opened) return;
     opened = true;
     gsap.killTweensOf(envImage);
-    hint.style.opacity = '0';
+    hint.style.display = 'none';
     if (envVideo.readyState >= 2) {
       playVideo();
     } else {
@@ -1925,9 +1925,7 @@ document.addEventListener('DOMContentLoaded', () => {
         playVideo();
       });
       setTimeout(function () {
-        if (!flashStarted) {
-          gsap.to(envFlash, { opacity: 1, duration: 1.2, ease: 'none', onComplete: revealInvitation });
-        }
+        if (!flashStarted) dissolveToInvitation();
       }, 4000);
     }
   }
