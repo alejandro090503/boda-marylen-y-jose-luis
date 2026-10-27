@@ -739,8 +739,8 @@ section>*{position:relative;z-index:1}
 /* ── ENVELOPE ─────────────────────────────────────────── */
 #envelope-screen{position:fixed;inset:0;z-index:10000;overflow:hidden;cursor:pointer;opacity:0;background:#140A05;animation:envFadeIn 1.2s ease .5s forwards}
 @keyframes envFadeIn{to{opacity:1}}
-#env-image{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:2;transform:scale(1.18)}
-#env-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:3;opacity:0;transform:scale(1.18)}
+#env-image{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:2;transform:none}
+#env-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:3;opacity:0;transform:none}
 #env-flash{position:fixed;inset:0;background:#fff;z-index:9999;opacity:0;pointer-events:none}
 .envelope-hint{position:absolute;bottom:52px;left:50%;transform:translateX(-50%);font-family:'Cormorant Garamond',serif;font-size:11px;letter-spacing:5px;text-transform:uppercase;color:rgba(201,151,63,.8);opacity:0;cursor:pointer;white-space:nowrap;z-index:10;text-shadow:0 1px 4px rgba(0,0,0,.4);animation:envFadeIn .9s ease 1.2s forwards}
 .envelope-hint::after{content:'';display:block;width:32px;height:1px;background:linear-gradient(90deg,transparent,rgba(201,151,63,.5),transparent);margin:10px auto 0;animation:hintPulse 2.2s ease-in-out infinite}
@@ -1385,6 +1385,7 @@ section[data-ink] .lbl,section[data-ink] .ttl,section[data-ink] p,section[data-i
 /* ── 8. Galería: reflejo + lightbox ── */
 .wheel-scene{height:580px!important}
 .wheel-card{overflow:visible!important;border:none!important;box-shadow:none!important;background:none}
+.wheel-card{width:164px!important;height:236px!important;margin-left:-82px!important;margin-top:-118px!important}
 .wheel-card img{border-radius:18px;border:2px solid rgba(201,151,63,.35);box-shadow:0 12px 40px rgba(0,0,0,.45)}
 .wc-ref{position:absolute;left:0;right:0;top:100%;height:70%;margin-top:8px;border-radius:18px;background-size:cover;background-position:center bottom;
   transform:scaleY(-1);opacity:.32;pointer-events:none;
@@ -1488,7 +1489,56 @@ section[data-ink] .lbl,section[data-ink] .ttl,section[data-ink] p,section[data-i
 @keyframes inkDriftFlip{0%{transform:scaleX(-1) scale(1) translate(0,0) rotate(0)}33%{transform:scaleX(-1) scale(1.08) translate(-4%,2.5%) rotate(1.4deg)}66%{transform:scaleX(-1) scale(1.04) translate(3%,-1.5%) rotate(-1deg)}100%{transform:scaleX(-1) scale(1.12) translate(3.5%,-4%) rotate(-1.6deg)}}
 section > .ink-bg{animation:inkBreath 9s ease-in-out infinite}
 @keyframes inkBreath{0%,100%{opacity:.42}50%{opacity:.62}}
-@media(prefers-reduced-motion:reduce){section > .ink-bg,.vinyl-spin,.hero-drift,.h-shine::before,.ink-bg i,.fam-card,.dc-who img,.dc-dot i,.dc-dot i::after,.env-body.landed,.rsvp-btn,.fm-aura{animation:none!important}}
+
+/* ── PADRINOS: carrusel con íconos (formato roxana-y-omar) ── */
+.padrinos-carousel{position:relative;max-width:360px;margin:8px auto 0;z-index:1}
+.padrinos-viewport{overflow:hidden}
+.padrinos-track{display:flex;transition:transform .9s cubic-bezier(.45,0,.2,1)}
+.padrino-slide{flex:0 0 100%;box-sizing:border-box;display:flex;flex-direction:column;align-items:center;text-align:center;padding:14px 40px}
+.padrino-icon{width:70px;height:70px;margin-bottom:16px;animation:levitate 6s ease-in-out infinite}
+.padrino-icon svg{width:100%;height:100%;fill:none;stroke:var(--gold);stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 8px rgba(201,151,63,.35))}
+.padrino-rol{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14px;letter-spacing:4px;text-transform:uppercase;color:var(--gold-lt);font-weight:700;margin-bottom:12px}
+.padrino-names{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:600;line-height:1.55;color:var(--cream)}
+.padrinos-arrow{position:absolute;top:50px;transform:translateY(-50%);width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:none;border:none;cursor:pointer;color:var(--gold);z-index:2;padding:0}
+.padrinos-arrow svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2}
+.padrinos-arrow.prev{left:-6px}.padrinos-arrow.next{right:-6px}
+.padrinos-dots{display:flex;justify-content:center;gap:4px;margin-top:14px}
+.padrinos-dots button{width:22px;height:22px;border:none;background:none;padding:7px;cursor:pointer}
+.padrinos-dots button::before{content:"";display:block;width:8px;height:8px;border-radius:50%;background:rgba(201,151,63,.35);transition:background .25s,transform .25s}
+.padrinos-dots button.active::before{background:var(--gold);transform:scale(1.3)}
+
+/* ── MESA DE REGALOS: caja que se abre (formato paola-e-ivan) ── */
+.giftbox-stage{position:relative;margin:30px auto 40px;max-width:560px;min-height:250px;display:flex;align-items:center;justify-content:center;z-index:1}
+.giftbox-stage > div{text-align:center}
+.giftbox{position:relative;width:170px;cursor:pointer;background:none;border:none;padding:0;transition:transform .45s cubic-bezier(.2,.7,.2,1);-webkit-tap-highlight-color:transparent;touch-action:manipulation;animation:levitate 5s ease-in-out infinite}
+.giftbox.is-open{pointer-events:none}
+.giftbox svg{width:100%;height:auto;display:block;filter:drop-shadow(0 18px 34px rgba(0,0,0,.5))}
+.giftbox-lid{transform-origin:50% 100%;transition:transform .6s cubic-bezier(.34,1.4,.5,1),opacity .55s ease}
+.giftbox.is-open .giftbox-lid{transform:translateY(-52px) rotate(-14deg);opacity:0}
+.giftbox-cta{display:block;margin-top:22px;font-family:'Cormorant Garamond',serif;font-size:13.5px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;padding-left:.3em;color:var(--gold-lt);animation:giftPulse 2.6s ease-in-out infinite;transition:opacity .4s}
+@keyframes giftPulse{0%,100%{opacity:.6}50%{opacity:1}}
+.giftbox-cta.is-hidden{opacity:0;animation:none}
+#confetti-canvas{position:absolute;inset:-40px;width:calc(100% + 80px);height:calc(100% + 80px);pointer-events:none;z-index:5}
+.gift-backdrop{position:fixed;top:0;right:0;bottom:0;left:0;height:100vh;height:100dvh;z-index:1000;background:rgba(25,10,3,.6);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);opacity:0;pointer-events:none;transition:opacity .45s ease;display:flex;align-items:center;justify-content:center;padding:20px}
+.gift-backdrop.is-open{opacity:1;pointer-events:auto}
+body.gift-locked{overflow:hidden}
+.gift-reveal{position:relative;width:100%;max-width:440px;background:#FBF1DE;border:1px solid rgba(153,101,21,.5);padding:44px 26px 34px;text-align:center;box-shadow:0 34px 90px rgba(0,0,0,.55);opacity:0;transform:translateY(26px) scale(.94);transition:opacity .5s ease,transform .55s cubic-bezier(.2,.7,.2,1)}
+.gift-backdrop.is-open .gift-reveal{opacity:1;transform:none}
+.gift-reveal::before{content:"";position:absolute;inset:9px;border:1px solid rgba(153,101,21,.25);pointer-events:none}
+.gift-close{position:absolute;top:12px;right:12px;z-index:3;width:44px;height:44px;border-radius:50%;border:1px solid rgba(153,101,21,.5);background:#FBF1DE;color:#7a2a00;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;transition:transform .3s;-webkit-appearance:none;appearance:none}
+.gift-close:hover{transform:rotate(90deg)}
+.gift-close svg{width:16px;height:16px}
+.gift-reveal-eyebrow{font-family:'Cormorant Garamond',serif;font-size:12.5px;font-weight:700;letter-spacing:.32em;text-transform:uppercase;padding-left:.32em;color:#996515;margin-bottom:22px}
+.gr-logo{height:50px;display:flex;align-items:center;justify-content:center;margin-bottom:18px}
+.gr-logo img{max-height:46px;max-width:210px;width:auto;height:auto;display:block}
+.gr-title{font-family:'Great Vibes',cursive;font-size:38px;color:#a23700;margin-bottom:8px;line-height:1.2}
+.gr-desc{font-family:'Cormorant Garamond',serif;font-size:18px;line-height:1.6;color:#4a2410;font-weight:500;margin-bottom:24px}
+.gr-desc b{font-weight:700;color:#a23700;letter-spacing:.06em}
+.gr-btn{display:inline-block;padding:14px 30px;border:1px solid #a23700;background:transparent;font-family:'Cormorant Garamond',serif;font-size:13px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:#a23700;text-decoration:none;position:relative;overflow:hidden;transition:color .45s ease;border-radius:2px;z-index:0}
+.gr-btn::before{content:"";position:absolute;inset:0;background:#a23700;transform:translateY(101%);transition:transform .45s cubic-bezier(.2,.7,.2,1);z-index:-1}
+.gr-btn:hover,.gr-btn:active{color:#FBF1DE}
+.gr-btn:hover::before,.gr-btn:active::before{transform:translateY(0)}
+@media(prefers-reduced-motion:reduce){.giftbox,.padrino-icon,section > .ink-bg,.vinyl-spin,.hero-drift,.h-shine::before,.ink-bg i,.fam-card,.dc-who img,.dc-dot i,.dc-dot i::after,.env-body.landed,.rsvp-btn,.fm-aura{animation:none!important}}
 
   </style>
 </head>
@@ -1716,11 +1766,30 @@ section > .ink-bg{animation:inkBreath 9s ease-in-out infinite}
   <div class="gline"></div>
   <p class="gf-sub">Si deseas obsequiarnos algo especial,<br>compartimos contigo nuestras opciones.</p>
 
-  <a class="gf-card sheen" href="https://mesaderegalos.liverpool.com.mx/milistaderegalos/52006745" target="_blank" rel="noopener">
-    <span class="gf-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="13" rx="1.5"/><path d="M3 12h18M12 8v13"/><path d="M12 8c-1.6-3.6-6-3.8-6-1.2C6 8.4 9 8 12 8zM12 8c1.6-3.6 6-3.8 6-1.2C18 8.4 15 8 12 8z"/></svg></span>
-    <span class="gf-txt"><span class="gf-name">Liverpool</span><span class="gf-ev">Mesa de regalos · Evento 52006745</span></span>
-    <span class="gf-cta">Ver mesa <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>
-  </a>
+  <div class="giftbox-stage">
+    <canvas id="confetti-canvas" aria-hidden="true"></canvas>
+    <div>
+      <button class="giftbox" id="giftbox" type="button" aria-label="Abrir la mesa de regalos" aria-expanded="false">
+        <svg viewBox="0 0 200 190" fill="none" aria-hidden="true">
+          <rect x="26" y="72" width="148" height="104" rx="4" fill="#a23700"/>
+          <rect x="26" y="72" width="148" height="104" rx="4" fill="url(#gbShade)"/>
+          <rect x="88" y="72" width="24" height="104" fill="#C9973F"/>
+          <rect x="26" y="112" width="148" height="15" fill="#C9973F"/>
+          <rect x="26.7" y="72.7" width="146.6" height="102.6" rx="3.3" stroke="#6b4510" stroke-width="1.4"/>
+          <g class="giftbox-lid">
+            <rect x="16" y="54" width="168" height="26" rx="4" fill="#aa472f"/>
+            <rect x="16.7" y="54.7" width="166.6" height="24.6" rx="3.3" stroke="#6b4510" stroke-width="1.4"/>
+            <rect x="88" y="54" width="24" height="26" fill="#C9973F"/>
+            <path d="M100 54 C100 40 84 26 70 32 C58 37 62 52 78 54 Z" fill="#C9973F" stroke="#6b4510" stroke-width="1.2"/>
+            <path d="M100 54 C100 40 116 26 130 32 C142 37 138 52 122 54 Z" fill="#C9973F" stroke="#6b4510" stroke-width="1.2"/>
+            <circle cx="100" cy="52" r="8" fill="#ffe8c0" stroke="#6b4510" stroke-width="1.2"/>
+          </g>
+          <defs><linearGradient id="gbShade" x1="26" y1="72" x2="174" y2="176" gradientUnits="userSpaceOnUse"><stop stop-color="#ffffff" stop-opacity=".14"/><stop offset="1" stop-color="#000000" stop-opacity=".25"/></linearGradient></defs>
+        </svg>
+      </button>
+      <span class="giftbox-cta" id="giftbox-cta">Toca el regalo</span>
+    </div>
+  </div>
 
   <div class="env-rain" id="envRain" aria-hidden="true"></div>
   <div class="env-stage">
@@ -1767,6 +1836,17 @@ section > .ink-bg{animation:inkBreath 9s ease-in-out infinite}
     <button class="env-tap-hint" id="envGiftHint" type="button">Toca para abrir</button>
   </div>
 </section>
+<div class="gift-backdrop" id="gift-backdrop" role="dialog" aria-modal="true" aria-label="Mesa de regalos">
+  <div class="gift-reveal">
+    <button class="gift-close" id="gift-close" type="button" aria-label="Cerrar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    <div class="gift-reveal-eyebrow">Con cariño</div>
+    <div class="gr-logo"><img src="liverpool-logo.png" alt="Liverpool" width="508" height="121" decoding="async"></div>
+    <div class="gr-title">Mesa de regalos</div>
+    <div class="gr-desc">Número de evento <b>52006745</b><br>Envío directo a los novios</div>
+    <a class="gr-btn" href="https://mesaderegalos.liverpool.com.mx/milistaderegalos/52006745" target="_blank" rel="noopener">Ver mesa</a>
+  </div>
+</div>
+
 
 
 <!-- ═══════════════ 8. ÁLBUM COMPARTIDO ══════════════ -->
@@ -1854,10 +1934,17 @@ section > .ink-bg{animation:inkBreath 9s ease-in-out infinite}
   <div class="sdiv"></div>
 
   <p class="fam-ttl">Padrinos</p>
-  <div class="fam-card"><p class="fam-role">✦  Anillos</p><p class="fam-nms">Maribel Moreno &amp; Manuel Lorenzo</p></div>
-  <div class="fam-card"><p class="fam-role">✦  Lazo</p><p class="fam-nms">Ángela Velázquez &amp; Clemente Infante</p></div>
-  <div class="fam-card"><p class="fam-role">✦  Biblia</p><p class="fam-nms">Marilu Velázquez</p></div>
-  <div class="fam-card"><p class="fam-role">✦  Arras</p><p class="fam-nms fam-pend">Por definir</p></div>
+  <div class="padrinos-carousel">
+    <button class="padrinos-arrow prev" type="button" aria-label="Anterior"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+    <button class="padrinos-arrow next" type="button" aria-label="Siguiente"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>
+    <div class="padrinos-viewport"><div class="padrinos-track" id="padrinosTrack">
+        <div class="padrino-slide"><div class="padrino-icon"><svg viewBox="0 0 64 64"><circle cx="26" cy="34" r="13"/><circle cx="40" cy="34" r="13"/></svg></div><div class="padrino-rol">Anillos</div><p class="padrino-names">Maribel Moreno<br>y Manuel Lorenzo</p></div>
+        <div class="padrino-slide"><div class="padrino-icon"><svg viewBox="0 0 64 64"><path d="M44 24c-6.6 0-10 8-12 8s-5.4-8-12-8a8 8 0 000 16c6.6 0 10-8 12-8s5.4 8 12 8a8 8 0 000-16Z"/></svg></div><div class="padrino-rol">Lazo</div><p class="padrino-names">Ángela Velázquez<br>y Clemente Infante</p></div>
+        <div class="padrino-slide"><div class="padrino-icon"><svg viewBox="0 0 64 64"><rect x="20" y="17" width="24" height="30" rx="2"/><line x1="32" y1="23" x2="32" y2="35"/><line x1="27" y1="28" x2="37" y2="28"/><line x1="20" y1="41" x2="44" y2="41"/></svg></div><div class="padrino-rol">Biblia</div><p class="padrino-names">Marilu Velázquez</p></div>
+        <div class="padrino-slide"><div class="padrino-icon"><svg viewBox="0 0 64 64"><circle cx="25" cy="29" r="12"/><circle cx="39" cy="38" r="12"/><line x1="25" y1="25" x2="25" y2="33"/><line x1="21" y1="29" x2="29" y2="29"/></svg></div><div class="padrino-rol">Arras</div><p class="padrino-names">Por definir</p></div>
+    </div></div>
+    <div class="padrinos-dots" id="padrinosDots"><button type="button" class="active" aria-label="Padrino 1"></button><button type="button" aria-label="Padrino 2"></button><button type="button" aria-label="Padrino 3"></button><button type="button" aria-label="Padrino 4"></button></div>
+  </div>
 </section>
 
 
@@ -2040,7 +2127,6 @@ section > .ink-bg{animation:inkBreath 9s ease-in-out infinite}
 <!-- ═══════════════ MENÚ FLOTANTE ═══════════════════ -->
 <nav class="fm" id="fm" aria-label="Secciones de la invitación">
   <div class="fm-pill">
-    <a href="#hero" class="fm-mono" data-go="hero" aria-label="Ir al inicio">M<i>&amp;</i>JL</a>
     <div class="fm-links" id="fmLinks">
       <span class="fm-ind" id="fmInd" aria-hidden="true"></span>
     </div>
@@ -2050,7 +2136,7 @@ section > .ink-bg{animation:inkBreath 9s ease-in-out infinite}
 </nav>
 <div class="fm-sheet" id="fmSheet" aria-hidden="true" role="dialog" aria-label="Menú de secciones">
   <div class="fm-sheet-top">
-    <span class="fm-mono">M<i>&amp;</i>JL</span>
+    
     <button class="fm-x" id="fmClose" type="button" aria-label="Cerrar menú">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
     </button>
@@ -2137,7 +2223,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function playVideo() {
     /* mismo encuadre: el video arranca con la escala exacta de la imagen y se cambia cuando ya hay cuadro pintado */
     gsap.set(envVideo, { scale: gsap.getProperty(envImage, 'scale') });
-    gsap.to([envImage, envVideo], { scale: 1.18, duration: 0.4, ease: 'sine.out' });
+    gsap.to([envImage, envVideo], { scale: 1, duration: 0.4, ease: 'sine.out' });
     var swapped = false;
     function swap() {
       if (swapped) return; swapped = true;
@@ -2508,7 +2594,7 @@ function initWheel(){
   if(!ring)return;
   var cards=ring.querySelectorAll('.wheel-card');
   var n=cards.length;if(!n)return;
-  var radius=210;
+  var radius=Math.round(92/Math.tan(Math.PI/n));
   var rot=0,vel=0,isDrag=false,startX=0,startRot=0,lastX=0,moved=0,visible=true,resumeAt=0;
   cards.forEach(function(card,i){
     card.style.transform='rotateY('+(360/n*i)+'deg) translateZ('+radius+'px)';
@@ -3050,6 +3136,42 @@ function toast(msg) {
   ['pointerdown','touchend','click','keydown'].forEach(function(ev){
     document.addEventListener(ev,onGesture,{capture:true,passive:true});
   });
+})();
+
+/* ── PADRINOS: carrusel que pasa solo ── */
+(function(){
+  var track=document.getElementById('padrinosTrack');if(!track)return;
+  var n=track.children.length,idx=0,timer=null;
+  var dots=document.querySelectorAll('#padrinosDots button');
+  function go(i){idx=(i+n)%n;track.style.transform='translateX('+(-idx*100)+'%)';dots.forEach(function(d,k){d.classList.toggle('active',k===idx);});}
+  function play(){clearInterval(timer);timer=setInterval(function(){go(idx+1);},3800);}
+  document.querySelector('.padrinos-arrow.prev').addEventListener('click',function(){go(idx-1);play();});
+  document.querySelector('.padrinos-arrow.next').addEventListener('click',function(){go(idx+1);play();});
+  dots.forEach(function(d,k){d.addEventListener('click',function(){go(k);play();});});
+  var sx=0,sy=0;
+  track.addEventListener('touchstart',function(e){sx=e.touches[0].clientX;sy=e.touches[0].clientY;},{passive:true});
+  track.addEventListener('touchend',function(e){var dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;if(Math.abs(dx)>40&&Math.abs(dx)>Math.abs(dy)){go(dx<0?idx+1:idx-1);play();}},{passive:true});
+  go(0);play();
+})();
+
+/* ── MESA DE REGALOS: caja + confeti + tarjeta ── */
+(function(){
+  var box=document.getElementById('giftbox'),cta=document.getElementById('giftbox-cta'),bd=document.getElementById('gift-backdrop'),cl=document.getElementById('gift-close'),cv=document.getElementById('confetti-canvas');
+  if(!box||!bd)return;
+  function confetti(){
+    if(!cv)return;var ctx=cv.getContext('2d'),r=cv.getBoundingClientRect(),dpr=window.devicePixelRatio||1;
+    cv.width=r.width*dpr;cv.height=r.height*dpr;ctx.scale(dpr,dpr);
+    var cols=['#a23700','#ffe8c0','#D4C5B2','#aa472f','#C9973F','#E9C37A'],ps=[],cx=r.width/2,cy=r.height/2;
+    for(var i=0;i<90;i++){var a=Math.random()*Math.PI*2,v=3+Math.random()*6;ps.push({x:cx,y:cy-20,vx:Math.cos(a)*v,vy:Math.sin(a)*v-4,s:4+Math.random()*5,c:cols[i%cols.length],r:Math.random()*6,vr:(Math.random()-.5)*.3,l:1});}
+    (function f(){ctx.clearRect(0,0,r.width,r.height);var alive=false;ps.forEach(function(p){p.vy+=.18;p.vx*=.985;p.x+=p.vx;p.y+=p.vy;p.r+=p.vr;p.l-=.011;if(p.l>0){alive=true;ctx.save();ctx.globalAlpha=Math.max(p.l,0);ctx.translate(p.x,p.y);ctx.rotate(p.r);ctx.fillStyle=p.c;ctx.fillRect(-p.s/2,-p.s/4,p.s,p.s/2);ctx.restore();}});if(alive)requestAnimationFrame(f);else ctx.clearRect(0,0,r.width,r.height);})();
+  }
+  function open(){box.classList.add('is-open');box.setAttribute('aria-expanded','true');cta.classList.add('is-hidden');confetti();
+    setTimeout(function(){bd.classList.add('is-open');document.body.classList.add('gift-locked');},650);}
+  function close(){bd.classList.remove('is-open');document.body.classList.remove('gift-locked');
+    setTimeout(function(){box.classList.remove('is-open');box.setAttribute('aria-expanded','false');cta.classList.remove('is-hidden');},400);}
+  box.addEventListener('click',open);cl.addEventListener('click',close);
+  bd.addEventListener('click',function(e){if(e.target===bd)close();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&bd.classList.contains('is-open'))close();});
 })();
 </script>
 </body>
