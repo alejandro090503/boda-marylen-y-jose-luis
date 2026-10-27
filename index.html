@@ -14,6 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Great+Vibes&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
   <style>
 /* ── TOKENS ───────────────────────────────────────────── */
 :root {
@@ -1060,75 +1061,93 @@ section>*{position:relative;z-index:1}
   background:linear-gradient(140deg,#C8662E,var(--accent) 55%,var(--gold-dark));box-shadow:0 6px 16px rgba(43,22,8,.35)}
 .dc-viewer-close svg{width:18px;height:18px}
 
-/* ── HOSPEDAJE: Lista / Mapa con giro 3D ── */
-#lodging{background:var(--ink);padding:60px 18px 60px}
-.hs-intro{font-style:italic;font-size:18px;text-align:center;color:var(--cream);opacity:.9;max-width:330px;margin:0 auto 22px;line-height:1.55}
-.hs-switch{position:relative;display:flex;width:220px;margin:0 auto 24px;padding:4px;border-radius:40px;
-  background:rgba(255,232,192,.06);border:1px solid rgba(201,151,63,.35)}
-.hs-switch-ind{position:absolute;top:4px;bottom:4px;left:4px;width:calc(50% - 4px);border-radius:40px;
-  background:linear-gradient(135deg,#C8662E,var(--accent));box-shadow:0 4px 14px rgba(162,55,0,.45);
-  transition:transform .45s cubic-bezier(.22,1,.36,1)}
-.hs-switch.map .hs-switch-ind{transform:translateX(100%)}
-.hs-sw{position:relative;z-index:1;flex:1;display:flex;align-items:center;justify-content:center;gap:7px;min-height:44px;
-  border:none;background:none;cursor:pointer;color:var(--cream);font-family:'Cormorant Garamond',serif;font-weight:700;
-  font-size:16px;letter-spacing:1.5px;text-transform:uppercase;opacity:.75;transition:opacity .3s}
-.hs-sw.on{opacity:1}
-.hs-sw svg{width:17px;height:17px}
-.hs-flip{perspective:1600px}
-.hs-inner{display:grid;grid-template-columns:minmax(0,1fr);transition:transform .75s cubic-bezier(.22,1,.36,1);transform-style:preserve-3d;position:relative}
-.hs-inner.flipped{transform:rotateY(180deg)}
-.hs-face{grid-area:1/1;min-width:0;backface-visibility:hidden;-webkit-backface-visibility:hidden}
-.hs-back{transform:rotateY(180deg);pointer-events:none}
-.hs-inner.flipped .hs-back{pointer-events:auto}
-.hs-inner.flipped .hs-front{pointer-events:none}
-.hs-front{display:flex;flex-direction:column;gap:18px}
-.hs-float{animation:levitate 5.8s ease-in-out infinite}
-.hs-wrap:nth-child(2) .hs-float{animation-delay:-1.9s}
-.hs-wrap:nth-child(3) .hs-float{animation-delay:-3.8s}
-.hs-card{position:relative;overflow:hidden;padding:24px 22px 22px;border-radius:16px;text-align:left;
-  background:linear-gradient(165deg,rgba(140,48,6,.38),rgba(90,30,4,.62));
-  border:1px solid rgba(201,151,63,.28);box-shadow:0 12px 30px rgba(0,0,0,.35)}
-.hs-card::before{content:'';position:absolute;top:0;left:12%;right:12%;height:1px;background:linear-gradient(to right,transparent,var(--gold),transparent)}
-.hs-num{position:absolute;top:6px;right:16px;font-family:'Cormorant Garamond',serif;font-size:64px;font-weight:600;line-height:1;
-  color:rgba(255,232,192,.13);font-variant-numeric:lining-nums}
-.hs-type{font-size:13px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold)}
-.hs-name{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--cream);line-height:1.2;margin:6px 0 8px;padding-right:56px}
-.hs-addr{font-size:16.5px;line-height:1.55;color:var(--cream);opacity:.88}
-.hs-dist{display:flex;align-items:center;gap:9px;margin:12px 0 16px;font-size:16.5px;color:var(--gold-lt)}
-.hs-dist svg{width:22px;height:22px;flex:0 0 auto;color:var(--gold)}
-.hs-dist strong{font-weight:700;color:var(--cream)}
-.hs-btns{display:flex;gap:10px;flex-wrap:wrap}
-.btn-hosp{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;min-height:44px;border:1.5px solid var(--gold);border-radius:50px;
-  color:var(--gold-lt);font-family:'Cormorant Garamond',serif;font-weight:700;font-size:16px;text-decoration:none;background:transparent;transition:background .25s,color .25s}
-.btn-hosp:hover,.btn-hosp:active{background:var(--gold);color:var(--ink)}
-.btn-hosp svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.hs-map{height:min(70svh,560px);height:min(70vh,560px);border-radius:16px;overflow:hidden;border:1px solid rgba(201,151,63,.35);
-  background:#1B0F09;box-shadow:0 14px 34px rgba(0,0,0,.45)}
-@supports(height:1svh){.hs-map{height:min(70svh,560px)}}
-.hs-legend{text-align:center;font-style:italic;font-size:16px;color:var(--gold-lt);margin:12px 0 10px}
-.hs-chips{display:flex;gap:10px;overflow-x:auto;padding:4px 2px 10px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none}
-.hs-chips::-webkit-scrollbar{display:none}
-.hs-chip{flex:0 0 auto;scroll-snap-align:start;display:flex;align-items:center;gap:10px;padding:8px 14px 8px 8px;min-height:44px;border-radius:40px;cursor:pointer;
-  background:rgba(255,232,192,.07);border:1px solid rgba(201,151,63,.35);color:var(--cream);font-family:'Cormorant Garamond',serif;text-align:left;transition:background .25s,border-color .25s}
-.hs-chip.on{background:rgba(162,55,0,.35);border-color:var(--accent-lt)}
-.hs-chip b{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:0 0 auto;
-  background:var(--accent);color:#FFF0D9;border:2px solid #FFE8C0;font-size:15px}
-.hs-chip span{display:flex;flex-direction:column;line-height:1.2;font-size:15.5px;font-weight:700;white-space:nowrap}
-.hs-chip small{font-size:13.5px;font-weight:500;opacity:.85}
-.mk-rec{position:relative;display:flex;align-items:center;gap:6px;padding:7px 13px;border-radius:30px;background:#FFF0D9;color:#5A2A08;
-  font-family:'Cormorant Garamond',serif;font-weight:700;font-size:13px;letter-spacing:2px;box-shadow:0 6px 16px rgba(0,0,0,.45);margin-bottom:9px}
-.mk-rec::after{content:'';position:absolute;left:50%;bottom:-7px;transform:translateX(-50%);border:7px solid transparent;border-bottom:none;border-top-color:#FFF0D9}
-.mk-rec svg{width:15px;height:15px;color:var(--accent)}
-.mk-h{width:32px;height:32px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;
-  background:var(--accent);color:#FFF0D9;border:2px solid #FFE8C0;font-family:'Cormorant Garamond',serif;font-weight:700;font-size:16px;
-  box-shadow:0 4px 12px rgba(0,0,0,.5);transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
-.mk-h.on{transform:scale(1.35);background:#C8662E}
-.maplibregl-popup-content{background:#FFF0D9!important;color:#2B1608;font-family:'Cormorant Garamond',serif;border-radius:12px!important;padding:10px 14px!important;box-shadow:0 8px 22px rgba(0,0,0,.4)!important}
-.maplibregl-popup-content b{display:block;font-size:17px}
-.maplibregl-popup-content span{font-size:15px}
-.maplibregl-popup-tip{border-top-color:#FFF0D9!important;border-bottom-color:#FFF0D9!important}
-.maplibregl-ctrl-group{background:rgba(255,240,217,.9)!important}
-.maplibregl-cooperative-gesture-screen{font-family:'Cormorant Garamond',serif;font-size:18px}
+/* ── HOSPEDAJE (carrusel roxana/montserrat + mapa Leaflet), paleta óxido/oro antiguo ── */
+#lodging{text-align:center;background:var(--ink)}
+.hs-intro{font-style:italic;font-weight:500;font-size:18px;line-height:1.5;color:var(--cream);max-width:340px;margin:6px auto 22px}
+.hs-toggle{position:relative;display:flex;width:max-content;margin:6px auto 26px;padding:5px;border-radius:50px;border:1px solid rgba(201,151,63,.4);background:rgba(255,232,192,.06);box-shadow:0 8px 22px rgba(0,0,0,.3)}
+.hs-tg-pill{position:absolute;top:5px;bottom:5px;left:5px;width:calc(50% - 5px);border-radius:50px;background:linear-gradient(135deg,#C8662E,var(--accent));box-shadow:0 4px 14px rgba(162,55,0,.45),inset 0 0 0 1px rgba(233,195,122,.45);transition:transform .45s cubic-bezier(.34,1.3,.64,1)}
+.hs-toggle.is-map .hs-tg-pill{transform:translateX(100%)}
+.hs-tg{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:8px;min-width:118px;min-height:44px;padding:10px 18px;border:none;background:none;cursor:pointer;font-family:'Cormorant Garamond',serif;font-weight:700;font-size:15px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-lt);transition:color .3s}
+.hs-tg.is-on{color:#FFF0D9}
+.hs-tg svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.hs-carousel{position:relative;max-width:440px;margin:0 auto}
+.hs-carousel[hidden],.hs-mapwrap[hidden]{display:none!important}
+.hs-viewport{overflow:hidden}
+.hs-track{display:flex;transition:transform .5s cubic-bezier(.4,0,.2,1)}
+.hs-slide{flex:0 0 100%;box-sizing:border-box;display:flex;flex-direction:column;align-items:center;text-align:center;padding:8px 34px}
+.hs-photo{position:relative;width:200px;height:200px;border-radius:50%;overflow:hidden;margin-bottom:16px;
+  border:3px solid #C9973F;box-shadow:0 0 0 6px rgba(201,151,63,.14),0 14px 34px rgba(0,0,0,.45);background:var(--ink2);animation:levitate 6.5s ease-in-out infinite}
+.hs-photo img{width:100%;height:100%;object-fit:cover;display:block;transition:opacity .35s ease}
+.hs-photo img.is-fading{opacity:0}
+.hs-photo--icon{display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 35% 30%,#3A1A0A 0%,#1F1008 70%)}
+.hs-photo--icon svg{width:84px;height:84px;fill:none;stroke:#E9C37A;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.hs-thumbs{display:flex;gap:7px;justify-content:center;margin-bottom:16px}
+.hs-thumb{width:40px;height:40px;padding:0;border-radius:50%;overflow:hidden;border:2px solid rgba(201,151,63,.3);background:none;cursor:pointer;opacity:.7;transition:opacity .25s,border-color .25s,transform .25s}
+.hs-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.hs-thumb.is-on{opacity:1;border-color:#E9C37A;transform:scale(1.08)}
+.hs-num{font-family:-apple-system,'Segoe UI',Roboto,Arial,sans-serif;font-weight:600;font-size:14px;letter-spacing:.3em;color:var(--gold);margin-bottom:4px}
+.hs-name{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:24px;line-height:1.2;color:var(--cream);margin:0 0 8px}
+.hs-addr{font-weight:600;font-size:16.5px;line-height:1.45;color:var(--cream);opacity:.9;margin:0 0 4px}
+.hs-dist{font-weight:700;font-size:16.5px;line-height:1.45;color:var(--gold-lt);margin:0 0 18px}
+.hs-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.hs-btn{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:10px 20px;border:1.5px solid var(--gold);border-radius:50px;
+  color:var(--gold-lt);font-family:'Cormorant Garamond',serif;font-weight:700;font-size:16.5px;text-decoration:none;background:transparent;transition:background .25s,color .25s}
+.hs-btn--fill{background:linear-gradient(135deg,#C8662E,var(--accent));border-color:var(--accent);color:#FFF0D9;box-shadow:0 8px 20px rgba(162,55,0,.35)}
+.hs-btn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.hs-arrow{position:absolute;top:108px;transform:translateY(-50%);width:42px;height:42px;display:flex;align-items:center;justify-content:center;
+  background:rgba(31,16,8,.85);border:1px solid rgba(201,151,63,.6);border-radius:50%;cursor:pointer;color:var(--gold-lt);z-index:2;padding:0}
+.hs-arrow svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2}
+.hs-prev{left:-2px}.hs-next{right:-2px}
+.hs-dots{display:flex;justify-content:center;gap:12px;margin-top:22px}
+.hs-dots button{width:10px;height:10px;border-radius:50%;border:none;background:rgba(201,151,63,.3);cursor:pointer;padding:0;transition:background .25s,transform .25s}
+.hs-dots button.is-on{background:#E9C37A;transform:scale(1.35)}
+.hs-mapwrap{margin:0 auto;max-width:400px}
+.hs-mapframe{position:relative;height:min(150vw,580px);border-radius:28px;overflow:hidden;background:#1A0D06;border:1px solid rgba(201,151,63,.55);
+  box-shadow:0 22px 50px rgba(0,0,0,.45),inset 0 0 0 1px rgba(255,255,255,.04)}
+.hs-map{position:absolute;inset:0;height:100%!important;background:#1A0D06}
+.hs-map .leaflet-tile-pane{filter:sepia(.9) hue-rotate(-22deg) saturate(2.6) brightness(.82)}
+.hs-map .hs-labels{opacity:.9}
+.hs-mapglow{position:absolute;inset:0;pointer-events:none;z-index:500;background:radial-gradient(ellipse 80% 60% at 50% 45%,transparent 55%,rgba(10,5,2,.6) 100%)}
+.hs-map .leaflet-control-attribution{background:rgba(31,16,8,.75);color:rgba(233,195,122,.8);font-size:10px}
+.hs-map .leaflet-control-attribution a{color:#E9C37A}
+.hs-route{animation:hsDash 2.8s linear infinite}
+@keyframes hsDash{to{stroke-dashoffset:-18}}
+@keyframes hsPulse{0%{transform:scale(.85);opacity:.9}100%{transform:scale(1.6);opacity:0}}
+.hs-npin{display:flex;align-items:center;justify-content:center;border-radius:50%;background:radial-gradient(circle at 35% 30%,#C8662E,#7A2A00 70%);border:2px solid #E9C37A;box-shadow:0 0 0 4px rgba(201,151,63,.18),0 6px 16px rgba(0,0,0,.5);transition:transform .35s cubic-bezier(.34,1.56,.64,1),background .3s}
+.hs-npin span{font-family:-apple-system,'Segoe UI',Roboto,Arial,sans-serif;font-weight:700;font-size:16px;line-height:1;color:#FFF0D9}
+.hs-npin.is-on{transform:scale(1.22);background:#FFF0D9}
+.hs-npin.is-on span{color:#7A2A00}
+.hs-npin::after{content:'';position:absolute;inset:-7px;border-radius:50%;border:1px solid rgba(233,195,122,.6);animation:hsPulse 2.4s ease-out infinite}
+.hs-vpin{display:flex;flex-direction:column;align-items:center}
+.hs-vpin-in{display:flex;align-items:center;gap:7px;padding:9px 15px;border-radius:50px;background:#FFF0D9;border:1px solid #C9973F;box-shadow:0 8px 20px rgba(0,0,0,.5);font-family:-apple-system,'Segoe UI',Roboto,Arial,sans-serif;font-weight:700;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#5A1E02;white-space:nowrap;transition:transform .3s}
+.hs-vpin-in svg{width:15px;height:15px;fill:#a23700}
+.hs-vpin i{width:10px;height:10px;margin-top:-6px;background:#FFF0D9;border-right:1px solid #C9973F;border-bottom:1px solid #C9973F;transform:rotate(45deg)}
+.hs-vpin.is-on .hs-vpin-in{transform:scale(1.08)}
+.hs-maphint{position:absolute;left:50%;bottom:18px;z-index:600;transform:translate(-50%,8px);opacity:0;transition:opacity .35s,transform .35s;padding:10px 18px;border-radius:50px;
+  background:rgba(31,16,8,.88);border:1px solid rgba(201,151,63,.45);font-weight:700;font-size:15px;color:#FFF0D9;white-space:nowrap;pointer-events:none}
+.hs-maphint.is-on{opacity:1;transform:translate(-50%,0)}
+.hs-recenter{position:absolute;top:14px;right:14px;z-index:600;width:44px;height:44px;border-radius:50%;border:1px solid rgba(201,151,63,.55);background:rgba(31,16,8,.88);color:#FFE8C0;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0}
+.hs-recenter svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round}
+.hs-zoom{position:absolute;right:14px;bottom:80px;z-index:600;display:flex;flex-direction:column;border-radius:14px;overflow:hidden;border:1px solid rgba(201,151,63,.45);box-shadow:0 6px 16px rgba(0,0,0,.4)}
+.hs-zoom button{width:44px;height:44px;border:none;background:rgba(31,16,8,.9);color:#FFE8C0;font-size:22px;line-height:1;cursor:pointer}
+.hs-zoom button+button{border-top:1px solid rgba(201,151,63,.3)}
+.hs-sheet{position:absolute;left:12px;right:12px;bottom:12px;z-index:700;padding:20px 20px 18px;border-radius:22px;text-align:left;background:linear-gradient(160deg,rgba(60,22,6,.97),rgba(20,10,5,.98));border:1px solid rgba(201,151,63,.45);box-shadow:0 18px 40px rgba(0,0,0,.55);transform:translateY(120%);opacity:0;transition:transform .5s cubic-bezier(.22,1,.36,1),opacity .35s}
+.hs-sheet.is-on{transform:none;opacity:1}
+.hs-sheet-x{position:absolute;top:8px;right:10px;width:44px;height:44px;border:none;background:none;color:#E9C37A;font-size:28px;cursor:pointer}
+.hs-sheet-top{display:flex;align-items:center;gap:14px;padding-right:34px}
+.hs-sheet-n{flex:0 0 auto;width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#E9C37A;color:#5A1E02;font-family:-apple-system,'Segoe UI',Roboto,Arial,sans-serif;font-weight:700;font-size:18px}
+.hs-sheet-k{font-weight:700;font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:#E9C37A;margin:0 0 2px}
+.hs-sheet-t{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:23px;line-height:1.2;color:#FFF0D9;margin:0}
+.hs-sheet-a{font-weight:600;font-size:16px;line-height:1.5;color:rgba(255,240,217,.9);margin:14px 0 6px}
+.hs-sheet-d{display:flex;align-items:center;gap:8px;font-weight:700;font-size:16px;color:#FFE8C0;margin:0}
+.hs-sheet-d svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linejoin:round}
+.hs-sheet-btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.hs-sheet-b{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:10px 18px;border-radius:50px;border:1px solid rgba(233,195,122,.55);color:#FFF0D9;text-decoration:none;font-weight:700;font-size:14.5px;letter-spacing:.12em;text-transform:uppercase}
+.hs-sheet-b svg{width:16px;height:16px;fill:none;stroke:#E9C37A;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.hs-mapnote{font-style:italic;font-weight:500;font-size:17px;color:var(--cream);margin-top:14px}
+@media (max-width:380px){.hs-slide{padding:8px 26px}.hs-photo{width:176px;height:176px}.hs-arrow{top:96px}.hs-thumb{width:36px;height:36px}}
+@media(prefers-reduced-motion:reduce){.hs-route,.hs-npin::after,.hs-photo{animation:none}}
+
 
 /* ── RSVP: nombre legible, botón que respira, gracias, confeti ── */
 .rsvp-name{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:clamp(24px,6.4vw,34px);color:var(--gold-lt);line-height:1.25;margin:16px auto 4px;max-width:420px;word-break:break-word}
@@ -1268,14 +1287,177 @@ body{font-weight:500;font-size:17px}
 #toast{font-size:13px!important}
 @media(prefers-reduced-motion:reduce){.foil,#heroPic,.loc-float,.hs-float,.pin-beat,.dc-look-ico,.rsvp-btn.breathe{animation:none!important}}
 
+
+/* ══════════ PLIEGO (26 oct) ══════════ */
+
+/* ── 1. Portada: textos abajo, foto que deriva, brillo suave ── */
+#hero{justify-content:flex-end!important;padding-bottom:0!important}
+#hero .h-cnt{padding-bottom:110px}
+.h-bg{top:-6%!important;bottom:-6%!important;overflow:hidden;will-change:auto!important}
+.hero-drift{position:absolute;inset:0;background-size:cover;background-position:center 30%;
+  filter:brightness(.62) saturate(1.05);animation:heroDrift 26s ease-in-out infinite alternate}
+@keyframes heroDrift{0%{transform:scale(1.02) translate(0,0)}50%{transform:scale(1.07) translate(-1.6%,-1%)}100%{transform:scale(1.1) translate(1.4%,-2%)}}
+.h-ov{background:
+  linear-gradient(to bottom,rgba(20,10,5,.45) 0%,rgba(20,10,5,.05) 28%,rgba(20,10,5,.12) 48%,rgba(20,10,5,.78) 74%,rgba(20,10,5,.95) 100%)!important}
+.h-shine{position:absolute;inset:0;z-index:1;pointer-events:none;mix-blend-mode:soft-light;overflow:hidden}
+.h-shine::before{content:'';position:absolute;top:-30%;bottom:-30%;left:-60%;width:55%;
+  background:linear-gradient(105deg,transparent,rgba(255,232,192,.55),transparent);transform:skewX(-14deg);animation:heroShine 9s ease-in-out infinite}
+@keyframes heroShine{0%{transform:translateX(0) skewX(-14deg)}60%,100%{transform:translateX(330%) skewX(-14deg)}}
+.h-cnt .h-names{text-shadow:none}
+.h-date-wrap{margin-top:20px!important}
+.h-date,.h-city{text-shadow:0 2px 10px rgba(0,0,0,.65)}
+.h-scroll{bottom:22px!important}
+@media(max-width:1023px){#hero .h-cnt{padding-bottom:150px}.h-scroll{bottom:92px!important}}
+
+/* ── 2. Fundido uniforme entre secciones (JS pinta .sf) ── */
+#main-content > section, #main-content > footer{isolation:isolate}
+section > .sf, footer > .sf{position:absolute!important;left:0;right:0;z-index:0!important;pointer-events:none}
+.sf-top{top:0}
+.sf-bot{bottom:0}
+
+/* ── 3. Tintas (save the date lekshmy repintadas a óxido/oro antiguo) ── */
+section > .ink-bg{position:absolute!important;inset:0;z-index:-2!important;overflow:hidden;pointer-events:none;opacity:.5;
+  -webkit-mask-image:linear-gradient(transparent 0,#000 150px,#000 calc(100% - 150px),transparent);
+  mask-image:linear-gradient(transparent 0,#000 150px,#000 calc(100% - 150px),transparent)}
+.ink-bg i{position:absolute;inset:-6%;background-size:cover;background-position:center;animation:inkDrift 28s ease-in-out infinite alternate}
+.ink-bg.flip i{transform:scaleX(-1);animation-name:inkDriftFlip}
+@keyframes inkDrift{0%{transform:scale(1) translate(0,0) rotate(0)}50%{transform:scale(1.06) translate(-2.5%,1.5%) rotate(.6deg)}100%{transform:scale(1.1) translate(2%,-2.5%) rotate(-.6deg)}}
+@keyframes inkDriftFlip{0%{transform:scaleX(-1) scale(1) translate(0,0) rotate(0)}50%{transform:scaleX(-1) scale(1.06) translate(-2.5%,1.5%) rotate(.6deg)}100%{transform:scaleX(-1) scale(1.1) translate(2%,-2.5%) rotate(-.6deg)}}
+section[data-ink] .lbl,section[data-ink] .ttl,section[data-ink] p,section[data-ink] .fam-ttl{text-shadow:0 0 14px rgba(20,10,5,.95),0 0 4px rgba(20,10,5,.9)}
+#bendicion,#location,#itinerary,#family,#gifts,#album,#rsvp{background-color:var(--ink)!important}
+#gifts,#rsvp{background-image:none!important}
+#location::before,#family::before,#gifts::before,#album::before{display:none}
+
+/* ── 4. Levitación ── */
+@keyframes levitate{0%,100%{transform:translateY(0) rotate(-.6deg)}25%{transform:translateY(-4px) rotate(.2deg)}50%{transform:translateY(-9px) rotate(.6deg)}75%{transform:translateY(-4px) rotate(-.2deg)}}
+.loc-float{animation:levitate 6.5s ease-in-out infinite!important}
+.loc-float+.loc-float{animation-delay:-2.2s!important}
+.fam-card{animation:levitate 6.5s ease-in-out infinite}
+.fam-card:nth-of-type(3n+2){animation-delay:-2.2s}
+.fam-card:nth-of-type(3n){animation-delay:-4.1s}
+
+/* ── 5. Código de vestimenta ── */
+#dresscode{background:#F3E6D3}
+.dc-pair{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:360px;margin:8px auto 30px}
+.dc-who{margin:0;display:flex;flex-direction:column;align-items:center;gap:12px}
+.dc-who img{height:230px;width:auto;max-width:100%;object-fit:contain;transform-origin:50% 100%;
+  filter:drop-shadow(0 10px 16px rgba(43,22,8,.22));animation:levitate 6.5s ease-in-out infinite}
+.dc-who+.dc-who img{animation-delay:-2.2s}
+.dc-who figcaption{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;font-size:22px;color:var(--text);text-align:center;line-height:1.2}
+.dc-who small{display:block;font-style:normal;font-weight:700;font-size:13px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold-dark);margin-top:4px}
+.dc-colors{text-align:center;margin:0 auto 22px;max-width:340px}
+.dc-colors-t{font-weight:700;font-size:13.5px;letter-spacing:3px;text-transform:uppercase;color:var(--gold-dark);margin-bottom:10px}
+.dc-colors-pend{font-style:italic;font-size:18px;color:var(--text)}
+.dc-colors-note{font-size:16.5px;color:var(--text);margin-top:12px;line-height:1.5}
+.dc-dots{display:flex;justify-content:center;gap:22px;flex-wrap:wrap}
+.dc-dot{display:flex;flex-direction:column;align-items:center;gap:8px}
+.dc-dot i{position:relative;overflow:hidden;width:46px;height:46px;border-radius:50%;border:1.5px solid rgba(43,22,8,.3);
+  animation:dcGlow 2.6s ease-in-out infinite}
+.dc-dot i::after{content:'';position:absolute;inset:0;background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.75) 50%,transparent 70%);
+  transform:translateX(-120%);animation:dcSheen 3.6s ease-in-out infinite}
+.dc-dot b{font-weight:700;font-size:14px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text)}
+@keyframes dcGlow{0%,100%{box-shadow:0 0 0 0 rgba(201,151,63,.0),0 4px 12px rgba(43,22,8,.15)}50%{box-shadow:0 0 16px 4px rgba(201,151,63,.55),0 4px 12px rgba(43,22,8,.15)}}
+@keyframes dcSheen{0%,40%{transform:translateX(-120%)}80%,100%{transform:translateX(120%)}}
+
+/* ── 6. Lluvia de sobres ── */
+#gifts{overflow:hidden}
+.env-rain{position:absolute!important;inset:0;pointer-events:none;z-index:0!important;overflow:hidden}
+.env-rain-item{position:absolute;top:-46px;will-change:transform;opacity:0}
+.env-stage{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center}
+.env-interactive{display:flex;flex-direction:column;align-items:center;cursor:pointer;-webkit-tap-highlight-color:transparent;outline:none;border:none;background:none;padding:0;margin:26px auto 0;touch-action:manipulation}
+.env-body{perspective:700px;position:relative;width:min(258px,74vw)!important;height:auto!important;aspect-ratio:260/200;filter:drop-shadow(0 12px 26px rgba(0,0,0,.45));animation:none}
+.env-body svg.env-svg{width:100%;height:100%;display:block}
+.env-flap-wrap{position:absolute;top:23%!important;left:6.9%!important;width:86.2%!important;height:43%!important;transform-origin:top center;transform-style:preserve-3d;backface-visibility:hidden;-webkit-backface-visibility:hidden;transition:transform .65s cubic-bezier(.4,0,.2,1);pointer-events:none;z-index:2}
+.env-interactive.open .env-flap-wrap{transform:rotateX(-175deg)}
+.env-seal{position:absolute;top:52%;left:50%;width:25%;aspect-ratio:1;transform:translate(-50%,-50%);z-index:3;transition:opacity .35s ease,transform .5s cubic-bezier(.4,0,.2,1);pointer-events:none;filter:drop-shadow(0 3px 5px rgba(0,0,0,.35))}
+.env-interactive.open .env-seal{opacity:0;transform:translate(-50%,-50%) scale(.7)}
+.env-open-content{overflow:hidden;max-height:0;opacity:0;transition:max-height .55s .3s ease,opacity .4s .38s ease;display:flex;flex-direction:column;align-items:center;gap:8px;padding:0 16px;text-align:center;pointer-events:none}
+.env-interactive.open .env-open-content{max-height:320px;opacity:1;pointer-events:auto;margin-top:20px}
+.env-mailbox-icon{width:42px;height:42px;color:var(--gold);margin-top:6px}
+.env-title{font-family:'Great Vibes',cursive!important;font-size:clamp(30px,8.4vw,36px)!important;line-height:1.25}
+.env-desc{font-size:17.5px!important;font-weight:500;font-style:italic;color:var(--cream);line-height:1.65;max-width:300px}
+.env-tap-hint{border:none;background:none;cursor:pointer;min-height:44px;padding:8px 16px;font-family:'Cormorant Garamond',serif;font-weight:700;font-size:13.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-lt);margin-top:14px;opacity:0;transition:opacity .5s ease;position:relative;z-index:1;touch-action:manipulation}
+.env-tap-hint.show{opacity:.95;animation:envHintPulse 2.4s ease-in-out infinite}
+@keyframes envHintPulse{0%,100%{opacity:.6}50%{opacity:1}}
+.env-body.landed{animation:envBreathe 3.6s ease-in-out infinite}
+@keyframes envBreathe{0%,100%{transform:scale(1)}50%{transform:scale(1.025)}}
+
+/* ── 8. Galería: reflejo + lightbox ── */
+.wheel-scene{height:580px!important}
+.wheel-card{overflow:visible!important;border:none!important;box-shadow:none!important;background:none}
+.wheel-card img{border-radius:18px;border:2px solid rgba(201,151,63,.35);box-shadow:0 12px 40px rgba(0,0,0,.45)}
+.wc-ref{position:absolute;left:0;right:0;top:100%;height:70%;margin-top:8px;border-radius:18px;background-size:cover;background-position:center bottom;
+  transform:scaleY(-1);opacity:.32;pointer-events:none;
+  -webkit-mask-image:linear-gradient(to top,#000 0%,transparent 75%);mask-image:linear-gradient(to top,#000 0%,transparent 75%)}
+.wc-ref::after{content:'';position:absolute;inset:0;border-radius:18px;background:linear-gradient(to top,rgba(20,10,5,.2),rgba(20,10,5,.85))}
+.lb{position:fixed;inset:0;z-index:100002;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(10,5,2,.92);opacity:0;transition:opacity .3s}
+.lb[hidden]{display:none}
+.lb.on{opacity:1}
+.lb img{max-width:100%;max-height:86vh;border-radius:14px;border:1px solid rgba(201,151,63,.45);box-shadow:0 20px 60px rgba(0,0,0,.6)}
+.lb-x{position:absolute;top:14px;right:14px;width:46px;height:46px;border-radius:50%;border:1px solid rgba(201,151,63,.5);background:rgba(31,16,8,.8);color:var(--cream);font-size:28px;line-height:1;cursor:pointer}
+
+/* ── 9. RSVP (jennifer-y-marcel, repintado) ── */
+#rsvp{text-align:center}
+.rsvp-hi{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:clamp(28px,7.6vw,36px);color:var(--gold-lt);margin-top:22px;line-height:1.2;word-break:break-word}
+#rsvp-pases-note{display:block!important;font-size:18px;font-style:italic;color:var(--cream);margin:6px auto 0;opacity:1!important}
+.rsvp-pases{display:inline-flex;flex-direction:column;align-items:center;margin:18px auto 6px;padding:14px 34px;border:1px solid rgba(201,151,63,.45);border-radius:16px;background:rgba(255,232,192,.06)}
+.rsvp-pases-label{font-weight:700;font-size:13px!important;letter-spacing:3px!important;text-transform:uppercase;color:var(--gold)}
+.rsvp-pases-num{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:56px!important;line-height:1;color:var(--gold-lt);font-style:normal!important;font-variant-numeric:lining-nums}
+.rsvp-dl{font-weight:700;font-size:16.5px;color:var(--cream);margin-top:10px}
+#rsvp-bandeja{max-width:420px;margin:24px auto 0}
+.rsvp-toggle{display:grid!important;grid-template-columns:1fr 1fr;gap:10px;margin:0!important;max-width:none!important}
+.rsvp-toggle-btn{min-height:54px!important;border-radius:14px!important;border:1.5px solid rgba(201,151,63,.45)!important;background:rgba(255,232,192,.06)!important;
+  font-family:'Cormorant Garamond',serif!important;font-style:normal!important;font-weight:700!important;font-size:18px!important;color:var(--cream)!important;cursor:pointer;transition:all .25s}
+.rsvp-toggle-btn.on{background:linear-gradient(135deg,#C8662E,var(--accent))!important;border-color:var(--accent)!important;color:#FFF0D9!important}
+.rsvp-fields{margin:16px 0 0!important;display:grid;gap:10px}
+.rsvp-input{min-height:54px!important;border-radius:12px!important;background:rgba(255,240,217,.08)!important;border:1.5px solid rgba(201,151,63,.45)!important}
+.rsvp-btn{width:100%!important;max-width:none!important;margin-top:18px!important;min-height:58px!important;border-radius:999px!important;
+  background:linear-gradient(135deg,#C8662E,var(--accent) 60%,#7A2A00)!important;color:#FFF0D9!important;font-weight:700!important;animation:rbreathe 3.2s ease-in-out infinite}
+.rsvp-btn::after{display:none}
+@keyframes rbreathe{0%,100%{box-shadow:0 0 0 0 rgba(219,122,72,.45);transform:scale(1)}50%{box-shadow:0 0 0 12px rgba(219,122,72,0);transform:scale(1.015)}}
+.rsvp-btn:disabled{opacity:.5;animation:none}
+.rsvp-gracias{margin:24px auto 0!important}
+#rsvp-feedback{margin-top:14px;font-weight:700;font-size:16.5px!important;color:var(--gold-lt)}
+.confeti{position:fixed;top:-12px;z-index:100001;width:9px;height:14px;border-radius:2px;pointer-events:none}
+
+/* ── 10. Mayúsculas script / degradado sin cortes ── */
+.foil{padding:.22em .45em!important;margin:-.22em -.45em!important;line-height:1.25!important;
+  -webkit-box-decoration-break:clone;box-decoration-break:clone}
+.mono-txt{gap:0!important}
+.mono-txt .foil{margin:-.22em -.25em!important;padding:.22em .3em!important}
+.h-names.foil,.ft-nms.foil,.bd-names.foil{display:inline-block}
+#gallery .ttl span[style*="Great Vibes"]{display:inline-block;padding:.22em .45em;margin:-.22em -.45em;line-height:1.25}
+
+/* ── Menú: efecto premium al abrir ── */
+.fm-sheet{clip-path:circle(0% at var(--ox,85%) var(--oy,95%))!important}
+.fm-sheet.open{clip-path:circle(150% at var(--ox,85%) var(--oy,95%))!important}
+.fm-aura{position:absolute;left:50%;top:50%;width:150vmax;height:150vmax;transform:translate(-50%,-50%) scale(.3);border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle,rgba(201,151,63,.22) 0%,rgba(162,55,0,.12) 30%,transparent 62%);opacity:0;transition:transform 1.2s cubic-bezier(.22,1,.36,1),opacity 1s}
+.fm-sheet.open .fm-aura{opacity:1;transform:translate(-50%,-50%) scale(1);animation:auraBreath 6s ease-in-out 1.2s infinite}
+@keyframes auraBreath{0%,100%{opacity:1}50%{opacity:.6}}
+.fm-list a{filter:blur(6px);letter-spacing:.06em;position:relative}
+.fm-sheet.open .fm-list a{filter:blur(0);letter-spacing:0}
+.fm-list a::after{content:'';position:absolute;left:40px;right:0;bottom:2px;height:1px;background:linear-gradient(90deg,rgba(201,151,63,.55),transparent);
+  transform:scaleX(0);transform-origin:left;transition:transform .9s cubic-bezier(.22,1,.36,1) .55s}
+.fm-sheet.open .fm-list a::after{transform:scaleX(1)}
+.fm-sheet .fm-sheet-top .fm-mono{transform:scale(.6);opacity:0;transition:transform .7s cubic-bezier(.34,1.56,.64,1) .15s,opacity .5s .15s}
+.fm-sheet.open .fm-sheet-top .fm-mono{transform:none;opacity:1}
+.fm-ring{position:fixed;z-index:1003;width:20px;height:20px;border-radius:50%;border:2px solid #E9C37A;pointer-events:none;
+  transform:translate(-50%,-50%) scale(1);animation:fmRing .8s cubic-bezier(.22,1,.36,1) forwards}
+@keyframes fmRing{to{transform:translate(-50%,-50%) scale(9);opacity:0;border-width:.5px}}
+.fm-spark{position:fixed;z-index:1003;width:6px;height:6px;border-radius:50%;background:#FFE8C0;box-shadow:0 0 8px 2px rgba(233,195,122,.9);pointer-events:none}
+.fm-open:active{transform:scale(.94)}
+
+@media(prefers-reduced-motion:reduce){.hero-drift,.h-shine::before,.ink-bg i,.fam-card,.dc-who img,.dc-dot i,.dc-dot i::after,.env-body.landed,.rsvp-btn,.fm-aura{animation:none!important}}
+
   </style>
 </head>
 <body>
 
 <!-- ENVELOPE SCREEN -->
 <div id="envelope-screen" role="button" aria-label="Toca para abrir tu invitación">
-  <img id="env-image" src="sobre.jpg" alt="Sobre invitación Marylen &amp; José Luis" />
-  <video id="env-video" playsinline webkit-playsinline muted preload="metadata"><source src="sobre-mj.mp4" type="video/mp4"></video>
+  <img id="env-image" src="sobre.jpg?v=2" alt="Sobre invitación Marylen &amp; José Luis" />
+  <video id="env-video" playsinline webkit-playsinline muted preload="auto" poster="sobre.jpg?v=2"><source src="sobre-mj.mp4" type="video/mp4"></video>
   <p class="envelope-hint" id="env-hint">Toca para abrir</p>
 </div>
 <div id="env-flash"></div>
@@ -1301,13 +1483,13 @@ body{font-weight:500;font-size:17px}
 
 
 <!-- ═══════════════ 1. HERO ════════════════════════════ -->
-<section id="hero">
+<section data-bot="#140A05" id="hero">
   <!-- Background photo (parallax target) -->
-  <div class="h-bg" id="heroBg">
-    <img src="fotos/f1.jpg"
-         alt="Marylen y José Luis" loading="eager" id="heroPic">
+  <div class="h-bg" id="heroBg" role="img" aria-label="Marylen y José Luis">
+    <i class="hero-drift" style="background-image:url(fotos/f1.jpg)"></i>
   </div>
   <div class="h-ov"></div>
+  <div class="h-shine" aria-hidden="true"></div>
   <div class="h-frame"></div>
   <div class="h-particles" id="hPart"></div>
 
@@ -1330,7 +1512,8 @@ body{font-weight:500;font-size:17px}
 </section>
 
 <!-- ═══════════════ CON LA BENDICIÓN DE DIOS ═════════ -->
-<section id="bendicion">
+<section data-ink="1" data-top="#1E0C05" data-bot="#140A05" id="bendicion">
+  <div class="ink-bg" aria-hidden="true"><i style="background-image:url('ink/ink-oval.webp')"></i></div>
   <span class="lbl">Con la bendición de Dios</span>
   <h2 class="bd-names foil">Marylen &amp; José Luis</h2>
   <p class="bd-txt">tienen el honor de invitarte a su boda</p>
@@ -1355,7 +1538,8 @@ body{font-weight:500;font-size:17px}
 </section>
 
 <!-- ═══════════════ 3. UBICACIONES ═══════════════════ -->
-<section id="location">
+<section data-ink="1" id="location">
+  <div class="ink-bg flip" aria-hidden="true"><i style="background-image:url('ink/ink-corner.webp')"></i></div>
   <svg class="corner-orn corner-orn--tl" viewBox="0 0 28 28"><path d="M2 26V8Q2 2 8 2h18"/></svg>
   <svg class="corner-orn corner-orn--tr" viewBox="0 0 28 28"><path d="M2 26V8Q2 2 8 2h18"/></svg>
   <span class="lbl">¿Dónde y cuándo?</span>
@@ -1390,10 +1574,9 @@ body{font-weight:500;font-size:17px}
   </div>
 </section>
 
-<div class="blend blend-dark-beige"></div>
 
 <!-- ═══════════════ 4. CALENDAR ══════════════════════ -->
-<section id="calendar">
+<section data-top="#561F06" data-bot="#2F1104" id="calendar">
   <span class="lbl">No lo olvides</span>
   <h2 class="ttl" style="font-size:26px">Guarda la Fecha</h2>
   <div class="gline"></div>
@@ -1406,10 +1589,10 @@ body{font-weight:500;font-size:17px}
   </a>
 </section>
 
-<div class="blend blend-beige-dark"></div>
 
 <!-- ═══════════════ 5. ITINERARIO ════════════════════ -->
-<section id="itinerary">
+<section data-ink="1" id="itinerary">
+  <div class="ink-bg" aria-hidden="true"><i style="background-image:url('ink/ink-hero.webp')"></i></div>
   <span class="lbl">Nuestra noche</span>
   <h2 class="ttl">Itinerario</h2>
   <div class="gline"></div>
@@ -1480,10 +1663,10 @@ body{font-weight:500;font-size:17px}
   </div>
 </section>
 
-<div class="blend blend-dark-beige"></div>
 
 <!-- ═══════════════ 7. MESA DE REGALOS ═══════════════ -->
-<section id="gifts">
+<section data-ink="1" id="gifts">
+  <div class="ink-bg" aria-hidden="true"><i style="background-image:url('ink/ink-footer.webp')"></i></div>
   <span class="lbl">Tu presencia es nuestro mejor regalo</span>
   <h2 class="ttl">Mesa de Regalos</h2>
   <div class="gline"></div>
@@ -1495,39 +1678,35 @@ body{font-weight:500;font-size:17px}
     <span class="gf-cta">Ver mesa <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>
   </a>
 
-  <div style="margin:32px auto 0;display:flex;flex-direction:column;align-items:center;gap:0;">
-    <button class="env-interactive" aria-label="Sobre — toca para abrir" aria-expanded="false">
-      <div class="env-body sheen">
+  <div class="env-rain" id="envRain" aria-hidden="true"></div>
+  <div class="env-stage">
+    <button class="env-interactive" id="envGift" type="button" aria-label="Sobre — toca para abrir" aria-expanded="false">
+      <div class="env-body" id="envGiftBody">
         <svg class="env-svg" viewBox="0 0 260 200" preserveAspectRatio="none" aria-hidden="true">
           <defs>
-            <linearGradient id="be-env-fill" x1="0" y1="1" x2="1" y2="0">
-              <stop offset="0%" stop-color="#FFF3DF"/>
-              <stop offset="100%" stop-color="#FFF8EC"/>
+            <linearGradient id="envPaper" x1="0" y1="1" x2="1" y2="0">
+              <stop offset="0%" stop-color="#FFF3DF"/><stop offset="100%" stop-color="#FFF9EE"/>
             </linearGradient>
           </defs>
-          <rect x="18" y="52" width="224" height="132" rx="10"
-                fill="url(#be-env-fill)" stroke="rgba(201,151,63,.5)" stroke-width="1.4"/>
-          <path d="M18 184 L130 110 L242 184" stroke="rgba(201,151,63,.35)" stroke-width="1" fill="none"/>
-          <line x1="90"  y1="30" x2="90"  y2="20" stroke="var(--gold)" stroke-width="1.3" stroke-linecap="round" opacity=".4"/>
-          <line x1="130" y1="24" x2="130" y2="14" stroke="var(--gold)" stroke-width="1.3" stroke-linecap="round" opacity=".55"/>
-          <line x1="170" y1="30" x2="170" y2="20" stroke="var(--gold)" stroke-width="1.3" stroke-linecap="round" opacity=".4"/>
-          <line x1="110" y1="18" x2="110" y2="10" stroke="var(--gold-lt)" stroke-width="1" stroke-linecap="round" opacity=".3"/>
-          <line x1="150" y1="18" x2="150" y2="10" stroke="var(--gold-lt)" stroke-width="1" stroke-linecap="round" opacity=".3"/>
-          <circle cx="130" cy="118" r="16" fill="rgba(201,151,63,.12)" stroke="rgba(201,151,63,.4)" stroke-width="1"/>
-          <text x="130" y="123" text-anchor="middle" font-family="Georgia,serif" font-size="10" fill="#5A2A08" opacity=".8">M&amp;JL</text>
+          <rect x="18" y="52" width="224" height="132" rx="8" fill="url(#envPaper)" stroke="#C9973F" stroke-width="1.6"/>
+          <path d="M18 184 L130 110 L242 184" stroke="rgba(153,101,21,.45)" stroke-width="1.1" fill="none"/>
         </svg>
         <div class="env-flap-wrap" aria-hidden="true">
-          <svg viewBox="0 0 224 86" preserveAspectRatio="none" style="width:100%;height:100%">
+          <svg viewBox="0 0 224 86" preserveAspectRatio="none" style="width:100%;height:100%;display:block">
             <defs>
-              <linearGradient id="be-flap-fill" x1="0" y1="1" x2="1" y2="0">
-                <stop offset="0%" stop-color="#F0DDBF"/>
-                <stop offset="100%" stop-color="#FFF3DF"/>
+              <linearGradient id="envFlap" x1="0" y1="1" x2="1" y2="0">
+                <stop offset="0%" stop-color="#F3DFBE"/><stop offset="100%" stop-color="#FFF6E4"/>
               </linearGradient>
             </defs>
-            <path d="M0 0 L112 86 L224 0 Z"
-                  fill="url(#be-flap-fill)" stroke="rgba(201,151,63,.5)" stroke-width="1.5" stroke-linejoin="round"/>
+            <path d="M0 0 L112 86 L224 0 Z" fill="url(#envFlap)" stroke="#C9973F" stroke-width="1.7" stroke-linejoin="round"/>
           </svg>
         </div>
+        <svg class="env-seal" viewBox="0 0 60 60" aria-hidden="true">
+          <circle cx="30" cy="30" r="28" fill="#a23700"/>
+          <circle cx="30" cy="30" r="28" fill="none" stroke="#5A1E02" stroke-width="2" opacity=".55"/>
+          <circle cx="30" cy="30" r="21.5" fill="none" stroke="#E9C37A" stroke-width="1.1" opacity=".9"/>
+          <text x="30" y="36" text-anchor="middle" font-family="'Great Vibes', cursive" font-size="19" fill="#FFE8C0">M&amp;JL</text>
+        </svg>
       </div>
       <div class="env-open-content" aria-live="polite">
         <svg class="env-mailbox-icon" viewBox="0 0 52 52" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
@@ -1537,18 +1716,18 @@ body{font-weight:500;font-size:17px}
           <path d="M18 8 Q26 3 34 8"/>
           <rect x="20" y="28" width="12" height="2.5" rx="1.25" fill="currentColor" stroke="none" opacity=".4"/>
         </svg>
-        <p class="env-title">Lluvia de Sobres</p>
-        <p class="env-desc">El día de la boda habrá un buzón especial<br>donde podrás depositar tu sobre con mucho cariño.</p>
+        <p class="env-title foil">Tu Presencia es Nuestro Regalo</p>
+        <p class="env-desc">Lluvia de sobres: el día de la boda habrá un buzón especial donde podrás depositar tu sobre con mucho cariño.</p>
       </div>
     </button>
-    <p class="env-tap-hint">Toca el sobre</p>
+    <button class="env-tap-hint" id="envGiftHint" type="button">Toca para abrir</button>
   </div>
 </section>
 
-<div class="blend blend-beige-dark"></div>
 
 <!-- ═══════════════ 8. ÁLBUM COMPARTIDO ══════════════ -->
-<section id="album">
+<section data-ink="1" id="album">
+  <div class="ink-bg flip" aria-hidden="true"><i style="background-image:url('ink/ink-oval.webp')"></i></div>
   <span class="lbl">Captura cada momento</span>
   <h2 class="ttl">Álbum de fotos</h2>
   <div class="gline"></div>
@@ -1578,43 +1757,42 @@ body{font-weight:500;font-size:17px}
   </script>
 </section>
 
-<div class="blend" style="background:linear-gradient(to bottom,var(--ink),#F3E6D3)"></div>
 
 <!-- ═══════════════ 9. DRESS CODE ════════════════════ -->
-<section id="dresscode">
+<section data-top="#F3E6D3" data-bot="#F3E6D3" id="dresscode">
   <span class="lbl">Vestimenta</span>
   <h2 class="ttl">Código de Vestimenta</h2>
   <div class="gline"></div>
   <p class="dc-sub"><em style="font-family:'Cormorant Garamond',serif;font-size:22px">Formal</em></p>
 
-  <div class="dc-figures fu">
-    <div class="dc-fig">
+  <div class="dc-pair">
+    <figure class="dc-who">
       <img src="caballero.png" alt="Caballero, traje formal" loading="eager">
-      <span class="dc-fig-label">Caballeros</span>
-      <span class="dc-fig-sub">traje formal</span>
-    </div>
-    <div class="dc-sep-line" aria-hidden="true"></div>
-    <div class="dc-fig">
+      <figcaption>Caballeros<small>traje formal</small></figcaption>
+    </figure>
+    <figure class="dc-who">
       <img src="dama-vino.png" alt="Dama, vestido largo" loading="eager">
-      <span class="dc-fig-label">Damas</span>
-      <span class="dc-fig-sub">vestido largo</span>
-    </div>
+      <figcaption>Damas<small>vestido largo</small></figcaption>
+    </figure>
   </div>
 
-  <p class="dc-sug-t fu">Colores sugeridos: <span>por confirmar</span></p>
-  <div class="dc-note fu" id="dcNote">
-    <strong>Por favor evitar:</strong>
-    Prendas casuales, mezclilla, tenis o playeras.
-    <div class="dc-avoid">
-      <div class="dc-avoid-item"><div class="dc-avoid-sw" style="background:#FFFFFF"></div><p class="dc-avoid-nm">Blanco</p></div>
+  <div class="dc-colors">
+    <p class="dc-colors-t">Colores sugeridos</p>
+    <p class="dc-colors-pend">Por confirmar</p>
+  </div>
+  <div class="dc-colors">
+    <p class="dc-colors-t">Por favor evitar</p>
+    <div class="dc-dots" id="dcAvoid">
+      <span class="dc-dot"><i style="background:#FFFFFF"></i><b>Blanco</b></span>
     </div>
+    <p class="dc-colors-note">Prendas casuales, mezclilla, tenis o playeras.</p>
   </div>
 </section>
 
-<div class="blend" style="background:linear-gradient(to bottom,#F3E6D3,var(--ink))"></div>
 
 <!-- ═══════════════ 10. FAMILIA ══════════════════════ -->
-<section id="family">
+<section data-ink="1" id="family">
+  <div class="ink-bg flip" aria-hidden="true"><i style="background-image:url('ink/ink-top.webp')"></i></div>
   <svg class="corner-orn corner-orn--tl" viewBox="0 0 28 28"><path d="M2 26V8Q2 2 8 2h18"/></svg>
   <svg class="corner-orn corner-orn--tr" viewBox="0 0 28 28"><path d="M2 26V8Q2 2 8 2h18"/></svg>
   <span class="lbl">Con la bendición de</span>
@@ -1639,94 +1817,63 @@ body{font-weight:500;font-size:17px}
 </section>
 
 
-<div class="blend blend-dark-dark"></div>
 
 <!-- ═══════════════ 11. GALERÍA — RUEDA 3D ══════════ -->
-<section id="gallery" aria-label="Galería de fotos">
+<section data-top="#140A05" data-bot="#140A05" id="gallery" aria-label="Galería de fotos">
   <span class="lbl fu">Nuestros recuerdos</span>
   <h2 class="ttl fu">Momentos <span style="font-family:'Great Vibes',cursive;color:var(--gold);font-size:42px;">juntos</span></h2>
   <div class="gal-header-ornament fu"></div>
   <div class="wheel-scene rv" id="wheel-scene">
     <div class="wheel-ring" id="wheel-ring">
-      <div class="wheel-card"><img src="fotos/f6.jpg" alt="Marylen y José Luis" loading="eager"></div>
-      <div class="wheel-card"><img src="fotos/f3.jpg" alt="Marylen y José Luis" loading="eager"></div>
-      <div class="wheel-card"><img src="fotos/f7.jpg" alt="Marylen y José Luis" loading="eager"></div>
-      <div class="wheel-card"><img src="fotos/f9.jpg" alt="Marylen y José Luis" loading="eager"></div>
-      <div class="wheel-card"><img src="fotos/f5.jpg" alt="Marylen y José Luis" loading="eager"></div>
-      <div class="wheel-card"><img src="fotos/f8.jpg" alt="Marylen y José Luis" loading="eager"></div>
-      <div class="wheel-card"><img src="fotos/f4.jpg" alt="Marylen y José Luis" loading="eager"></div>
-      <div class="wheel-card"><img src="fotos/f1.jpg" alt="Marylen y José Luis" loading="eager"></div>
+      <div class="wheel-card"><img src="fotos/f6.jpg" alt="Marylen y José Luis" loading="eager"><span class="wc-ref" aria-hidden="true" style="background-image:url(fotos/f6.jpg)"></span></div>
+      <div class="wheel-card"><img src="fotos/f3.jpg" alt="Marylen y José Luis" loading="eager"><span class="wc-ref" aria-hidden="true" style="background-image:url(fotos/f3.jpg)"></span></div>
+      <div class="wheel-card"><img src="fotos/f7.jpg" alt="Marylen y José Luis" loading="eager"><span class="wc-ref" aria-hidden="true" style="background-image:url(fotos/f7.jpg)"></span></div>
+      <div class="wheel-card"><img src="fotos/f9.jpg" alt="Marylen y José Luis" loading="eager"><span class="wc-ref" aria-hidden="true" style="background-image:url(fotos/f9.jpg)"></span></div>
+      <div class="wheel-card"><img src="fotos/f5.jpg" alt="Marylen y José Luis" loading="eager"><span class="wc-ref" aria-hidden="true" style="background-image:url(fotos/f5.jpg)"></span></div>
+      <div class="wheel-card"><img src="fotos/f8.jpg" alt="Marylen y José Luis" loading="eager"><span class="wc-ref" aria-hidden="true" style="background-image:url(fotos/f8.jpg)"></span></div>
+      <div class="wheel-card"><img src="fotos/f4.jpg" alt="Marylen y José Luis" loading="eager"><span class="wc-ref" aria-hidden="true" style="background-image:url(fotos/f4.jpg)"></span></div>
+      <div class="wheel-card"><img src="fotos/f1.jpg" alt="Marylen y José Luis" loading="eager"><span class="wc-ref" aria-hidden="true" style="background-image:url(fotos/f1.jpg)"></span></div>
     </div>
   </div>
-  <p class="gal-hint rv">Arrastra para girar</p>
+  <p class="gal-hint rv">Arrastra para girar · toca una foto para verla</p>
+  <div class="lb" id="lb" hidden><button class="lb-x" id="lbX" type="button" aria-label="Cerrar">&times;</button><img id="lbImg" alt=""></div>
 </section>
 
 
 <!-- ═══════════════ 12. HOSPEDAJE ═══════════════════ -->
 
 
-<div class="blend blend-dark-beige"></div>
 
 <!-- ═══════════════ 13. RSVP BODA ═════════════════════ -->
-<section id="rsvp">
-  <div class="rsvp-card">
-    <svg class="rsvp-corner rsvp-corner--tl" viewBox="0 0 52 52" fill="none" aria-hidden="true"><path d="M2 50 L2 2 L50 2" stroke="var(--gold)" stroke-width=".9" opacity=".6"/><circle cx="2" cy="2" r="2.5" fill="var(--gold)" opacity=".5"/></svg>
-    <svg class="rsvp-corner rsvp-corner--tr" viewBox="0 0 52 52" fill="none" aria-hidden="true"><path d="M2 50 L2 2 L50 2" stroke="var(--gold)" stroke-width=".9" opacity=".6"/><circle cx="2" cy="2" r="2.5" fill="var(--gold)" opacity=".5"/></svg>
-    <svg class="rsvp-corner rsvp-corner--bl" viewBox="0 0 52 52" fill="none" aria-hidden="true"><path d="M2 50 L2 2 L50 2" stroke="var(--gold)" stroke-width=".9" opacity=".6"/><circle cx="2" cy="2" r="2.5" fill="var(--gold)" opacity=".5"/></svg>
-    <svg class="rsvp-corner rsvp-corner--br" viewBox="0 0 52 52" fill="none" aria-hidden="true"><path d="M2 50 L2 2 L50 2" stroke="var(--gold)" stroke-width=".9" opacity=".6"/><circle cx="2" cy="2" r="2.5" fill="var(--gold)" opacity=".5"/></svg>
-
-    <div class="rsvp-inner">
-      <span class="lbl">Martes 29 de Diciembre</span>
-      <h2 class="rsvp-title">Confirma tu <em>asistencia</em></h2>
-      <p class="rsvp-text">Nos hará muy felices contar contigo. Confirma antes del <strong style="color:var(--gold);font-weight:700">1 de diciembre de 2026</strong>.</p>
-
-      <p id="rsvp-name-display" class="rsvp-name" style="display:none"></p>
-
-      <div class="rsvp-divider">
-        <svg class="rsvp-divider-heart" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z"/></svg>
-      </div>
-
-      <p id="rsvp-pases-note"></p>
-
-      <div class="rsvp-pases-display" id="rsvp-pases-display">
-        <div class="rsvp-pases-label">Pases reservados</div>
-        <div class="rsvp-pases-num" id="rsvp-pases-num">1</div>
-      </div>
-
-      <!-- BANDEJA (se colapsa al confirmar) -->
-      <div id="rsvp-bandeja">
-        <div class="rsvp-toggle">
-          <button class="rsvp-toggle-btn" id="btnYes" type="button">Asistiré</button>
-          <button class="rsvp-toggle-btn" id="btnNo" type="button">No podré asistir</button>
-        </div>
-        <div class="rsvp-fields" id="rsvp-fields" style="display:none"></div>
-        <button class="rsvp-btn breathe" id="rsvp-confirm-btn" type="button">
-          <span id="rsvp-btn-text">Confirmar asistencia</span>
-        </button>
-      </div>
-
-      <!-- PANEL DE GRACIAS (oculto hasta confirmar) -->
-      <div class="rsvp-gracias" id="rsvp-gracias" style="display:none">
-        <svg class="rsvp-gracias-icon" width="34" height="34" viewBox="0 0 24 24" fill="none"
-             stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="10"/><polyline points="8.5 12.5 11 15 16 9.5"/>
-        </svg>
-        <p class="rsvp-gracias-title" id="rsvp-gracias-title"></p>
-        <p class="rsvp-gracias-sub" id="rsvp-gracias-sub"></p>
-        <button class="rsvp-editar-btn" id="rsvp-editar-btn" type="button">Modificar mi respuesta</button>
-      </div>
-
-      <p id="rsvp-feedback"></p>
-
-      <div class="rsvp-deadline">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm.5 5v5.25l4.5 2.67-.75 1.23L11 13V7h1.5z"/></svg>
-        Fecha límite · 1 Diciembre 2026
-      </div>
-    </div>
+<section data-ink="1" id="rsvp">
+  <div class="ink-bg" aria-hidden="true"><i style="background-image:url('ink/ink-top.webp')"></i></div>
+  <span class="lbl">Martes 29 de Diciembre</span>
+  <h2 class="ttl">Confirma tu asistencia</h2>
+  <div class="gline"></div>
+  <p id="rsvp-name-display" class="rsvp-hi" style="display:none"></p>
+  <p id="rsvp-pases-note"></p>
+  <div class="rsvp-pases" id="rsvp-pases-display">
+    <span class="rsvp-pases-label">Pases</span>
+    <span class="rsvp-pases-num" id="rsvp-pases-num">1</span>
   </div>
+  <p class="rsvp-dl">Por favor confirma antes del 1 de diciembre de 2026</p>
+  <div id="rsvp-bandeja">
+    <div class="rsvp-toggle">
+      <button class="rsvp-toggle-btn" id="btnYes" type="button">Asistiré</button>
+      <button class="rsvp-toggle-btn" id="btnNo" type="button">No podré asistir</button>
+    </div>
+    <div class="rsvp-fields" id="rsvp-fields" style="display:none"></div>
+    <button class="rsvp-btn" id="rsvp-confirm-btn" type="button"><span id="rsvp-btn-text">Confirmar asistencia</span></button>
+  </div>
+  <div class="rsvp-gracias" id="rsvp-gracias" style="display:none">
+    <svg class="rsvp-gracias-icon" width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="8.5 12.5 11 15 16 9.5"/></svg>
+    <p class="rsvp-gracias-title" id="rsvp-gracias-title"></p>
+    <p class="rsvp-gracias-sub" id="rsvp-gracias-sub"></p>
+    <button class="rsvp-editar-btn" id="rsvp-editar-btn" type="button">Modificar mi respuesta</button>
+  </div>
+  <p id="rsvp-feedback"></p>
 </section>
 
-<div class="blend blend-beige-dark"></div>
 
 <!-- ═══════════════ HOSPEDAJE (al final) ═══════════ -->
 <section id="lodging">
@@ -1735,64 +1882,103 @@ body{font-weight:500;font-size:17px}
   <div class="gline"></div>
   <p class="hs-intro">Si vienes de fuera, estas opciones quedan a unos minutos del salón.</p>
 
-  <div class="hs-switch" role="tablist" aria-label="Ver hospedaje como">
-    <span class="hs-switch-ind" aria-hidden="true"></span>
-    <button class="hs-sw on" type="button" data-v="lista" role="tab" aria-selected="true">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 6h13M8 12h13M8 18h13"/><circle cx="3.5" cy="6" r="1"/><circle cx="3.5" cy="12" r="1"/><circle cx="3.5" cy="18" r="1"/></svg>Lista</button>
-    <button class="hs-sw" type="button" data-v="mapa" role="tab" aria-selected="false">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/></svg>Mapa</button>
+  <div class="hs-toggle" role="tablist" aria-label="Ver hospedaje como">
+    <span class="hs-tg-pill" aria-hidden="true"></span>
+    <button type="button" role="tab" class="hs-tg is-on" data-view="list" aria-selected="true"><svg viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13"/><circle cx="3.5" cy="6" r="1"/><circle cx="3.5" cy="12" r="1"/><circle cx="3.5" cy="18" r="1"/></svg>Lista</button>
+    <button type="button" role="tab" class="hs-tg" data-view="map" aria-selected="false"><svg viewBox="0 0 24 24"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/></svg>Mapa</button>
   </div>
 
-  <div class="hs-flip" id="hsFlip">
-    <div class="hs-inner" id="hsInner">
-      <div class="hs-face hs-front">
-      <div class="hs-wrap"><div class="hs-float"><article class="hs-card tilt">
-        <span class="hs-num" aria-hidden="true">01</span>
-        <p class="hs-type">Hotel</p>
-        <h3 class="hs-name">Hotel Las Vegas</h3>
-        <p class="hs-addr">Justo Sierra 209, Col. Las Vegas<br>Poza Rica de Hidalgo, Ver.</p>
-        <p class="hs-dist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 17h14M6.5 17v2M17.5 17v2M4 13l2-5.5A2 2 0 018 6h8a2 2 0 011.9 1.5L20 13v4H4z"/><circle cx="7.5" cy="14" r=".8"/><circle cx="16.5" cy="14" r=".8"/></svg><span><strong>4 min</strong> · 2.4 km en auto a la recepción</span></p>
-        <div class="hs-btns">
-          <a class="btn-hosp" href="https://maps.app.goo.gl/YspaYMH3Hhi1v9HY6?g_st=ic" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> Ver en Maps</a>
-          <a class="btn-hosp" href="https://www.facebook.com/share/1Cw7N3vWJP/?mibextid=wwXIfr" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 010 18M12 3a14 14 0 000 18"/></svg> Sitio web</a>
-        </div>
-      </article></div></div>
-      <div class="hs-wrap"><div class="hs-float"><article class="hs-card tilt">
-        <span class="hs-num" aria-hidden="true">02</span>
-        <p class="hs-type">Hotel</p>
-        <h3 class="hs-name">20th Avenue Hotel y Suites Inn</h3>
-        <p class="hs-addr">Av. 20 de Noviembre 704, Col. Cazones<br>Poza Rica de Hidalgo, Ver.</p>
-        <p class="hs-dist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 17h14M6.5 17v2M17.5 17v2M4 13l2-5.5A2 2 0 018 6h8a2 2 0 011.9 1.5L20 13v4H4z"/><circle cx="7.5" cy="14" r=".8"/><circle cx="16.5" cy="14" r=".8"/></svg><span><strong>1 min</strong> · 0.1 km en auto a la recepción</span></p>
-        <div class="hs-btns">
-          <a class="btn-hosp" href="https://maps.app.goo.gl/r4Yg5BbeAsBBXBXG9?g_st=ic" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> Ver en Maps</a>
-          <a class="btn-hosp" href="https://share.google/MV0UNc7NKs6iwEae5" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 010 18M12 3a14 14 0 000 18"/></svg> Sitio web</a>
-        </div>
-      </article></div></div>
-      <div class="hs-wrap"><div class="hs-float"><article class="hs-card tilt">
-        <span class="hs-num" aria-hidden="true">03</span>
-        <p class="hs-type">Hotel</p>
-        <h3 class="hs-name">Hotel París FC</h3>
-        <p class="hs-addr">Blvd. Adolfo Ruiz Cortines 1328, Col. Cazones<br>Poza Rica de Hidalgo, Ver.</p>
-        <p class="hs-dist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 17h14M6.5 17v2M17.5 17v2M4 13l2-5.5A2 2 0 018 6h8a2 2 0 011.9 1.5L20 13v4H4z"/><circle cx="7.5" cy="14" r=".8"/><circle cx="16.5" cy="14" r=".8"/></svg><span><strong>2 min</strong> · 1.0 km en auto a la recepción</span></p>
-        <div class="hs-btns">
-          <a class="btn-hosp" href="https://maps.app.goo.gl/j5ySjfTN1SF6gNw59?g_st=ic" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> Ver en Maps</a>
-          <a class="btn-hosp" href="https://www.facebook.com/share/1LSioMFeVY/?mibextid=wwXIfr" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 010 18M12 3a14 14 0 000 18"/></svg> Sitio web</a>
-        </div>
-      </article></div></div>
-      </div>
-      <div class="hs-face hs-back" aria-hidden="true">
-        <div class="hs-map" id="hsMap"></div>
-        <p class="hs-legend">Toca un número para ver el hotel</p>
-        <div class="hs-chips" id="hsChips"></div>
+  <div class="hs-carousel">
+    <button class="hs-arrow hs-prev" type="button" aria-label="Anterior"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+    <button class="hs-arrow hs-next" type="button" aria-label="Siguiente"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>
+    <div class="hs-viewport">
+      <div class="hs-track" id="hsTrack">
+        <article class="hs-slide" data-hs="h1">
+          <div class="hs-photo"><img class="hs-main" src="hotels/h1-1.jpg" alt="" loading="eager" decoding="async"></div>
+          <div class="hs-thumbs">
+            <button type="button" class="hs-thumb is-on" data-src="hotels/h1-1.jpg" aria-label="Foto 1"><img src="hotels/h1-1.jpg" alt=""></button>
+            <button type="button" class="hs-thumb" data-src="hotels/h1-4.jpg" aria-label="Foto 2"><img src="hotels/h1-4.jpg" alt=""></button>
+            <button type="button" class="hs-thumb" data-src="hotels/h1-2.jpg" aria-label="Foto 3"><img src="hotels/h1-2.jpg" alt=""></button>
+            <button type="button" class="hs-thumb" data-src="hotels/h1-3.jpg" aria-label="Foto 4"><img src="hotels/h1-3.jpg" alt=""></button>
+            <button type="button" class="hs-thumb" data-src="hotels/h1-5.jpg" aria-label="Foto 5"><img src="hotels/h1-5.jpg" alt=""></button>
+          </div>
+          <span class="hs-num">01</span>
+          <h3 class="hs-name">Hotel Las Vegas</h3>
+          <p class="hs-addr">Justo Sierra 209, Col. Las Vegas, Poza Rica</p>
+          <p class="hs-dist">2.4 km &middot; aprox. 4 min a la recepción</p>
+          <div class="hs-btns">
+            <a class="hs-btn hs-btn--fill" href="https://www.booking.com/hotel/mx/las-vegas-poza-rica.es.html" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M7 7V5a5 5 0 0110 0v2"/></svg>Reservar</a>
+            <a class="hs-btn" href="https://www.google.com/maps/dir/?api=1&amp;destination=20.5528182,-97.4381256" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>Cómo llegar</a>
+          </div>
+        </article>
+        <article class="hs-slide" data-hs="h2">
+          <div class="hs-photo hs-photo--icon"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M14 56V14h26v42"/><path d="M40 26h10v30"/><path d="M8 56h48"/><path d="M21 22h4M29 22h4M21 30h4M29 30h4M21 38h4M29 38h4"/><path d="M24 56v-8h8v8"/></svg></div>
+          <span class="hs-num">02</span>
+          <h3 class="hs-name">20th Avenue Hotel y Suites Inn</h3>
+          <p class="hs-addr">Av. 20 de Noviembre 704, Col. Cazones, Poza Rica</p>
+          <p class="hs-dist">0.1 km &middot; a un paso de la recepción</p>
+          <div class="hs-btns">
+            <a class="hs-btn hs-btn--fill" href="https://share.google/MV0UNc7NKs6iwEae5" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 010 18M12 3a14 14 0 000 18"/></svg>Sitio web</a>
+            <a class="hs-btn" href="https://www.google.com/maps/dir/?api=1&amp;destination=20.5397903,-97.4467345" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>Cómo llegar</a>
+          </div>
+        </article>
+        <article class="hs-slide" data-hs="h3">
+          <div class="hs-photo"><img class="hs-main" src="hotels/h3-1.jpg" alt="" loading="eager" decoding="async"></div>
+          <div class="hs-thumbs">
+            <button type="button" class="hs-thumb is-on" data-src="hotels/h3-1.jpg" aria-label="Foto 1"><img src="hotels/h3-1.jpg" alt=""></button>
+            <button type="button" class="hs-thumb" data-src="hotels/h3-2.jpg" aria-label="Foto 2"><img src="hotels/h3-2.jpg" alt=""></button>
+            <button type="button" class="hs-thumb" data-src="hotels/h3-4.jpg" aria-label="Foto 3"><img src="hotels/h3-4.jpg" alt=""></button>
+            <button type="button" class="hs-thumb" data-src="hotels/h3-3.jpg" aria-label="Foto 4"><img src="hotels/h3-3.jpg" alt=""></button>
+            <button type="button" class="hs-thumb" data-src="hotels/h3-5.jpg" aria-label="Foto 5"><img src="hotels/h3-5.jpg" alt=""></button>
+          </div>
+          <span class="hs-num">03</span>
+          <h3 class="hs-name">Hotel París FC</h3>
+          <p class="hs-addr">Blvd. Adolfo Ruiz Cortines 1328, Col. Cazones, Poza Rica</p>
+          <p class="hs-dist">1.0 km &middot; aprox. 2 min a la recepción</p>
+          <div class="hs-btns">
+            <a class="hs-btn hs-btn--fill" href="https://www.booking.com/hotel/mx/paris-fc-poza-rica-de-hidalgo.es.html" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M7 7V5a5 5 0 0110 0v2"/></svg>Reservar</a>
+            <a class="hs-btn" href="https://www.google.com/maps/dir/?api=1&amp;destination=20.5433642,-97.4532273" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>Cómo llegar</a>
+          </div>
+        </article>
       </div>
     </div>
+    <div class="hs-dots" id="hsDots">
+      <button type="button" class="is-on" aria-label="Hotel 1"></button>
+      <button type="button" aria-label="Hotel 2"></button>
+      <button type="button" aria-label="Hotel 3"></button>
+    </div>
+  </div>
+
+  <div class="hs-mapwrap" hidden>
+    <div class="hs-mapframe">
+      <div id="hsMap" class="hs-map" role="region" aria-label="Mapa de la recepción y los hoteles"></div>
+      <div class="hs-mapglow" aria-hidden="true"></div>
+      <div class="hs-maphint is-on" id="hsHint">Toca un número para ver el hotel</div>
+      <div class="hs-zoom">
+        <button type="button" id="hsZin" aria-label="Acercar">+</button>
+        <button type="button" id="hsZout" aria-label="Alejar">&minus;</button>
+      </div>
+      <button type="button" class="hs-recenter" id="hsRecenter" aria-label="Ver todo el mapa">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg>
+      </button>
+      <div class="hs-sheet" id="hsSheet" aria-live="polite">
+        <button type="button" class="hs-sheet-x" id="hsSheetX" aria-label="Cerrar">&times;</button>
+        <div class="hs-sheet-top"><span class="hs-sheet-n" id="hsSheetN">1</span><div><p class="hs-sheet-k" id="hsSheetK"></p><p class="hs-sheet-t" id="hsSheetT"></p></div></div>
+        <p class="hs-sheet-a" id="hsSheetA"></p>
+        <p class="hs-sheet-d" id="hsSheetD"></p>
+        <div class="hs-sheet-btns">
+          <a class="hs-sheet-b" id="hsSheetMap" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 21s-7-6-7-11a7 7 0 0114 0c0 5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>Ver ubicación</a>
+          <a class="hs-sheet-b" id="hsSheetWeb" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 01-1 1H5a1 1 0 01-1-1V7a1 1 0 011-1h5"/></svg>Reservar</a>
+        </div>
+      </div>
+    </div>
+    <p class="hs-mapnote">Tiempos aproximados en auto, sin tráfico.</p>
   </div>
 </section>
 
-<div class="blend blend-dark-dark"></div>
 
 <!-- ═══════════════ 13. FOOTER ═══════════════════════ -->
-<footer id="footer">
+<footer data-top="#1F1008" data-bot="#140A05" id="footer">
   <div class="ft-orn">✦ · ✦ · ✦</div>
   <div class="ft-nms foil">Marylen<br>&amp; José Luis</div>
   <div class="gline" style="margin-top:22px"></div>
@@ -1814,10 +2000,7 @@ body{font-weight:500;font-size:17px}
     <div class="fm-links" id="fmLinks">
       <span class="fm-ind" id="fmInd" aria-hidden="true"></span>
     </div>
-    <span class="fm-sep" aria-hidden="true"></span>
-    <button class="fm-share" id="fmShare" type="button" aria-label="Compartir invitación">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="2.6"/><circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="19" r="2.6"/><path d="M8.3 10.8l7.4-4.3M8.3 13.2l7.4 4.3"/></svg>
-    </button>
+
     <button class="fm-open" id="fmOpen" type="button" aria-expanded="false" aria-controls="fmSheet">☰ Menú</button>
   </div>
 </nav>
@@ -1828,6 +2011,7 @@ body{font-weight:500;font-size:17px}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
     </button>
   </div>
+  <span class="fm-aura" aria-hidden="true"></span>
   <ol class="fm-list" id="fmList"></ol>
   <p class="fm-foot">29 · Diciembre · 2026<br>Poza Rica · Veracruz</p>
 </div>
@@ -1835,6 +2019,7 @@ body{font-weight:500;font-size:17px}
 
 
 <!-- GSAP -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
@@ -1872,6 +2057,7 @@ document.addEventListener('DOMContentLoaded', () => {
     spawnParticles();
     spawnAmbient();
     initPetals();
+    initSectionFades();
     scrollAnims();
     countdown();
     setInterval(countdown, 1000);
@@ -1905,9 +2091,18 @@ document.addEventListener('DOMContentLoaded', () => {
   envVideo.addEventListener('ended', dissolveToInvitation);
 
   function playVideo() {
+    /* mismo encuadre: el video arranca con la escala exacta de la imagen y se cambia cuando ya hay cuadro pintado */
+    gsap.set(envVideo, { scale: gsap.getProperty(envImage, 'scale') });
+    gsap.to([envImage, envVideo], { scale: 1.18, duration: 0.4, ease: 'sine.out' });
+    var swapped = false;
+    function swap() {
+      if (swapped) return; swapped = true;
+      gsap.set(envVideo, { opacity: 1 });
+      gsap.to(envImage, { opacity: 0, duration: 0.25, ease: 'none', onComplete: function () { envImage.style.display = 'none'; } });
+    }
+    envVideo.addEventListener('playing', swap, { once: true });
+    setTimeout(swap, 600);
     var p = envVideo.play();
-    gsap.to(envImage, { opacity: 0, duration: 0.55, ease: 'power2.inOut', onComplete: function () { envImage.style.display = 'none'; } });
-    gsap.to(envVideo, { opacity: 1, duration: 0.55, ease: 'power2.inOut' });
     if (p !== undefined) p.catch(dissolveToInvitation);
   }
 
@@ -1958,14 +2153,14 @@ function heroAnim() {
     .to('#hDate',  { opacity: 1, duration: .7  }, 1.2)
     .to('#hScroll',{ opacity: 1, duration: .5  }, 1.5);
 
-  gsap.to('#heroBg', {
-    yPercent: 22, scale: 1.08, ease: 'none',
-    scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true }
-  });
-  if (!RM) gsap.to('#hCnt', {
-    y: -90, opacity: 0, ease: 'none',
-    scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom 25%', scrub: true }
-  });
+  if (!RM) {
+    gsap.fromTo('#hCnt', { y: 0, opacity: 1, filter: 'blur(0px)' },
+      { y: -110, opacity: 0, filter: 'blur(10px)', ease: 'none', immediateRender: false,
+        scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom 20%', scrub: true } });
+    gsap.fromTo('#heroBg', { y: 0, filter: 'blur(0px) brightness(1)' },
+      { y: -70, filter: 'blur(5px) brightness(.92)', ease: 'none', immediateRender: false,
+        scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true } });
+  }
 }
 
 /* ── PARTICLES ───────────────────────────────────────── */
@@ -2165,12 +2360,12 @@ function scrollAnims() {
       scrollTrigger:{trigger:section, start:'top 70%', end:'bottom 60%', scrub:true}});
   })();
 
-  gsap.from('#dresscode .fu:not(.dc-figures)', {
+  gsap.from('#dresscode .dc-colors', {
     opacity: 0, y: 26, duration: .8, stagger: .12, ease: cine,
     scrollTrigger: { trigger: '#dresscode', start: 'top 80%', once: true }
   });
-  gsap.from('.dc-fig', { opacity: 0, y: 30, scale: .92, duration: .9, stagger: .18, ease: cine,
-    scrollTrigger: { trigger: '.dc-figures', start: 'top 85%', once: true } });
+  gsap.from('.dc-who', { opacity: 0, y: 30, duration: .9, stagger: .18, ease: cine, clearProps: 'opacity',
+    scrollTrigger: { trigger: '.dc-pair', start: 'top 85%', once: true } });
 
   gsap.from('.fam-ttl', {
     opacity: 0, y: 22, duration: .7, stagger: .2, ease: cine,
@@ -2186,10 +2381,6 @@ function scrollAnims() {
     scrollTrigger: { trigger: '#kids-policy', start: 'top 82%', once: true }
   });
 
-  gsap.from('.env-interactive', {
-    opacity: 0, y: 28, scale: .97, duration: .7, ease: cine,
-    scrollTrigger: { trigger: '#gifts', start: 'top 80%', once: true }
-  });
   gsap.from('.gf-card', { opacity: 0, y: 30, duration: .8, ease: cine,
     scrollTrigger: { trigger: '.gf-card', start: 'top 88%', once: true } });
   document.querySelectorAll('#gifts .sheen').forEach(function(el){
@@ -2197,20 +2388,7 @@ function scrollAnims() {
       onEnter: function(){ setTimeout(function(){ el.classList.add('sheen-go'); }, 450); } });
   });
 
-  // Sobre interactivo
-  (function(){
-    var btn = document.querySelector('.env-interactive');
-    if(!btn) return;
-    btn.addEventListener('click', function(){
-      var isOpen = btn.classList.toggle('open');
-      btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-    });
-    btn.addEventListener('touchstart', function(e){
-      e.preventDefault();
-      var isOpen = btn.classList.toggle('open');
-      btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-    }, {passive:false});
-  })();
+  initEnvRain();
 
   gsap.from('.alb-qr-frame', {
     opacity: 0, scale: .84, rotateY: 8, duration: .9, ease: 'back.out(1.5)',
@@ -2228,17 +2406,13 @@ function scrollAnims() {
   if (!RM) gsap.fromTo('#gallery .lbl, #gallery .ttl', { y: 30 }, { y: -20, ease: 'none',
       scrollTrigger: { trigger: '#gallery', start: 'top bottom', end: 'bottom top', scrub: true } });
 
-  document.querySelectorAll('.hs-wrap').forEach(function(w, k){
-    gsap.from(w, { opacity: 0, x: (k % 2 ? 70 : -70), rotation: (k % 2 ? 5 : -5), duration: 1, ease: 'power3.out',
-      scrollTrigger: { trigger: w, start: 'top 88%', once: true } });
-  });
-  gsap.from('.hs-switch', { opacity: 0, y: 20, duration: .7, ease: cine,
-    scrollTrigger: { trigger: '.hs-switch', start: 'top 90%', once: true } });
+  initHospedaje();
 
-  gsap.fromTo('.rsvp-card',{opacity:0,y:50,scale:.95},{opacity:1,y:0,scale:1,duration:1.4,ease:cine,stagger:.2,immediateRender:false,scrollTrigger:{trigger:'#rsvp',start:'top 82%',once:true}});
-  gsap.fromTo('.rsvp-text,.rsvp-divider',{opacity:0,y:20},{opacity:1,y:0,duration:1.2,stagger:.12,ease:cine,immediateRender:false,scrollTrigger:{trigger:'.rsvp-card',start:'top 80%',once:true}});
-  gsap.fromTo('.rsvp-btn',{opacity:0,y:28,scale:.9},{opacity:1,y:0,scale:1,duration:1.3,ease:'back.out(1.5)',immediateRender:false,clearProps:'transform',scrollTrigger:{trigger:'.rsvp-btn',start:'top 88%',once:true}});
-  gsap.fromTo('.rsvp-corner',{opacity:0,scale:.4},{opacity:1,scale:1,duration:1.1,stagger:.1,ease:'back.out(2.2)',immediateRender:false,scrollTrigger:{trigger:'.rsvp-card',start:'top 82%',once:true}});
+
+  gsap.from(['.rsvp-hi', '#rsvp-pases-note', '.rsvp-pases', '.rsvp-dl', '#rsvp-bandeja'], {
+    opacity: 0, y: 24, duration: .9, stagger: .1, ease: cine,
+    scrollTrigger: { trigger: '#rsvp', start: 'top 78%', once: true }
+  });
 
   gsap.from('#footer > *', {
     opacity: 0, y: 26, duration: .8, stagger: .12, ease: cine,
@@ -2286,50 +2460,126 @@ const PANEL_API = 'https://panel-invitados.vercel.app/api/confirmar';
 function initRSVP() {}
 
 function initWheel(){
-  var ring=document.getElementById('wheel-ring');
+  var ring=document.getElementById('wheel-ring'), scene=document.getElementById('wheel-scene');
   if(!ring)return;
   var cards=ring.querySelectorAll('.wheel-card');
   var n=cards.length;if(!n)return;
   var radius=210;
-  var rot=0,vel=0,isDrag=false,startX=0,startRot=0,lastX=0,rafId=null;
+  var rot=0,vel=0,isDrag=false,startX=0,startRot=0,lastX=0,moved=0,visible=true,resumeAt=0;
   cards.forEach(function(card,i){
     card.style.transform='rotateY('+(360/n*i)+'deg) translateZ('+radius+'px)';
   });
   function setRot(){gsap.set(ring,{rotateY:rot});}
   setRot();
-  function inertia(){
-    if(isDrag)return;
-    rot+=vel;vel*=0.94;setRot();
-    if(Math.abs(vel)>0.05){rafId=requestAnimationFrame(inertia);}
+  /* giro continuo con el ticker de GSAP: se pausa fuera de pantalla y retoma tras el arrastre */
+  var speed=0;
+  gsap.ticker.add(function(){
+    if(!visible||isDrag)return;
+    if(Math.abs(vel)>0.05){rot+=vel;vel*=0.94;}
+    else if(!RM&&performance.now()>resumeAt){speed=Math.min(0.14,speed+0.004);rot+=speed;}
+    setRot();
+  });
+  if('IntersectionObserver' in window)new IntersectionObserver(function(es){visible=es[0].isIntersecting;},{threshold:0}).observe(scene);
+  function down(x){isDrag=true;ring.classList.add('dragging');startX=x;lastX=x;startRot=rot;vel=0;moved=0;speed=0;}
+  function move(x){if(!isDrag)return;var dx=x-startX;moved=Math.max(moved,Math.abs(dx));rot=startRot+dx*0.45;vel=(x-lastX)*0.5;lastX=x;setRot();}
+  function up(){if(!isDrag)return;isDrag=false;ring.classList.remove('dragging');resumeAt=performance.now()+1800;}
+  ring.addEventListener('mousedown',function(e){e.preventDefault();down(e.clientX);});
+  window.addEventListener('mousemove',function(e){move(e.clientX);});
+  window.addEventListener('mouseup',up);
+  ring.addEventListener('touchstart',function(e){down(e.touches[0].clientX);},{passive:true});
+  ring.addEventListener('touchmove',function(e){move(e.touches[0].clientX);},{passive:true});
+  ring.addEventListener('touchend',up);
+  /* lightbox al tocar (sin arrastre) */
+  var lb=document.getElementById('lb'),lbImg=document.getElementById('lbImg');
+  cards.forEach(function(c){
+    c.addEventListener('click',function(){
+      if(moved>8)return;
+      lbImg.src=c.querySelector('img').src;lb.hidden=false;
+      requestAnimationFrame(function(){lb.classList.add('on');});document.body.style.overflow='hidden';
+    });
+  });
+  function closeLb(){lb.classList.remove('on');document.body.style.overflow='';setTimeout(function(){lb.hidden=true;},300);}
+  lb.addEventListener('click',function(e){if(e.target!==lbImg)closeLb();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!lb.hidden)closeLb();});
+}
+
+/* ── LLUVIA DE SOBRES (jeffersson-y-vanessa): la lluvia sigue detrás todo el tiempo ── */
+function initEnvRain(){
+  var sec=document.getElementById('gifts'),rain=document.getElementById('envRain'),
+      btn=document.getElementById('envGift'),body=document.getElementById('envGiftBody'),
+      hint=document.getElementById('envGiftHint');
+  if(!sec||!rain||!btn)return;
+  var onScreen=false,landed=false,alive=0,MAX=22,spawn=null;
+  var DEPTH=[{w:[14,20],o:.35,d:[9,12]},{w:[20,28],o:.6,d:[7,9]},{w:[28,38],o:.85,d:[5,7]}];
+  function mk(){
+    if(!onScreen||alive>=MAX||RM)return;
+    alive++;
+    var z=DEPTH[Math.floor(Math.random()*3)];
+    var w=z.w[0]+Math.random()*(z.w[1]-z.w[0]);
+    var el=document.createElementNS('http://www.w3.org/2000/svg','svg');
+    el.setAttribute('viewBox','0 0 34 24');el.setAttribute('class','env-rain-item');
+    el.style.width=w+'px';el.style.height=(w*24/34)+'px';el.style.left=(Math.random()*100)+'%';
+    el.innerHTML='<rect x="1" y="1" width="32" height="22" rx="2.5" fill="#FFF3DF" stroke="#C9973F" stroke-width="1.3"/>'+
+      '<path d="M1 1 L17 13 L33 1" fill="none" stroke="#C9973F" stroke-width="1.3" stroke-linejoin="round"/>'+
+      '<circle cx="17" cy="12.5" r="3.2" fill="#a23700"/>';
+    rain.appendChild(el);
+    var H=sec.offsetHeight+80,dur=z.d[0]+Math.random()*(z.d[1]-z.d[0]);
+    function kill(){if(el.parentNode){el.remove();alive--;}}
+    gsap.timeline({onComplete:kill})
+      .fromTo(el,{y:-46,x:0,rotation:(Math.random()-.5)*50},{y:H,x:(Math.random()-.5)*70,rotation:(Math.random()-.5)*160,duration:dur,ease:'none'},0)
+      .fromTo(el,{opacity:0},{opacity:z.o,duration:dur*.18,ease:'power1.out'},0)
+      .to(el,{opacity:0,duration:dur*.25,ease:'power1.in'},dur*.75);
   }
-  function pointerDown(x){
-    isDrag=true;ring.classList.add('dragging');
-    startX=x;lastX=x;startRot=rot;vel=0;
-    if(rafId)cancelAnimationFrame(rafId);
+  function loop(){spawn=gsap.delayedCall(.5,function(){mk();loop();});}
+  ScrollTrigger.create({trigger:sec,start:'top bottom',end:'bottom top',
+    onToggle:function(st){onScreen=st.isActive;if(onScreen){if(!spawn){for(var i=0;i<6;i++)gsap.delayedCall(i*.25,mk);loop();}}else if(spawn){spawn.kill();spawn=null;}}});
+  gsap.set(btn,{opacity:0});
+  function land(cb){
+    if(landed){if(cb)cb();return;}landed=true;
+    gsap.fromTo(btn,{opacity:0,y:-150,rotation:-12,scale:.82},
+      {opacity:1,y:0,rotation:0,scale:1,duration:1.15,ease:'back.out(1.5)',
+       onComplete:function(){body.classList.add('landed');hint.classList.add('show');if(cb)cb();}});
   }
-  function pointerMove(x){
-    if(!isDrag)return;
-    var dx=x-startX;rot=startRot+dx*0.45;
-    vel=(x-lastX)*0.5;lastX=x;setRot();
+  ScrollTrigger.create({trigger:btn,start:'center 62%',once:true,onEnter:function(){land();}});
+  function toggle(e){
+    if(e)e.preventDefault();
+    if(!landed){land(function(){toggle();});return;}
+    var open=btn.classList.toggle('open');
+    btn.setAttribute('aria-expanded',open?'true':'false');
+    body.classList.toggle('landed',!open);
+    hint.textContent=open?'Toca para cerrar':'Toca para abrir';
+    setTimeout(function(){ScrollTrigger.refresh();},700);
   }
-  function pointerUp(){
-    if(!isDrag)return;isDrag=false;
-    ring.classList.remove('dragging');
-    rafId=requestAnimationFrame(inertia);
+  btn.addEventListener('click',toggle);
+  hint.addEventListener('click',toggle);
+}
+
+/* ── FUNDIDO UNIFORME ENTRE SECCIONES ── */
+function initSectionFades(){
+  function rgb(str){var m=(str||'').match(/[\d.]+/g);if(!m)return null;var a=m.length>3?+m[3]:1;return a<0.05?null:[+m[0],+m[1],+m[2]];}
+  function hexrgb(h){h=h.replace('#','');return [parseInt(h.substr(0,2),16),parseInt(h.substr(2,2),16),parseInt(h.substr(4,2),16)];}
+  var page=rgb(getComputedStyle(document.body).backgroundColor)||[20,10,5];
+  function edge(el,which){
+    var d=el.dataset[which];if(d)return hexrgb(d);
+    return rgb(getComputedStyle(el).backgroundColor)||page;
   }
-  ring.addEventListener('mousedown',function(e){e.preventDefault();pointerDown(e.clientX);});
-  window.addEventListener('mousemove',function(e){pointerMove(e.clientX);});
-  window.addEventListener('mouseup',pointerUp);
-  ring.addEventListener('touchstart',function(e){pointerDown(e.touches[0].clientX);},{passive:true});
-  ring.addEventListener('touchmove',function(e){pointerMove(e.touches[0].clientX);},{passive:true});
-  ring.addEventListener('touchend',pointerUp);
-  var auto=true;
-  (function spin(){
-    if(auto&&!isDrag){rot+=0.12;setRot();}
-    requestAnimationFrame(spin);
-  })();
-  ring.addEventListener('mousedown',function(){auto=false;});
-  ring.addEventListener('touchstart',function(){auto=false;});
+  var secs=[].slice.call(document.querySelectorAll('#main-content > section, #main-content > footer'));
+  function grad(c,dir){
+    var st=[];for(var i=0;i<=8;i++){var t=i/8,a=1-t*t*(3-2*t);st.push('rgba('+c.join(',')+','+a.toFixed(3)+') '+(t*100).toFixed(1)+'%');}
+    return 'linear-gradient('+dir+','+st.join(',')+')';
+  }
+  function paint(el,pos,c,h){
+    var sp=document.createElement('span');sp.className='sf sf-'+pos;sp.setAttribute('aria-hidden','true');
+    sp.style.height=h+'px';sp.style.background=grad(c,pos==='top'?'to bottom':'to top');
+    el.insertBefore(sp,el.firstChild);
+  }
+  for(var i=0;i<secs.length-1;i++){
+    var A=secs[i],B=secs[i+1],a=edge(A,'bot'),b=edge(B,'top');
+    var m=[Math.round((a[0]+b[0])/2),Math.round((a[1]+b[1])/2),Math.round((a[2]+b[2])/2)];
+    var h=A.id==='hero'?90:170;
+    if(A.id!=='hero')paint(A,'bot',m,h);
+    paint(B,'top',m,h);
+  }
 }
 
 /* ── RSVP PANEL (X pases · bandeja que se cierra al confirmar) ── */
@@ -2358,6 +2608,8 @@ function initWheel(){
   var editarBtn   = document.getElementById('rsvp-editar-btn');
 
   if (pasesNumEl) pasesNumEl.textContent = urlPases;
+  var noteP = document.getElementById('rsvp-pases-note');
+  if (noteP) noteP.textContent = urlPases === 1 ? 'Hemos reservado un lugar para ti.' : 'Hemos reservado ' + urlPases + ' lugares en tu honor.';
   var rsvpNameEl = document.getElementById('rsvp-name-display');
   if (urlPara && rsvpNameEl) { rsvpNameEl.textContent = urlPara; rsvpNameEl.style.display = ''; }
 
@@ -2383,8 +2635,8 @@ function initWheel(){
   }
   function selectRsvp(choice){
     rsvpChoice = choice;
-    btnYes.classList.toggle('rsvp-toggle-selected-yes', choice === 'yes');
-    btnNo.classList.toggle('rsvp-toggle-selected-no', choice === 'no');
+    btnYes.classList.toggle('on', choice === 'yes');
+    btnNo.classList.toggle('on', choice === 'no');
     if (choice === 'yes') { renderFields(urlPases); fieldsEl.style.display = ''; }
     else { fieldsEl.innerHTML = ''; fieldsEl.style.display = 'none'; }
     setFeedback('', '');
@@ -2409,17 +2661,13 @@ function initWheel(){
   function confeti(){
     if (window.RM) return;
     var cols = ['#a23700','#ffe8c0','#D4C5B2','#aa472f','#996515','#E9C37A'];
-    var r = confirmBtn.getBoundingClientRect();
-    var ox = r.left + r.width / 2, oy = r.top + r.height / 2;
-    for (var i = 0; i < 26; i++) (function(i){
+    for (var i = 0; i < 60; i++){
       var c = document.createElement('i'); c.className = 'confeti';
-      c.style.background = cols[i % cols.length];
+      c.style.left = Math.random() * 100 + 'vw'; c.style.background = cols[i % cols.length];
       document.body.appendChild(c);
-      var ang = Math.random() * Math.PI * 2, dist = 90 + Math.random() * 150;
-      gsap.fromTo(c, { x: ox, y: oy, rotation: 0, opacity: 1 },
-        { x: ox + Math.cos(ang) * dist, y: oy + Math.sin(ang) * dist - 60, rotation: Math.random() * 540, duration: .9, ease: 'power3.out',
-          onComplete: function(){ gsap.to(c, { y: '+=' + (120 + Math.random() * 120), opacity: 0, duration: 1.1, ease: 'power1.in', onComplete: function(){ c.remove(); } }); } });
-    })(i);
+      c.animate([{ transform: 'translateY(-14px) rotate(0)', opacity: 1 }, { transform: 'translateY(' + (innerHeight + 40) + 'px) translateX(' + (Math.random() * 120 - 60) + 'px) rotate(' + (Math.random() * 720) + 'deg)', opacity: .8 }],
+        { duration: 2200 + Math.random() * 1600, delay: Math.random() * 400, easing: 'cubic-bezier(.2,.6,.4,1)' }).onfinish = (function(el){ return function(){ el.remove(); }; })(c);
+    }
   }
 
   if (urlPara) {
@@ -2508,105 +2756,141 @@ function initWheel(){
   }
 })();
 
-/* ── HOSPEDAJE · Lista / Mapa (MapLibre + OpenFreeMap, sin API key) ── */
-(function(){
-  var SALON = { lng: -97.4471347, lat: 20.5389043 };
-  var HOTELES = [
-    { n: 1, name: 'Hotel Las Vegas',                lng: -97.4381256, lat: 20.5528182, min: 4 },
-    { n: 2, name: '20th Avenue Hotel y Suites Inn', lng: -97.4467345, lat: 20.5397903, min: 1 },
-    { n: 3, name: 'Hotel París FC',                 lng: -97.4532273, lat: 20.5433642, min: 2 }
-  ];
-  var sw = document.querySelector('.hs-switch'), inner = document.getElementById('hsInner');
-  if (!sw || !inner) return;
-  var map = null, marks = [], popup = null, chips = document.getElementById('hsChips');
+/* ── HOSPEDAJE SUGERIDO · carrusel por hotel + mapa Leaflet (formato montserrat-y-cecilia) ── */
+function initHospedaje(){
+  var sec=document.getElementById('lodging');
+  if(!sec||sec.dataset.hsInit)return;
+  sec.dataset.hsInit='1';
 
-  HOTELES.forEach(function(h, i){
-    var b = document.createElement('button'); b.type = 'button'; b.className = 'hs-chip';
-    b.innerHTML = '<b>' + h.n + '</b><span>' + h.name + '<small>' + h.min + ' min a la recepción</small></span>';
-    b.addEventListener('click', function(){ activar(i, true); });
-    chips.appendChild(b);
-  });
+  var PLACES={
+    venue:{ll:[20.5389043,-97.4471347],t:'Salón de Eventos y Suites El Jardín',a:'C. Dieciséis 203, Col. Cazones, Poza Rica',d:''},
+    h1:{ll:[20.5528182,-97.4381256],t:'Hotel Las Vegas',a:'Justo Sierra 209, Col. Las Vegas, Poza Rica',d:'2.4 km &middot; 4 min a la recepción'},
+    h2:{ll:[20.5397903,-97.4467345],t:'20th Avenue Hotel y Suites Inn',a:'Av. 20 de Noviembre 704, Col. Cazones, Poza Rica',d:'0.1 km &middot; 1 min a la recepción'},
+    h3:{ll:[20.5433642,-97.4532273],t:'Hotel París FC',a:'Blvd. Adolfo Ruiz Cortines 1328, Col. Cazones, Poza Rica',d:'1.0 km &middot; 2 min a la recepción'}
+  };
+  /* rutas reales (OSRM, simplificadas) hotel -> recepción */
+  var ROUTES={
+    h1:[[20.5529,-97.43809],[20.55307,-97.43857],[20.5528,-97.43869],[20.5533,-97.4403],[20.55062,-97.44143],[20.5479,-97.44407],[20.54817,-97.4444],[20.54733,-97.44524],[20.54605,-97.44614],[20.54129,-97.4491],[20.53986,-97.44648],[20.53889,-97.4471]],
+    h2:[[20.5397,-97.44658],[20.53889,-97.4471]],
+    h3:[[20.54343,-97.45337],[20.54358,-97.45328],[20.53986,-97.44648],[20.53889,-97.4471]]
+  };
+  var WEB={h1:'https://www.booking.com/hotel/mx/las-vegas-poza-rica.es.html',h2:'https://share.google/MV0UNc7NKs6iwEae5',h3:'https://www.booking.com/hotel/mx/paris-fc-poza-rica-de-hidalgo.es.html'};
+  var WEBLBL={h1:'Reservar',h2:'Sitio web',h3:'Reservar'};
+  var NUM={h1:'1',h2:'2',h3:'3'};
 
-  function activar(i, volar){
-    if (!map) return;
-    var h = HOTELES[i];
-    marks.forEach(function(m, k){ m.getElement().classList.toggle('on', k === i); });
-    [].forEach.call(chips.children, function(c, k){ c.classList.toggle('on', k === i); });
-    var ch = chips.children[i]; chips.scrollTo({ left: ch.offsetLeft - (chips.clientWidth - ch.offsetWidth) / 2, behavior: 'smooth' });
-    if (popup) popup.remove();
-    popup = new maplibregl.Popup({ offset: 22, closeButton: false })
-      .setLngLat([h.lng, h.lat]).setHTML('<b>' + h.name + '</b><span>' + h.min + ' min a la recepción</span>').addTo(map);
-    if (volar) map.flyTo({ center: [h.lng, h.lat], zoom: 16, speed: .9 });
-  }
-
-  function recolor(){
-    map.getStyle().layers.forEach(function(l){
-      var id = l.id;
-      try {
-        if (l.type === 'background') map.setPaintProperty(id, 'background-color', '#1D1009');
-        else if (l.type === 'fill') {
-          map.setPaintProperty(id, 'fill-color', /water/.test(id) ? '#33200F' : /park|wood|grass|landcover|forest/.test(id) ? '#24150B' : /building/.test(id) ? '#2C190D' : '#211209');
-          if (/building/.test(id)) map.setPaintProperty(id, 'fill-outline-color', '#3A2414');
-        } else if (l.type === 'line') {
-          if (/water|river|stream/.test(id)) map.setPaintProperty(id, 'line-color', '#3D2614');
-          else if (/boundary|admin/.test(id)) map.setPaintProperty(id, 'line-color', 'rgba(201,151,63,.25)');
-          else map.setPaintProperty(id, 'line-color', /motorway|trunk|primary/.test(id) ? '#7A4E1E' : /secondary|tertiary/.test(id) ? '#5A3A1C' : '#43291A');
-        } else if (l.type === 'symbol') {
-          map.setPaintProperty(id, 'text-color', '#E9D3AE');
-          map.setPaintProperty(id, 'text-halo-color', '#1D1009');
-          map.setPaintProperty(id, 'text-halo-width', 1.2);
-        }
-      } catch (e) {}
-    });
-  }
-
-  function crearMapa(){
-    map = new maplibregl.Map({
-      container: 'hsMap', style: 'https://tiles.openfreemap.org/styles/positron',
-      center: [SALON.lng, SALON.lat], zoom: 14, cooperativeGestures: true, attributionControl: { compact: true }
-    });
-    map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');
-    map.on('load', function(){
-      recolor();
-      var r = document.createElement('div'); r.className = 'mk-rec';
-      r.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.6C6.4 16 1 11.3 1 7.2 1 3.4 4.1 2 6.3 2c1.3 0 4.1.5 5.7 4.5C13.6 2.5 16.5 2 17.7 2 20.3 2 23 3.6 23 7.2c0 4.1-5.1 8.6-11 14.4z"/></svg>RECEPCIÓN';
-      new maplibregl.Marker({ element: r, anchor: 'bottom' }).setLngLat([SALON.lng, SALON.lat]).addTo(map);
-      HOTELES.forEach(function(h, i){
-        var el = document.createElement('button'); el.type = 'button'; el.className = 'mk-h'; el.textContent = h.n;
-        el.setAttribute('aria-label', h.name);
-        el.addEventListener('click', function(e){ e.stopPropagation(); activar(i, false); });
-        marks.push(new maplibregl.Marker({ element: el }).setLngLat([h.lng, h.lat]).addTo(map));
+  /* galería por hotel (miniaturas cambian la foto circular) */
+  sec.querySelectorAll('.hs-slide').forEach(function(sl){
+    var main=sl.querySelector('.hs-main');if(!main)return;
+    main.alt=sl.querySelector('.hs-name').textContent;
+    sl.querySelectorAll('.hs-thumb').forEach(function(th){
+      th.addEventListener('click',function(){
+        if(th.classList.contains('is-on'))return;
+        sl.querySelectorAll('.hs-thumb').forEach(function(o){o.classList.remove('is-on');});
+        th.classList.add('is-on');main.classList.add('is-fading');
+        setTimeout(function(){main.src=th.dataset.src;main.onload=function(){main.classList.remove('is-fading');};
+          setTimeout(function(){main.classList.remove('is-fading');},400);},250);
       });
-      var b = new maplibregl.LngLatBounds([SALON.lng, SALON.lat], [SALON.lng, SALON.lat]);
-      HOTELES.forEach(function(h){ b.extend([h.lng, h.lat]); });
-      window.__hsFit = function(){ map.resize(); map.fitBounds(b, { padding: { top: 70, bottom: 40, left: 50, right: 50 }, duration: 0, maxZoom: 15.5 }); };
-      window.__hsFit(); setTimeout(window.__hsFit, 800);
-    });
-  }
-
-  var cargando = false;
-  function cargarMapLibre(cb){
-    if (window.maplibregl) return cb();
-    if (cargando) return; cargando = true;
-    var css = document.createElement('link'); css.rel = 'stylesheet'; css.href = 'https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css';
-    document.head.appendChild(css);
-    var js = document.createElement('script'); js.src = 'https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js';
-    js.onload = cb; document.head.appendChild(js);
-  }
-
-  sw.querySelectorAll('.hs-sw').forEach(function(b){
-    b.addEventListener('click', function(){
-      var mapa = b.dataset.v === 'mapa';
-      sw.classList.toggle('map', mapa);
-      sw.querySelectorAll('.hs-sw').forEach(function(x){ x.classList.toggle('on', x === b); x.setAttribute('aria-selected', x === b); });
-      inner.classList.toggle('flipped', mapa);
-      document.querySelector('.hs-back').setAttribute('aria-hidden', !mapa);
-      document.querySelector('.hs-front').setAttribute('aria-hidden', mapa);
-      if (mapa) cargarMapLibre(function(){ if (!map) crearMapa(); setTimeout(function(){ if (window.__hsFit) window.__hsFit(); else if (map) map.resize(); }, 780); });
-      setTimeout(function(){ ScrollTrigger.refresh(); }, 800);
     });
   });
-})();
+
+  /* carrusel */
+  var track=document.getElementById('hsTrack');
+  var slides=track.children;
+  var dots=sec.querySelectorAll('#hsDots button');
+  var idx=0,map=null,markers={};
+  function go(i){
+    idx=(i+slides.length)%slides.length;
+    track.style.transform='translateX('+(-idx*100)+'%)';
+    dots.forEach(function(d,k){d.classList.toggle('is-on',k===idx);});
+  }
+  sec.querySelector('.hs-prev').addEventListener('click',function(){go(idx-1);});
+  sec.querySelector('.hs-next').addEventListener('click',function(){go(idx+1);});
+  dots.forEach(function(d,k){d.addEventListener('click',function(){go(k);});});
+  var sx=0,sy=0;
+  track.addEventListener('touchstart',function(e){sx=e.touches[0].clientX;sy=e.touches[0].clientY;},{passive:true});
+  track.addEventListener('touchend',function(e){
+    var dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;
+    if(Math.abs(dx)>40&&Math.abs(dx)>Math.abs(dy))go(dx<0?idx+1:idx-1);
+  },{passive:true});
+
+  /* entrada: se desliza desde un costado con leve rotación que se endereza */
+  gsap.fromTo(sec.querySelector('.hs-carousel'),{x:-60,rotation:-4,opacity:0},
+    {x:0,rotation:0,opacity:1,duration:1.1,ease:'power3.out',immediateRender:false,clearProps:'transform',
+     scrollTrigger:{trigger:sec.querySelector('.hs-carousel'),start:'top 88%',once:true}});
+  gsap.from(sec.querySelector('.hs-toggle'),{opacity:0,y:20,duration:.7,ease:'power3.out',
+    scrollTrigger:{trigger:sec.querySelector('.hs-toggle'),start:'top 90%',once:true}});
+
+  /* selector Lista / Mapa */
+  var listEl=sec.querySelector('.hs-carousel'),mapEl=sec.querySelector('.hs-mapwrap'),tgs=sec.querySelectorAll('.hs-tg'),tgWrap=sec.querySelector('.hs-toggle');
+  function view(v){
+    tgs.forEach(function(t){var on=t.dataset.view===v;t.classList.toggle('is-on',on);t.setAttribute('aria-selected',on?'true':'false');});
+    tgWrap.classList.toggle('is-map',v==='map');
+    if(v==='map'){listEl.hidden=true;mapEl.hidden=false;build();setTimeout(function(){map.invalidateSize();fit();},60);}
+    else{mapEl.hidden=true;listEl.hidden=false;}
+    gsap.fromTo(v==='map'?mapEl:listEl,{opacity:0,y:14},{opacity:1,y:0,duration:.5,ease:'power2.out'});
+    setTimeout(function(){ScrollTrigger.refresh();},80);
+  }
+  tgs.forEach(function(t){t.addEventListener('click',function(){view(t.dataset.view);});});
+
+  /* mapa premium */
+  var el=document.getElementById('hsMap');
+  if(!el||!window.L)return;
+  var touch=('ontouchstart' in window)||navigator.maxTouchPoints>0;
+  var bounds=L.latLngBounds([PLACES.venue.ll,PLACES.h1.ll,PLACES.h2.ll,PLACES.h3.ll]);
+  function fit(){if(map)map.fitBounds(bounds,{paddingTopLeft:[70,90],paddingBottomRight:[60,90]});}
+  function build(){
+    if(map)return;
+    map=L.map(el,{zoomControl:false,scrollWheelZoom:false,dragging:!touch,tap:false,attributionControl:true,zoomSnap:.25});
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}',
+      {maxZoom:16,attribution:'Tiles &copy; Esri',className:'hs-tiles'}).addTo(map);
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}',
+      {maxZoom:16,className:'hs-labels'}).addTo(map);
+    Object.keys(ROUTES).forEach(function(k){
+      L.polyline(ROUTES[k],{color:'#C9973F',weight:6,opacity:.18,interactive:false}).addTo(map);
+      L.polyline(ROUTES[k],{color:'#E9C37A',weight:2.2,opacity:.95,dashArray:'2 7',lineCap:'round',className:'hs-route',interactive:false}).addTo(map);
+    });
+    markers.venue=L.marker(PLACES.venue.ll,{zIndexOffset:1000,keyboard:true,title:'Recepción',icon:L.divIcon({className:'hs-vpin',iconSize:[132,40],iconAnchor:[66,44],
+      html:'<div class="hs-vpin-in"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-7-10a4 4 0 017-2.6A4 4 0 0119 11c0 5.5-7 10-7 10z"/></svg>Recepción</div><i></i>'})}).addTo(map);
+    ['h1','h2','h3'].forEach(function(k){
+      markers[k]=L.marker(PLACES[k].ll,{zIndexOffset:k==='h2'?1200:0,keyboard:true,title:PLACES[k].t,icon:L.divIcon({className:'hs-npin',iconSize:[38,38],iconAnchor:[19,19],
+        html:'<span>'+NUM[k]+'</span>'})}).addTo(map);
+    });
+    Object.keys(markers).forEach(function(k){markers[k].on('click',function(){openSheet(k);});});
+    map.on('click',closeSheet);
+    fit();
+  }
+  var sheet=document.getElementById('hsSheet'),hint=document.getElementById('hsHint');
+  function $(id){return document.getElementById(id);}
+  function openSheet(k){
+    var p=PLACES[k];
+    Object.keys(markers).forEach(function(m){var e=markers[m].getElement();if(e)e.classList.toggle('is-on',m===k);});
+    $('hsSheetN').textContent=k==='venue'?'♥':NUM[k];
+    $('hsSheetK').textContent=k==='venue'?'Recepción · 6:30 p.m.':'Hotel sugerido';
+    $('hsSheetT').innerHTML=p.t;
+    $('hsSheetA').textContent=p.a;
+    $('hsSheetD').innerHTML=p.d?('<svg viewBox="0 0 24 24"><path d="M5 16l1.5-5A2 2 0 018.4 9.5h7.2a2 2 0 011.9 1.5L19 16M4 16h16v3H4zM7 19v1.5M17 19v1.5"/></svg>'+p.d):'Martes 29 de diciembre de 2026';
+    $('hsSheetMap').href='https://www.google.com/maps/dir/?api=1&destination='+p.ll[0]+','+p.ll[1];
+    var web=$('hsSheetWeb');
+    if(WEB[k]){web.href=WEB[k];web.lastChild.textContent=WEBLBL[k];web.style.display='';}else web.style.display='none';
+    sheet.classList.add('is-on');hint.classList.remove('is-on');
+    map.flyTo([p.ll[0]-.004,p.ll[1]],15.5,{duration:.9});
+    for(var i=0;i<slides.length;i++)if(slides[i].dataset.hs===k)go(i);
+  }
+  function closeSheet(){
+    sheet.classList.remove('is-on');hint.classList.add('is-on');
+    Object.keys(markers).forEach(function(m){var e=markers[m].getElement();if(e)e.classList.remove('is-on');});
+  }
+  $('hsSheetX').addEventListener('click',function(e){e.stopPropagation();closeSheet();});
+  $('hsZin').addEventListener('click',function(){map&&map.zoomIn();});
+  $('hsZout').addEventListener('click',function(){map&&map.zoomOut();});
+  $('hsRecenter').addEventListener('click',function(){closeSheet();fit();});
+  window.addEventListener('resize',function(){if(map)map.invalidateSize();});
+  /* en touch: un dedo hace scroll de la página; dos dedos mueven el mapa */
+  if(touch){
+    el.addEventListener('touchstart',function(e){if(!map)return;if(e.touches.length>=2)map.dragging.enable();else map.dragging.disable();},{passive:true});
+    el.addEventListener('touchend',function(e){if(map&&e.touches.length===0)map.dragging.disable();},{passive:true});
+  }
+}
 
 /* ── MENÚ FLOTANTE ── */
 (function(){
@@ -2627,23 +2911,33 @@ function initWheel(){
     var li = document.createElement('li'), b = document.createElement('a');
     b.href = '#' + s[0]; b.dataset.s = s[0];
     b.innerHTML = '<small>' + String(i + 1).padStart(2, '0') + '</small>' + s[1];
-    b.style.transitionDelay = (0.18 + i * 0.07) + 's';
+    b.style.transitionDelay = (0.22 + i * 0.07) + 's';
     b.addEventListener('click', function(e){ e.preventDefault(); cerrar(); setTimeout(function(){ ir(s[0]); }, 380); });
     li.appendChild(b); list.appendChild(li);
   });
   document.querySelector('.fm .fm-mono').addEventListener('click', function(e){ e.preventDefault(); ir('hero'); });
 
-  function abrir(){ sheet.classList.add('open'); sheet.setAttribute('aria-hidden', 'false'); openB.setAttribute('aria-expanded', 'true'); document.body.style.overflow = 'hidden'; }
+  function abrir(){
+    /* efecto premium: onda dorada desde el botón + destellos que salen de él */
+    var r = openB.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+    sheet.style.setProperty('--ox', cx + 'px'); sheet.style.setProperty('--oy', cy + 'px');
+    if (!RM) {
+      var ring = document.createElement('i'); ring.className = 'fm-ring'; ring.style.left = cx + 'px'; ring.style.top = cy + 'px';
+      document.body.appendChild(ring); setTimeout(function(){ ring.remove(); }, 900);
+      for (var k = 0; k < 12; k++) (function(k){
+        var sp = document.createElement('i'); sp.className = 'fm-spark'; sp.style.left = cx + 'px'; sp.style.top = cy + 'px';
+        document.body.appendChild(sp);
+        var ang = (k / 12) * Math.PI * 2 - Math.PI / 2, dist = 50 + Math.random() * 40;
+        sp.animate([{ transform: 'translate(-50%,-50%) scale(1)', opacity: 1 }, { transform: 'translate(calc(-50% + ' + Math.cos(ang) * dist + 'px), calc(-50% + ' + Math.sin(ang) * dist + 'px)) scale(.2)', opacity: 0 }],
+          { duration: 700, easing: 'cubic-bezier(.22,1,.36,1)' }).onfinish = function(){ sp.remove(); };
+      })(k);
+    }
+    sheet.classList.add('open'); sheet.setAttribute('aria-hidden', 'false'); openB.setAttribute('aria-expanded', 'true'); document.body.style.overflow = 'hidden'; }
   function cerrar(){ sheet.classList.remove('open'); sheet.setAttribute('aria-hidden', 'true'); openB.setAttribute('aria-expanded', 'false'); document.body.style.overflow = ''; }
   openB.addEventListener('click', abrir);
   closeB.addEventListener('click', cerrar);
   document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && sheet.classList.contains('open')) cerrar(); });
 
-  document.getElementById('fmShare').addEventListener('click', function(){
-    var url = location.origin + location.pathname;
-    if (navigator.share) navigator.share({ title: 'Boda Marylen & José Luis', text: 'Te invitamos a nuestra boda · 29 de diciembre de 2026', url: url }).catch(function(){});
-    else if (navigator.clipboard) navigator.clipboard.writeText(url).then(function(){ toast('Enlace copiado'); });
-  });
 
   function marcar(id){
     links.querySelectorAll('a').forEach(function(a){ a.classList.toggle('on', a.dataset.s === id); });
