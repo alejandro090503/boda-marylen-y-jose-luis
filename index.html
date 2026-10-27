@@ -1448,7 +1448,47 @@ section[data-ink] .lbl,section[data-ink] .ttl,section[data-ink] p,section[data-i
 .fm-spark{position:fixed;z-index:1003;width:6px;height:6px;border-radius:50%;background:#FFE8C0;box-shadow:0 0 8px 2px rgba(233,195,122,.9);pointer-events:none}
 .fm-open:active{transform:scale(.94)}
 
-@media(prefers-reduced-motion:reduce){.hero-drift,.h-shine::before,.ink-bg i,.fam-card,.dc-who img,.dc-dot i,.dc-dot i::after,.env-body.landed,.rsvp-btn,.fm-aura{animation:none!important}}
+
+/* ── MÚSICA: disco de vinil (formato invitaciones recientes) ── */
+.music-btn.vinyl-btn{width:68px;height:68px;padding:0;border:none;background:transparent;backdrop-filter:none;-webkit-backdrop-filter:none;font-size:0;
+  box-shadow:0 6px 20px rgba(0,0,0,.5),0 0 0 1px rgba(201,151,63,.25);animation:none}
+.music-btn.vinyl-btn.on{background:transparent;animation:none}
+.vinyl-spin{width:100%;height:100%;border-radius:50%;position:relative}
+.vinyl-btn.on .vinyl-spin{animation:vinylSpin 1.8s linear infinite}
+@keyframes vinylSpin{to{transform:rotate(360deg)}}
+.vinyl-disc{width:100%;height:100%;border-radius:50%;overflow:hidden;position:relative;
+  background:radial-gradient(circle,#000 4%,transparent 4.5%),radial-gradient(circle,#a23700 0%,#5a1e02 17%,#000 19%,transparent 19.5%),repeating-radial-gradient(circle,transparent 20%,rgba(255,235,200,.06) 20.8%,transparent 21.5%,transparent 24%,rgba(255,235,200,.04) 24.8%,transparent 25.5%,transparent 28%,rgba(255,235,200,.06) 28.8%,transparent 29.5%,transparent 32%,rgba(255,235,200,.04) 32.8%,transparent 33.5%,transparent 36%,rgba(255,235,200,.06) 36.8%,transparent 37.5%,transparent 40%,rgba(255,235,200,.04) 40.8%,transparent 41.5%,transparent 44%,rgba(255,235,200,.06) 44.8%,transparent 45.5%,transparent 48%,rgba(255,235,200,.04) 48.8%,transparent 49.5%,transparent 52%,rgba(255,235,200,.06) 52.8%,transparent 53.5%,transparent 56%,rgba(255,235,200,.04) 56.8%,transparent 57.5%,transparent 60%,rgba(255,235,200,.06) 60.8%,transparent 61.5%,transparent 64%,rgba(255,235,200,.04) 64.8%,transparent 65.5%,transparent 68%,rgba(255,235,200,.06) 68.8%,transparent 69.5%,transparent 72%,rgba(255,235,200,.04) 72.8%,transparent 73.5%,transparent 76%,rgba(255,235,200,.06) 76.8%,transparent 77.5%,transparent 80%,rgba(255,235,200,.04) 80.8%,transparent 81.5%,transparent 84%,rgba(255,235,200,.06) 84.8%,transparent 85.5%,transparent 88%,rgba(255,235,200,.04) 88.8%,transparent 89.5%,transparent 92%,rgba(255,235,200,.06) 92.8%,transparent 93.5%,transparent 96%,rgba(255,235,200,.04) 96.8%,transparent 97.5%),radial-gradient(circle,#000 0%,#1a0a03 60%,#000 100%);
+  box-shadow:inset 0 0 8px rgba(0,0,0,.4)}
+.vinyl-sheen{position:absolute;inset:0;border-radius:50%;background:linear-gradient(135deg,transparent 30%,rgba(255,232,192,.09) 42%,rgba(255,232,192,.16) 48%,rgba(255,232,192,.09) 54%,transparent 66%);pointer-events:none}
+.vinyl-label-text{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'Great Vibes',cursive;font-size:9px;color:#E9C37A;text-align:center;line-height:1.1;opacity:.85;pointer-events:none;width:28px}
+.vinyl-label-text small{font-family:'Cormorant Garamond',serif;font-size:5px;letter-spacing:.15em;display:block;margin-top:1px;opacity:.7}
+.vinyl-hole{position:absolute;top:50%;left:50%;width:6px;height:6px;transform:translate(-50%,-50%);border-radius:50%;background:#000;box-shadow:0 0 0 1.5px rgba(201,151,63,.5)}
+.vinyl-icons{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:18px;height:18px;pointer-events:none;z-index:2}
+.vinyl-icons svg{width:100%;height:100%;display:block;filter:drop-shadow(0 1px 2px rgba(0,0,0,.6))}
+.vinyl-icon-pause{display:none}
+.vinyl-btn.on .vinyl-icon-play{display:none}
+.vinyl-btn.on .vinyl-icon-pause{display:block}
+.vinyl-btn::after{content:"";position:absolute;inset:-5px;border-radius:50%;border:1px solid var(--gold);opacity:.35;animation:vinylPulse 3s ease-in-out infinite;pointer-events:none}
+.vinyl-btn.on::after{animation-duration:1.6s}
+@keyframes vinylPulse{0%,100%{transform:scale(1);opacity:.35}50%{transform:scale(1.12);opacity:.05}}
+.vinyl-tonearm{position:absolute;top:-4px;right:-2px;width:24px;height:34px;transform-origin:top right;transform:rotate(-28deg);transition:transform .6s cubic-bezier(.2,.7,.2,1);pointer-events:none;z-index:1}
+.vinyl-btn.on .vinyl-tonearm{transform:rotate(-12deg)}
+.vinyl-tonearm-line{position:absolute;top:2px;right:4px;width:2px;height:28px;background:linear-gradient(to bottom,#996515,#E9C37A 40%,#996515);border-radius:1px;transform:rotate(-5deg);transform-origin:top center}
+.vinyl-tonearm-head{position:absolute;bottom:0;right:2px;width:5px;height:6px;background:#C9973F;border-radius:0 0 2px 2px}
+.vinyl-tonearm-pivot{position:absolute;top:0;right:2px;width:7px;height:7px;background:radial-gradient(circle,#FFE8C0,#996515);border-radius:50%;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+
+/* Nombres del hero en cursiva (petición) */
+.h-names{font-family:'Great Vibes',cursive!important;font-weight:400!important;letter-spacing:0!important;font-size:clamp(54px,15vw,72px)!important;line-height:1.1!important}
+.h-names .h-and{font-family:'Great Vibes',cursive!important}
+
+/* Fondos con más movimiento */
+.ink-bg i{inset:-12%!important;animation:inkDrift 16s ease-in-out infinite alternate!important}
+.ink-bg.flip i{animation-name:inkDriftFlip!important}
+@keyframes inkDrift{0%{transform:scale(1) translate(0,0) rotate(0)}33%{transform:scale(1.08) translate(-4%,2.5%) rotate(1.4deg)}66%{transform:scale(1.04) translate(3%,-1.5%) rotate(-1deg)}100%{transform:scale(1.12) translate(3.5%,-4%) rotate(-1.6deg)}}
+@keyframes inkDriftFlip{0%{transform:scaleX(-1) scale(1) translate(0,0) rotate(0)}33%{transform:scaleX(-1) scale(1.08) translate(-4%,2.5%) rotate(1.4deg)}66%{transform:scaleX(-1) scale(1.04) translate(3%,-1.5%) rotate(-1deg)}100%{transform:scaleX(-1) scale(1.12) translate(3.5%,-4%) rotate(-1.6deg)}}
+section > .ink-bg{animation:inkBreath 9s ease-in-out infinite}
+@keyframes inkBreath{0%,100%{opacity:.42}50%{opacity:.62}}
+@media(prefers-reduced-motion:reduce){section > .ink-bg,.vinyl-spin,.hero-drift,.h-shine::before,.ink-bg i,.fam-card,.dc-who img,.dc-dot i,.dc-dot i::after,.env-body.landed,.rsvp-btn,.fm-aura{animation:none!important}}
 
   </style>
 </head>
@@ -1476,7 +1516,11 @@ section[data-ink] .lbl,section[data-ink] .ttl,section[data-ink] p,section[data-i
 </audio>
 
 <!-- MUSIC BTN -->
-<button class="music-btn" id="musicBtn" onclick="toggleMusic()" aria-label="Música">♪</button>
+<button class="music-btn vinyl-btn" id="musicBtn" onclick="toggleMusic()" type="button" aria-label="Reproducir música">
+  <div class="vinyl-tonearm"><div class="vinyl-tonearm-pivot"></div><div class="vinyl-tonearm-line"></div><div class="vinyl-tonearm-head"></div></div>
+  <div class="vinyl-spin"><div class="vinyl-disc"><div class="vinyl-sheen"></div><div class="vinyl-label-text">M&amp;JL<small>2026</small></div><div class="vinyl-hole"></div></div></div>
+  <div class="vinyl-icons"><svg class="vinyl-icon-play" viewBox="0 0 24 24" fill="#E9C37A" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="vinyl-icon-pause" viewBox="0 0 24 24" fill="#E9C37A" aria-hidden="true"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></div>
+</button>
 
 <!-- TOAST -->
 <div id="toast"></div>
@@ -2064,7 +2108,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (window.elyMenuShow) window.elyMenuShow();
     setTimeout(function(){ ScrollTrigger.refresh(); }, 700);
     var a = document.getElementById('bgMusic');
-    if (a) { a.play().then(function(){ playing=true; document.getElementById('musicBtn').innerHTML='♬'; document.getElementById('musicBtn').classList.add('on'); }).catch(function(){}); }
+    if (a) { a.play().then(function(){ playing=true; document.getElementById('musicBtn').classList.add('on'); }).catch(function(){}); }
   }
 
   function revealInvitation() {
@@ -2448,8 +2492,8 @@ const mBtn = document.getElementById('musicBtn');
 let playing = false;
 
 function toggleMusic() {
-  if (playing) { aud.pause(); mBtn.innerHTML='♪'; mBtn.classList.remove('on'); }
-  else { aud.play().catch(()=>{}); mBtn.innerHTML='♬'; mBtn.classList.add('on'); }
+  if (playing) { aud.pause(); mBtn.classList.remove('on'); }
+  else { aud.play().catch(()=>{}); mBtn.classList.add('on'); }
   playing = !playing;
 }
 
