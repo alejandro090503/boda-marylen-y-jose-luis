@@ -1236,7 +1236,10 @@ section>*{position:relative;z-index:1}
 
 /* Pétalos (plantilla 2) en terracota y beige */
 #petals{position:fixed;inset:0;z-index:20;pointer-events:none;overflow:hidden}
-.petal{position:absolute;border-radius:50% 0 50% 0;top:-40px;will-change:transform}
+.petal{position:absolute;border-radius:50% 0 50% 0;top:-40px;will-change:transform;overflow:hidden;background-image:radial-gradient(ellipse at 30% 25%,rgba(255,248,230,.55),rgba(255,248,230,0) 55%),linear-gradient(135deg,rgba(255,255,255,0) 40%,rgba(0,0,0,.28));box-shadow:inset 0 0 3px rgba(255,240,210,.35),0 0 6px rgba(233,195,122,.25)}
+.petal::after{content:'';position:absolute;inset:-40%;background:linear-gradient(115deg,transparent 40%,rgba(255,246,220,.85) 50%,transparent 60%);transform:translateX(-120%);animation:petalShine 4.5s ease-in-out infinite;animation-delay:var(--d,0s)}
+@keyframes petalShine{0%,55%{transform:translateX(-120%)}85%,100%{transform:translateX(120%)}}
+#hMono{display:none!important}
 
 /* ── LEGIBILIDAD (invitados mayores) ── */
 body{font-weight:500;font-size:17px}
@@ -2327,7 +2330,7 @@ function initPetals(){
   for (var i = 0; i < 16; i++) {
     var p = document.createElement('div'), size = 6 + Math.random() * 10;
     p.className = 'petal';
-    p.style.cssText = 'width:' + size + 'px;height:' + (size * 1.45) + 'px;left:' + (Math.random() * 100) + '%;background:' + colors[i % colors.length] + ';opacity:' + (0.35 + Math.random() * .4).toFixed(2);
+    p.style.cssText = 'width:' + size + 'px;height:' + (size * 1.45) + 'px;left:' + (Math.random() * 100) + '%;background-color:' + colors[i % colors.length] + ';--d:-' + (Math.random()*4.5).toFixed(2) + 's;opacity:' + (0.5 + Math.random() * .4).toFixed(2);
     wrap.appendChild(p);
     var dur = 30 + Math.random() * 20;
     gsap.fromTo(p, { y: -40, rotation: Math.random() * 360, x: 0 }, {
