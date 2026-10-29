@@ -1485,6 +1485,33 @@ section[data-ink] .lbl,section[data-ink] .ttl,section[data-ink] p,section[data-i
 .h-names{font-family:'Great Vibes',cursive!important;font-weight:400!important;letter-spacing:0!important;font-size:clamp(54px,15vw,72px)!important;line-height:1.1!important}
 .h-names .h-and{font-family:'Great Vibes',cursive!important}
 
+
+/* ── Ronda 8 (cliente) ── */
+.h-names .h-and,.bd-names .h-and,.ft-nms .h-and{display:block;line-height:1;font-size:.6em;margin:.06em 0}
+.fam-sep{font-size:20px!important;font-family:'Great Vibes',cursive;opacity:.9!important;color:var(--gold-lt)}
+.pad-list{display:flex;flex-direction:column;gap:14px;max-width:340px;margin:0 auto}
+.pad-item{text-align:center;padding:18px 16px!important}
+.pad-item .padrino-icon{width:46px;height:46px;margin:0 auto 6px}
+.pad-item .padrino-icon svg{width:100%;height:100%;fill:none;stroke:var(--gold);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.pad-item .padrino-rol{font-family:'Cormorant Garamond',serif;font-size:13px!important;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold-lt);margin:0 0 6px}
+.wk-mes{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;letter-spacing:5px;text-transform:uppercase;color:var(--gold-lt);margin:6px 0 16px}
+.wk{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;max-width:360px;margin:0 auto}
+.wk-d{display:flex;flex-direction:column;align-items:center;gap:8px;padding:10px 0;border-radius:12px}
+.wk-n{font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--cream);opacity:.75}
+.wk-v{position:relative;font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;color:var(--cream);width:42px;height:42px;display:flex;align-items:center;justify-content:center}
+.wk-heart{position:absolute;inset:-4px;width:50px;height:50px;fill:#a23700;stroke:#E9C37A;stroke-width:.8;animation:wkBeat 1.8s ease-in-out infinite;filter:drop-shadow(0 0 8px rgba(233,195,122,.5))}
+.wk-v b{position:relative;font-weight:700;color:#FFF3DC;font-size:20px;margin-top:-3px}
+.is-day .wk-n{color:var(--gold-lt);opacity:1}
+@keyframes wkBeat{0%,100%{transform:scale(1)}15%{transform:scale(1.12)}30%{transform:scale(1)}45%{transform:scale(1.08)}}
+.wk-foot{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--cream);margin:18px 0 26px}
+/* fechas más grandes (excepto portada) */
+.loc-intro{font-size:25px!important;font-weight:600}
+.ft-dt{font-size:20px!important;letter-spacing:4px!important}
+.fm-foot{font-size:16px!important}
+/* hospedaje en lista */
+.hs-track{flex-direction:column;transform:none!important;gap:34px}
+.hs-viewport{overflow:visible}
+.hs-arrow,.hs-dots{display:none!important}
 /* Fondos con más movimiento */
 .ink-bg i{inset:-12%!important;animation:inkDrift 16s ease-in-out infinite alternate!important}
 .ink-bg.flip i{animation-name:inkDriftFlip!important}
@@ -1571,7 +1598,7 @@ body.gift-locked{overflow:hidden}
 <!-- MUSIC BTN -->
 <button class="music-btn vinyl-btn" id="musicBtn" onclick="toggleMusic()" type="button" aria-label="Reproducir música">
   <div class="vinyl-tonearm"><div class="vinyl-tonearm-pivot"></div><div class="vinyl-tonearm-line"></div><div class="vinyl-tonearm-head"></div></div>
-  <div class="vinyl-spin"><div class="vinyl-disc"><div class="vinyl-sheen"></div><div class="vinyl-label-text">M&amp;JL<small>2026</small></div><div class="vinyl-hole"></div></div></div>
+  <div class="vinyl-spin"><div class="vinyl-disc"><div class="vinyl-sheen"></div><div class="vinyl-label-text">M&amp;J<small>2026</small></div><div class="vinyl-hole"></div></div></div>
   <div class="vinyl-icons"><svg class="vinyl-icon-play" viewBox="0 0 24 24" fill="#E9C37A" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="vinyl-icon-pause" viewBox="0 0 24 24" fill="#E9C37A" aria-hidden="true"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></div>
 </button>
 
@@ -1592,7 +1619,7 @@ body.gift-locked{overflow:hidden}
 
   <div class="h-cnt" id="hCnt">
     <div class="h-mono mono-txt" id="hMono" role="img" aria-label="M &amp; JL"><span class="foil">M</span><span class="mt-amp">&amp;</span><span class="foil">JL</span></div>
-    <div class="h-names foil" id="hNames">Marylen<br><span class="h-and">&amp;</span> José Luis</div>
+    <div class="h-names foil" id="hNames">Marylen<br><span class="h-and">&amp;</span><br>José Luis</div>
 
     <div class="gline" style="margin-top:18px" id="hLine"></div>
 
@@ -1612,7 +1639,7 @@ body.gift-locked{overflow:hidden}
 <section data-ink="1" data-top="#1E0C05" data-bot="#140A05" id="bendicion">
   <div class="ink-bg" aria-hidden="true"><i style="background-image:url('ink/ink-oval.webp')"></i></div>
   <span class="lbl">Con la bendición de Dios</span>
-  <h2 class="bd-names foil">Marylen &amp; José Luis</h2>
+  <h2 class="bd-names foil">Marylen<br><span class="h-and">&amp;</span><br>José Luis</h2>
   <p class="bd-txt">tienen el honor de invitarte a su boda</p>
   <div class="gline"></div>
   <blockquote class="bd-verse">
@@ -1634,6 +1661,34 @@ body.gift-locked{overflow:hidden}
   </div>
 </section>
 
+<!-- ═══════════════ 10. FAMILIA ══════════════════════ -->
+<section data-ink="1" id="family">
+  <div class="ink-bg flip" aria-hidden="true"><i style="background-image:url('ink/ink-top.webp')"></i></div>
+  <svg class="corner-orn corner-orn--tl" viewBox="0 0 28 28"><path d="M2 26V8Q2 2 8 2h18"/></svg>
+  <svg class="corner-orn corner-orn--tr" viewBox="0 0 28 28"><path d="M2 26V8Q2 2 8 2h18"/></svg>
+  <span class="lbl">Con la bendición de</span>
+  <h2 class="ttl">Nuestras Familias</h2>
+  <div class="gline"></div>
+
+  <p class="fam-ttl">Padres del Novio</p>
+  <div class="fam-card"><p class="fam-nms">Sofía Moreno Durán<br><span class="fam-sep">&amp;</span><br>José Luis Meza Ramírez</p></div>
+
+  <div class="sdiv"></div>
+
+  <p class="fam-ttl">Padres de la Novia</p>
+  <div class="fam-card"><p class="fam-nms">Marilú Velázquez García<br><span class="fam-sep">&amp;</span><br>Lenin Zumaya Lizcano</p></div>
+
+  <div class="sdiv"></div>
+
+  <p class="fam-ttl">Padrinos</p>
+<div class="pad-list">
+  <div class="fam-card pad-item"><div class="padrino-icon"><svg viewBox="0 0 64 64"><circle cx="26" cy="34" r="13"/><circle cx="40" cy="34" r="13"/></svg></div><p class="padrino-rol">Anillos</p><p class="fam-nms">Maribel Moreno<br><span class="fam-sep">&amp;</span><br>Manuel Lorenzo</p></div>
+  <div class="fam-card pad-item"><div class="padrino-icon"><svg viewBox="0 0 64 64"><path d="M44 24c-6.6 0-10 8-12 8s-5.4-8-12-8a8 8 0 000 16c6.6 0 10-8 12-8s5.4 8 12 8a8 8 0 000-16Z"/></svg></div><p class="padrino-rol">Lazo</p><p class="fam-nms">Ángela Velázquez<br><span class="fam-sep">&amp;</span><br>Clemente Infante</p></div>
+  <div class="fam-card pad-item"><div class="padrino-icon"><svg viewBox="0 0 64 64"><rect x="20" y="17" width="24" height="30" rx="2"/><line x1="32" y1="23" x2="32" y2="35"/><line x1="27" y1="28" x2="37" y2="28"/><line x1="20" y1="41" x2="44" y2="41"/></svg></div><p class="padrino-rol">Biblia</p><p class="fam-nms">Marilu Velázquez</p></div>
+  <div class="fam-card pad-item"><div class="padrino-icon"><svg viewBox="0 0 64 64"><circle cx="25" cy="29" r="12"/><circle cx="39" cy="38" r="12"/><line x1="25" y1="25" x2="25" y2="33"/><line x1="21" y1="29" x2="29" y2="29"/></svg></div><p class="padrino-rol">Arras</p><p class="fam-nms">Por definir</p></div>
+  </div>
+</section>
+
 <!-- ═══════════════ 3. UBICACIONES ═══════════════════ -->
 <section data-ink="1" id="location">
   <div class="ink-bg flip" aria-hidden="true"><i style="background-image:url('ink/ink-corner.webp')"></i></div>
@@ -1646,7 +1701,7 @@ body.gift-locked{overflow:hidden}
   <div class="loc-float">
     <div class="loc-card tilt" style="text-align:center">
       <p class="loc-type">✦  Recepción de invitados</p>
-      <h3 class="loc-name">Salón de Eventos y Suites El Jardín</h3>
+      <h3 class="loc-name">Salón de Eventos y Suites<br>El Jardín</h3>
       <div class="loc-time">6:30 <em>PM</em></div>
       <p class="loc-addr">C. Dieciséis 203, Col. Cazones<br>Poza Rica de Hidalgo, Veracruz</p>
       <a href="https://maps.app.goo.gl/JuDMyChoQcXKWCki9?g_st=ic"
@@ -1659,7 +1714,7 @@ body.gift-locked{overflow:hidden}
   <div class="loc-float">
     <div class="loc-card tilt" style="text-align:center">
       <p class="loc-type">✦  Ceremonia Religiosa</p>
-      <h3 class="loc-name">Salón de Eventos y Suites El Jardín</h3>
+      <h3 class="loc-name">Salón de Eventos y Suites<br>El Jardín</h3>
       <div class="loc-time">7:30 <em>PM</em></div>
       <p class="loc-addr">C. Dieciséis 203, Col. Cazones<br>Poza Rica de Hidalgo, Veracruz</p>
       <a href="https://maps.app.goo.gl/JuDMyChoQcXKWCki9?g_st=ic"
@@ -1675,9 +1730,11 @@ body.gift-locked{overflow:hidden}
 <!-- ═══════════════ 4. CALENDAR ══════════════════════ -->
 <section data-top="#561F06" data-bot="#2F1104" id="calendar">
   <span class="lbl">No lo olvides</span>
-  <h2 class="ttl" style="font-size:26px">Guarda la Fecha</h2>
+  <h2 class="ttl" style="font-size:26px">El Gran Día</h2>
   <div class="gline"></div>
-  <p class="cal-sub">Agrega nuestra boda a tu calendario<br>para no perderte ni un momento.</p>
+  <p class="wk-mes">Diciembre · 2026</p>
+  <div class="wk"><div class="wk-d"><span class="wk-n">Dom</span><span class="wk-v">27</span></div><div class="wk-d"><span class="wk-n">Lun</span><span class="wk-v">28</span></div><div class="wk-d is-day"><span class="wk-n">Mar</span><span class="wk-v"><svg viewBox="0 0 24 24" class="wk-heart"><path d="M12 21s-7.5-4.6-9.5-9.3C1.1 8.2 3.4 4.5 7 4.5c2.1 0 3.6 1.2 5 3 1.4-1.8 2.9-3 5-3 3.6 0 5.9 3.7 4.5 7.2C19.5 16.4 12 21 12 21z"/></svg><b>29</b></span></div><div class="wk-d"><span class="wk-n">Mié</span><span class="wk-v">30</span></div><div class="wk-d"><span class="wk-n">Jue</span><span class="wk-v">31</span></div><div class="wk-d"><span class="wk-n">Vie</span><span class="wk-v">1</span></div><div class="wk-d"><span class="wk-n">Sáb</span><span class="wk-v">2</span></div></div>
+  <p class="wk-foot">Martes 29 · 6:30 p.m. · Poza Rica</p>
   <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Boda+de+Marylen+%26+Jos%C3%A9+Luis&dates=20261229T183000/20261230T020000&ctz=America/Mexico_City&details=Recepci%C3%B3n+6:30+PM+%C2%B7+Ceremonia+religiosa+7:30+PM.+Sal%C3%B3n+de+Eventos+y+Suites+El+Jard%C3%ADn.&location=Sal%C3%B3n+de+Eventos+y+Suites+El+Jard%C3%ADn%2C+C.+Diecis%C3%A9is+203%2C+Cazones%2C+Poza+Rica+de+Hidalgo%2C+Ver."
      target="_blank" rel="noopener" id="calBtn"
      class="btn btn-gold" style="max-width:310px;margin:0 auto;display:flex">
@@ -1890,16 +1947,14 @@ body.gift-locked{overflow:hidden}
   <span class="lbl">Vestimenta</span>
   <h2 class="ttl">Código de Vestimenta</h2>
   <div class="gline"></div>
-  <p class="dc-sub"><em style="font-family:'Cormorant Garamond',serif;font-size:22px">Formal</em></p>
+  <p class="dc-sub"><em style="font-family:'Cormorant Garamond',serif;font-size:30px">Formal elegante</em></p>
 
   <div class="dc-pair">
     <figure class="dc-who">
       <img src="caballero.png" alt="Caballero, traje formal" loading="eager">
-      <figcaption>Caballeros<small>traje formal</small></figcaption>
     </figure>
     <figure class="dc-who">
-      <img src="dama-vino.png" alt="Dama, vestido largo" loading="eager">
-      <figcaption>Damas<small>vestido largo</small></figcaption>
+      <img src="dama-oscuro.png" alt="Dama, vestido largo" loading="eager">
     </figure>
   </div>
 
@@ -1911,44 +1966,12 @@ body.gift-locked{overflow:hidden}
     <p class="dc-colors-t">Por favor evitar</p>
     <div class="dc-dots" id="dcAvoid">
       <span class="dc-dot"><i style="background:#FFFFFF"></i><b>Blanco</b></span>
+      <span class="dc-dot"><i style="background:#B4532A"></i><b>Terracota</b></span>
     </div>
-    <p class="dc-colors-note">Prendas casuales, mezclilla, tenis o playeras.</p>
   </div>
 </section>
 
 
-<!-- ═══════════════ 10. FAMILIA ══════════════════════ -->
-<section data-ink="1" id="family">
-  <div class="ink-bg flip" aria-hidden="true"><i style="background-image:url('ink/ink-top.webp')"></i></div>
-  <svg class="corner-orn corner-orn--tl" viewBox="0 0 28 28"><path d="M2 26V8Q2 2 8 2h18"/></svg>
-  <svg class="corner-orn corner-orn--tr" viewBox="0 0 28 28"><path d="M2 26V8Q2 2 8 2h18"/></svg>
-  <span class="lbl">Con la bendición de</span>
-  <h2 class="ttl">Nuestras Familias</h2>
-  <div class="gline"></div>
-
-  <p class="fam-ttl">Padres del Novio</p>
-  <div class="fam-card"><p class="fam-nms">Sofía Moreno Durán<br><span class="fam-sep">&amp;</span><br>José Luis Meza Ramírez</p></div>
-
-  <div class="sdiv"></div>
-
-  <p class="fam-ttl">Padres de la Novia</p>
-  <div class="fam-card"><p class="fam-nms">Marilú Velázquez García<br><span class="fam-sep">&amp;</span><br>Lenin Zumaya Lizcano</p></div>
-
-  <div class="sdiv"></div>
-
-  <p class="fam-ttl">Padrinos</p>
-  <div class="padrinos-carousel">
-    <button class="padrinos-arrow prev" type="button" aria-label="Anterior"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
-    <button class="padrinos-arrow next" type="button" aria-label="Siguiente"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>
-    <div class="padrinos-viewport"><div class="padrinos-track" id="padrinosTrack">
-        <div class="padrino-slide"><div class="padrino-icon"><svg viewBox="0 0 64 64"><circle cx="26" cy="34" r="13"/><circle cx="40" cy="34" r="13"/></svg></div><div class="padrino-rol">Anillos</div><p class="padrino-names">Maribel Moreno<br>y Manuel Lorenzo</p></div>
-        <div class="padrino-slide"><div class="padrino-icon"><svg viewBox="0 0 64 64"><path d="M44 24c-6.6 0-10 8-12 8s-5.4-8-12-8a8 8 0 000 16c6.6 0 10-8 12-8s5.4 8 12 8a8 8 0 000-16Z"/></svg></div><div class="padrino-rol">Lazo</div><p class="padrino-names">Ángela Velázquez<br>y Clemente Infante</p></div>
-        <div class="padrino-slide"><div class="padrino-icon"><svg viewBox="0 0 64 64"><rect x="20" y="17" width="24" height="30" rx="2"/><line x1="32" y1="23" x2="32" y2="35"/><line x1="27" y1="28" x2="37" y2="28"/><line x1="20" y1="41" x2="44" y2="41"/></svg></div><div class="padrino-rol">Biblia</div><p class="padrino-names">Marilu Velázquez</p></div>
-        <div class="padrino-slide"><div class="padrino-icon"><svg viewBox="0 0 64 64"><circle cx="25" cy="29" r="12"/><circle cx="39" cy="38" r="12"/><line x1="25" y1="25" x2="25" y2="33"/><line x1="21" y1="29" x2="29" y2="29"/></svg></div><div class="padrino-rol">Arras</div><p class="padrino-names">Por definir</p></div>
-    </div></div>
-    <div class="padrinos-dots" id="padrinosDots"><button type="button" class="active" aria-label="Padrino 1"></button><button type="button" aria-label="Padrino 2"></button><button type="button" aria-label="Padrino 3"></button><button type="button" aria-label="Padrino 4"></button></div>
-  </div>
-</section>
 
 
 
@@ -2027,6 +2050,17 @@ body.gift-locked{overflow:hidden}
     <button class="hs-arrow hs-next" type="button" aria-label="Siguiente"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>
     <div class="hs-viewport">
       <div class="hs-track" id="hsTrack">
+        <article class="hs-slide" data-hs="h2">
+          <div class="hs-photo hs-photo--icon"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M14 56V14h26v42"/><path d="M40 26h10v30"/><path d="M8 56h48"/><path d="M21 22h4M29 22h4M21 30h4M29 30h4M21 38h4M29 38h4"/><path d="M24 56v-8h8v8"/></svg></div>
+          <span class="hs-num">01</span>
+          <h3 class="hs-name">20th Avenue Hotel y Suites Inn</h3>
+          <p class="hs-addr">Av. 20 de Noviembre 704, Col. Cazones, Poza Rica</p>
+          <p class="hs-dist">0.1 km &middot; a un paso de la recepción</p>
+          <div class="hs-btns">
+            <a class="hs-btn hs-btn--fill" href="https://share.google/MV0UNc7NKs6iwEae5" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 010 18M12 3a14 14 0 000 18"/></svg>Sitio web</a>
+            <a class="hs-btn" href="https://www.google.com/maps/dir/?api=1&amp;destination=20.5397903,-97.4467345" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>Cómo llegar</a>
+          </div>
+        </article>
         <article class="hs-slide" data-hs="h1">
           <div class="hs-photo"><img class="hs-main" src="hotels/h1-1.jpg" alt="" loading="eager" decoding="async"></div>
           <div class="hs-thumbs">
@@ -2036,24 +2070,13 @@ body.gift-locked{overflow:hidden}
             <button type="button" class="hs-thumb" data-src="hotels/h1-3.jpg" aria-label="Foto 4"><img src="hotels/h1-3.jpg" alt=""></button>
             <button type="button" class="hs-thumb" data-src="hotels/h1-5.jpg" aria-label="Foto 5"><img src="hotels/h1-5.jpg" alt=""></button>
           </div>
-          <span class="hs-num">01</span>
+          <span class="hs-num">02</span>
           <h3 class="hs-name">Hotel Las Vegas</h3>
           <p class="hs-addr">Justo Sierra 209, Col. Las Vegas, Poza Rica</p>
           <p class="hs-dist">2.4 km &middot; aprox. 4 min a la recepción</p>
           <div class="hs-btns">
             <a class="hs-btn hs-btn--fill" href="https://www.booking.com/hotel/mx/las-vegas-poza-rica.es.html" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M7 7V5a5 5 0 0110 0v2"/></svg>Reservar</a>
             <a class="hs-btn" href="https://www.google.com/maps/dir/?api=1&amp;destination=20.5528182,-97.4381256" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>Cómo llegar</a>
-          </div>
-        </article>
-        <article class="hs-slide" data-hs="h2">
-          <div class="hs-photo hs-photo--icon"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M14 56V14h26v42"/><path d="M40 26h10v30"/><path d="M8 56h48"/><path d="M21 22h4M29 22h4M21 30h4M29 30h4M21 38h4M29 38h4"/><path d="M24 56v-8h8v8"/></svg></div>
-          <span class="hs-num">02</span>
-          <h3 class="hs-name">20th Avenue Hotel y Suites Inn</h3>
-          <p class="hs-addr">Av. 20 de Noviembre 704, Col. Cazones, Poza Rica</p>
-          <p class="hs-dist">0.1 km &middot; a un paso de la recepción</p>
-          <div class="hs-btns">
-            <a class="hs-btn hs-btn--fill" href="https://share.google/MV0UNc7NKs6iwEae5" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 010 18M12 3a14 14 0 000 18"/></svg>Sitio web</a>
-            <a class="hs-btn" href="https://www.google.com/maps/dir/?api=1&amp;destination=20.5397903,-97.4467345" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>Cómo llegar</a>
           </div>
         </article>
         <article class="hs-slide" data-hs="h3">
@@ -2114,7 +2137,7 @@ body.gift-locked{overflow:hidden}
 <!-- ═══════════════ 13. FOOTER ═══════════════════════ -->
 <footer data-top="#1F1008" data-bot="#140A05" id="footer">
   <div class="ft-orn">✦ · ✦ · ✦</div>
-  <div class="ft-nms foil">Marylen<br>&amp; José Luis</div>
+  <div class="ft-nms foil">Marylen<br><span class="h-and">&amp;</span><br>José Luis</div>
   <div class="gline" style="margin-top:22px"></div>
   <p class="ft-dt">29 · Diciembre · 2026</p>
   <p class="ft-note">Poza Rica · Veracruz<br>Con amor, los novios</p>
@@ -2909,7 +2932,7 @@ function initHospedaje(){
   };
   var WEB={h1:'https://www.booking.com/hotel/mx/las-vegas-poza-rica.es.html',h2:'https://share.google/MV0UNc7NKs6iwEae5',h3:'https://www.booking.com/hotel/mx/paris-fc-poza-rica-de-hidalgo.es.html'};
   var WEBLBL={h1:'Reservar',h2:'Sitio web',h3:'Reservar'};
-  var NUM={h1:'1',h2:'2',h3:'3'};
+  var NUM={h1:'2',h2:'1',h3:'3'};
 
   /* galería por hotel (miniaturas cambian la foto circular) */
   sec.querySelectorAll('.hs-slide').forEach(function(sl){
