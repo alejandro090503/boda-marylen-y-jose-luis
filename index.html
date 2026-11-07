@@ -1577,8 +1577,8 @@ body.gift-locked{overflow:hidden}
 
 <!-- ENVELOPE SCREEN -->
 <div id="envelope-screen" role="button" aria-label="Toca para abrir tu invitación">
-  <img id="env-image" src="sobre.jpg?v=3" alt="Sobre invitación Marylen &amp; José Luis" />
-  <video id="env-video" playsinline webkit-playsinline muted preload="auto" poster="sobre.jpg?v=3"><source src="sobre-mj.mp4?v=3" type="video/mp4"></video>
+  <img id="env-image" src="sobre.jpg?v=4" alt="Sobre invitación Marylen &amp; José Luis" />
+  <video id="env-video" playsinline webkit-playsinline muted preload="auto" poster="sobre.jpg?v=4"><source src="sobre-mj.mp4?v=4" type="video/mp4"></video>
   <p class="envelope-hint" id="env-hint">Toca para abrir</p>
 </div>
 <div id="env-flash"></div>
@@ -2242,7 +2242,7 @@ document.addEventListener('DOMContentLoaded', () => {
         onComplete: function () { envScreen.style.display = 'none'; envFlash.style.display = 'none'; } });
   }
   envVideo.addEventListener('timeupdate', function () {
-    if (envVideo.currentTime >= 3.4) dissolveToInvitation();
+    if (envVideo.currentTime >= 5.0) dissolveToInvitation();
   });
   envVideo.addEventListener('ended', dissolveToInvitation);
 
