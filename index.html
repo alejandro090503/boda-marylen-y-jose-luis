@@ -1487,8 +1487,9 @@ section[data-ink] .lbl,section[data-ink] .ttl,section[data-ink] p,section[data-i
 
 
 /* ── Ronda 8 (cliente) ── */
-.h-names .h-and,.bd-names .h-and,.ft-nms .h-and{display:block;line-height:1;font-size:.6em;margin:.06em 0}
+.h-names .h-and,.bd-names .h-and,.ft-nms .h-and{display:block;line-height:.9;font-size:.62em;margin:.04em 0 .1em;font-family:'Great Vibes',cursive!important;font-style:normal;opacity:1}
 .fam-sep{font-size:20px!important;font-family:'Great Vibes',cursive;opacity:.9!important;color:var(--gold-lt)}
+.bd-names{line-height:1!important}.bd-names .h-and{margin:.12em 0 .02em!important}
 .pad-list{display:flex;flex-direction:column;gap:14px;max-width:340px;margin:0 auto}
 .pad-item{text-align:center;padding:18px 16px!important}
 .pad-item .padrino-icon{width:46px;height:46px;margin:0 auto 6px}
@@ -1576,8 +1577,8 @@ body.gift-locked{overflow:hidden}
 
 <!-- ENVELOPE SCREEN -->
 <div id="envelope-screen" role="button" aria-label="Toca para abrir tu invitación">
-  <img id="env-image" src="sobre.jpg?v=2" alt="Sobre invitación Marylen &amp; José Luis" />
-  <video id="env-video" playsinline webkit-playsinline muted preload="auto" poster="sobre.jpg?v=2"><source src="sobre-mj.mp4" type="video/mp4"></video>
+  <img id="env-image" src="sobre.jpg?v=3" alt="Sobre invitación Marylen &amp; José Luis" />
+  <video id="env-video" playsinline webkit-playsinline muted preload="auto" poster="sobre.jpg?v=3"><source src="sobre-mj.mp4?v=3" type="video/mp4"></video>
   <p class="envelope-hint" id="env-hint">Toca para abrir</p>
 </div>
 <div id="env-flash"></div>
@@ -1619,7 +1620,7 @@ body.gift-locked{overflow:hidden}
 
   <div class="h-cnt" id="hCnt">
     <div class="h-mono mono-txt" id="hMono" role="img" aria-label="M &amp; JL"><span class="foil">M</span><span class="mt-amp">&amp;</span><span class="foil">JL</span></div>
-    <div class="h-names foil" id="hNames">Marylen<br><span class="h-and">&amp;</span><br>José Luis</div>
+    <div class="h-names foil" id="hNames">Marylen<span class="h-and">&amp;</span>José Luis</div>
 
     <div class="gline" style="margin-top:18px" id="hLine"></div>
 
@@ -1639,7 +1640,7 @@ body.gift-locked{overflow:hidden}
 <section data-ink="1" data-top="#1E0C05" data-bot="#140A05" id="bendicion">
   <div class="ink-bg" aria-hidden="true"><i style="background-image:url('ink/ink-oval.webp')"></i></div>
   <span class="lbl">Con la bendición de Dios</span>
-  <h2 class="bd-names foil">Marylen<br><span class="h-and">&amp;</span><br>José Luis</h2>
+  <h2 class="bd-names foil">Marylen<span class="h-and">&amp;</span>José Luis</h2>
   <p class="bd-txt">tienen el honor de invitarte a su boda</p>
   <div class="gline"></div>
   <blockquote class="bd-verse">
@@ -1685,7 +1686,8 @@ body.gift-locked{overflow:hidden}
   <div class="fam-card pad-item"><div class="padrino-icon"><svg viewBox="0 0 64 64"><circle cx="26" cy="34" r="13"/><circle cx="40" cy="34" r="13"/></svg></div><p class="padrino-rol">Anillos</p><p class="fam-nms">Maribel Moreno<br><span class="fam-sep">&amp;</span><br>Manuel Lorenzo</p></div>
   <div class="fam-card pad-item"><div class="padrino-icon"><svg viewBox="0 0 64 64"><path d="M44 24c-6.6 0-10 8-12 8s-5.4-8-12-8a8 8 0 000 16c6.6 0 10-8 12-8s5.4 8 12 8a8 8 0 000-16Z"/></svg></div><p class="padrino-rol">Lazo</p><p class="fam-nms">Ángela Velázquez<br><span class="fam-sep">&amp;</span><br>Clemente Infante</p></div>
   <div class="fam-card pad-item"><div class="padrino-icon"><svg viewBox="0 0 64 64"><rect x="20" y="17" width="24" height="30" rx="2"/><line x1="32" y1="23" x2="32" y2="35"/><line x1="27" y1="28" x2="37" y2="28"/><line x1="20" y1="41" x2="44" y2="41"/></svg></div><p class="padrino-rol">Biblia</p><p class="fam-nms">Marilu Velázquez</p></div>
-  <div class="fam-card pad-item"><div class="padrino-icon"><svg viewBox="0 0 64 64"><circle cx="25" cy="29" r="12"/><circle cx="39" cy="38" r="12"/><line x1="25" y1="25" x2="25" y2="33"/><line x1="21" y1="29" x2="29" y2="29"/></svg></div><p class="padrino-rol">Arras</p><p class="fam-nms">Por definir</p></div>
+  <div class="fam-card pad-item"><div class="padrino-icon"><svg viewBox="0 0 64 64"><circle cx="25" cy="29" r="12"/><circle cx="39" cy="38" r="12"/><line x1="25" y1="25" x2="25" y2="33"/><line x1="21" y1="29" x2="29" y2="29"/></svg></div><p class="padrino-rol">Arras</p><p class="fam-nms">Nayeli Guerrero<br><span class="fam-sep">&amp;</span><br>Emmanuel Miranda</p></div>
+  <div class="fam-card pad-item"><div class="padrino-icon"><svg viewBox="0 0 64 64"><path d="M14 22c6-4 30-4 36 0 4 6 4 14 0 20-6 4-30 4-36 0-4-6-4-14 0-20z"/><path d="M12 20l-4-3M52 20l4-3M12 44l-4 3M52 44l4 3"/><circle cx="28" cy="30" r="4"/><circle cx="36" cy="34" r="4"/></svg></div><p class="padrino-rol">Cojines</p><p class="fam-nms">Margarita Durán Pérez</p></div>
   </div>
 </section>
 
@@ -1959,10 +1961,6 @@ body.gift-locked{overflow:hidden}
   </div>
 
   <div class="dc-colors">
-    <p class="dc-colors-t">Colores sugeridos</p>
-    <p class="dc-colors-pend">Por confirmar</p>
-  </div>
-  <div class="dc-colors">
     <p class="dc-colors-t">Por favor evitar</p>
     <div class="dc-dots" id="dcAvoid">
       <span class="dc-dot"><i style="background:#FFFFFF"></i><b>Blanco</b></span>
@@ -2139,7 +2137,7 @@ body.gift-locked{overflow:hidden}
 <!-- ═══════════════ 13. FOOTER ═══════════════════════ -->
 <footer data-top="#1F1008" data-bot="#140A05" id="footer">
   <div class="ft-orn">✦ · ✦ · ✦</div>
-  <div class="ft-nms foil">Marylen<br><span class="h-and">&amp;</span><br>José Luis</div>
+  <div class="ft-nms foil">Marylen<span class="h-and">&amp;</span>José Luis</div>
   <div class="gline" style="margin-top:22px"></div>
   <p class="ft-dt">29 · Diciembre · 2026</p>
   <p class="ft-note">Poza Rica · Veracruz<br>Con amor, los novios</p>
