@@ -2577,7 +2577,7 @@ function scrollAnims() {
   initHospedaje();
 
 
-  gsap.from(['.rsvp-hi', '#rsvp-pases-note', '.rsvp-pases', '.rsvp-dl', '#rsvp-bandeja'], {
+  gsap.from(['#rsvp-para', '#rsvp-pases-note', '.rsvp-dl', '#rsvp-bandeja'], {
     opacity: 0, y: 24, duration: .9, stagger: .1, ease: cine,
     scrollTrigger: { trigger: '#rsvp', start: 'top 78%', once: true }
   });
@@ -3082,7 +3082,8 @@ function initHospedaje(){
     b.addEventListener('click', function(e){ e.preventDefault(); cerrar(); setTimeout(function(){ ir(s[0]); }, 380); });
     li.appendChild(b); list.appendChild(li);
   });
-  document.querySelector('.fm .fm-mono').addEventListener('click', function(e){ e.preventDefault(); ir('hero'); });
+  var fmMono = document.querySelector('.fm .fm-mono');
+  if (fmMono) fmMono.addEventListener('click', function(e){ e.preventDefault(); ir('hero'); });
 
   function abrir(){
     /* efecto premium: onda dorada desde el botón + destellos que salen de él */
